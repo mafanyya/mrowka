@@ -1,0 +1,25 @@
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: http://localhost:3000
+Access-Control-Expose-Headers: link
+Cache-Control: no-cache, private
+Content-Type: application/json
+Date: Thu, 11 Jan 2024 02:03:34 GMT
+X-Debug-Token: a017c5
+X-Debug-Token-Link: http://localhost:8000/_profiler/a017c5
+
+Content-Length: 158
+
+HTTP/1.1 401 Unauthorized
+Access-Control-Allow-Origin: http://localhost:3000
+Access-Control-Expose-Headers: link
+Cache-Control: no-cache, private
+Content-Type: application/json
+Date: Thu, 11 Jan 2024 01:59:50 GMT
+Www-Authenticate: Bearer
+X-Debug-Token: 38441d
+X-Debug-Token-Link: http://localhost:8000/_profiler/38441d
+
+Content-Length: 42
+
+
+{"code":401,"message":"Expired JWT Token"}
