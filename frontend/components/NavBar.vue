@@ -45,11 +45,14 @@
 
 
     <div v-if=data class="nav-2-2">
+      <NuxtLink to = "/account">
       <div class="btn">
         <div class="rnd">
-        <p @click.prevent = signOut()>Exit</p>
+          <img :src = "data.user.avatar" alt = "avatar">
+          <img src = "~/assets/images/avatars/lion.png" alt = "avatar">
         </div>
       </div>
+      </NuxtLink>
 
     </div>
   </div>
@@ -107,7 +110,6 @@ function toggleMenu(){
 //border: 1px solid red; margin-top: 2.5em;
   height: 12em;
   display: flex;
-  position: relative;
 }
 
 /* ----------LOGO-----------*/

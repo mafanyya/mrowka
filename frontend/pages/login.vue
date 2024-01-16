@@ -1,22 +1,8 @@
 <template>
   <div class="container">
-    <!--    <div class="clm-1">-->
-    <!--      <button>-->
-    <!--        <NuxtLink to="/register">Zarejestruj się</NuxtLink>-->
-    <!--      </button>-->
-    <!--      <button>-->
-    <!--        <NuxtLink to="/">Home</NuxtLink>-->
-    <!--      </button>-->
-    <!--    </div>-->
-
-
-    <div class="clm-2">
-      <p v-if=loginError>{{ loginError }}</p>
-
       <form @submit.prevent="handleLogin(username, password)">
-        <h1>Witaj ponownie</h1>
-        <p>Zaloguj się do Mrówka</p>
-        <p>{{ status }}</p>
+        <p class="heading-1">Witaj ponownie</p>
+        <p class="heading-2">Zaloguj się do Mrówka</p>
         <input
             v-model="username"
             type="text"
@@ -30,27 +16,17 @@
             placeholder="Hasło"
             required
         />
-        <button type=submit class="button">Zaloguj się</button>
+        <button type=submit class="btn-submit">Zaloguj się</button>
+        <p class = "inf-1">Jeszcze nie masz konta?</p>
+        <NuxtLink to ="/register"><p class = "inf-2">Zarejestruj się</p></NuxtLink>
       </form>
-      <button>
-        <NuxtLink to='/'>HOME</NuxtLink>
-      </button>
-      <button @click.prevent=refresh()>Refresh</button>
-      <button @click.prevent=refresh()>Refresh 2</button>
-
 
     </div>
-
-
-  </div>
 </template>
 
 <script setup lang="js">
 const {signIn, status, data, refreshToken, refresh, token} = useAuth()
-
-let loginError
 let error
-let response = 'hi'
 
 async function handleLogin(username, password) {
   try {
@@ -73,100 +49,92 @@ async function handleLogin(username, password) {
 
 </script>
 
-
 <style scoped>
 .container {
   margin: 0 auto;
-  border: none;
+  margin-top: 5em;
   border-radius: 1.5em;
-  width: 60%;
-  height: 800px;
-  margin-top: 4em;
-  display: flex;
-}
-
-.container .clm-1 {
   width: 40%;
-  border: none;
-
-  background-color: orange;
+  height: 50em;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: end;
-}
-
-.container .clm-1 button {
-  margin-bottom: 2em;
-  border: none;
-  border-radius: 1.5em;
-  padding: 1em 2em;
   background-color: white;
-  color: orange;
-
-
-}
-
-.container .clm-2 {
-  width: 60%;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  padding: 5em;
   justify-content: center;
-  padding: 3em;
+  align-items: center;
+  flex-direction: column;
 
 }
 
-.clm-2 form {
+.container p {
+  font-family: 'Bree Serif', serif;
+}
+
+.container form {
   width: 100%;
   height: 100%;
-
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
 
 }
 
-.clm-2 form input {
-  background-color: #fff4d8;
+.container .heading-1 {
+  font-size: 4em;
+  color: #32A88A;
+  margin-bottom: 0.3em;
+}
+
+.container .heading-2 {
+  font-size: 2em;
+  color: #84DCC6;
+  margin-bottom: 2em;
+}
+
+form input {
+  height: 4.2em;
+  width: 100%;
+  background-color: #D6EDFF;
+  border-radius: 1em;
+  margin-bottom: 1.5em;
+  padding-left: 1.5em;
+  padding-right: 1.5em;
+  font-size: 1em;
+  color: #3778b0;
+}
+
+
+
+form input::placeholder {
+  color: #80c2c7;
+  font-size: 1.1em;
+}
+
+form .btn-submit {
+  margin-top: 3em;
+  margin-bottom: 2em;
   width: 80%;
-  padding: 1em 1.5em;
-  margin-bottom: 1em;
-  border: none;
-  border-radius: 2em;
-
-}
-
-.clm-2 form input:focus {
-  background-color: #fcedd4;
-
-}
-
-.clm-2 form h1 {
-  font-size: 3rem;
-  margin-bottom: 1em;
-}
-
-.clm-2 form p {
-  margin-bottom: 3em;
-}
-
-.clm-2 form button {
-  background-color: orange;
-  padding: 1em 1.5em;
-  border: none;
-  border-radius: 2em;
-  width: 60%;
+  height: 4.1em;
+  border-radius: 1em;
+  background-color: #8B95C9;
   color: white;
-  margin-top: 2em;
-
+  font-size: 1.1em;
 }
 
-.clm-2 form button:hover {
-  background-color: #ec9a00;
+form .btn-submit:hover {
+  background-color: #6d7bbc;
 }
-
+form .inf-1{
+  margin-bottom: 0.5em;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1em;
+  color: #8B95C9;
+}
+form .inf-2{
+  margin-bottom: 0.5em;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1em;
+  font-weight: 600;
+  color: #8B95C9;
+}
 
 </style>

@@ -20,10 +20,14 @@ class RegistrationController extends AbstractController
         if($data){
             $email = $data['email'];
             $plainPassword = $data['password'];
+            $name = $data['name'];
+            $avatar = $data['avatar'];
             $user = new User();
             $user-> setEmail($email);
             $hashedPassword = $passwordHasher->hashPassword($user, $plainPassword);
             $user ->setPassword($hashedPassword);
+            $user->setName($name);
+            $user->setAvatar($avatar);
 
             $entityManager->persist($user);
             $entityManager->flush();

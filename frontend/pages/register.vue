@@ -27,6 +27,8 @@
         <p>Zaakceptuj nasze warunki</p>
       </div>
       <button type=submit class="btn-submit">Zarejestruj sie</button>
+      <p class = "inf-1">Masz nasze konto?</p>
+      <NuxtLink to ="/login"><p class = "inf-2">Zaloguj się</p></NuxtLink>
     </form>
   </div>
 </template>
@@ -35,6 +37,7 @@ const {signUp, signIn, status, data} = useAuth()
 const username = ref('');
 const password = ref('');
 const name = ref('');
+const avatar = ref('~/assets/images/avatars/lion.png')
 let isTerms = false
 let error
 
@@ -66,7 +69,8 @@ async function registerUser() {
           body: {
             email: username.value,
             password: password.value,
-            name: name.value
+            name: name.value,
+            avatar: avatar.value
           }
         }
     )
@@ -106,6 +110,7 @@ async function registerUser() {
   background-color: white;
   padding: 5em;
   justify-content: center;
+  flex-direction: column;
 
 }
 
@@ -131,11 +136,12 @@ async function registerUser() {
 .container .heading-2 {
   font-size: 2em;
   color: #84DCC6;
-  margin-bottom: 2em;
+  margin-bottom: 1em;
 }
 
 form input {
-  height: 4.5em;
+  height: 4.2em;
+  width: 100%;
   background-color: #D6EDFF;
   border-radius: 1em;
   margin-bottom: 1.5em;
@@ -156,8 +162,9 @@ form input::placeholder {
 
 form .btn-submit {
   margin-top: 2em;
-  width: 100%;
-  height: 4.3em;
+  margin-bottom: 1em;
+  width: 80%;
+  height: 4.1em;
   border-radius: 1em;
   background-color: #8B95C9;
   color: white;
@@ -202,6 +209,19 @@ form .terms-box p{
   margin-left: 1em;
   font-size: 1.1em;
   font-family: 'Poppins', sans-serif;
+}
+form .inf-1{
+  margin-bottom: 0.5em;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1em;
+  color: #8B95C9;
+}
+form .inf-2{
+  margin-bottom: 0.5em;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1em;
+  font-weight: 600;
+  color: #8B95C9;
 }
 
 
