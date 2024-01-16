@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Gaegu:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap');
 *, *::before, *::after {
     box-sizing: border-box;
 }
@@ -21,7 +23,7 @@ body {
     text-rendering: optimizeSpeed;
     font-family: 'Poppins', sans-serif;
     color: #282828;
-    /*background-color: #d9e8e5;*/
+    background-color: #c7ffef;
 
 
 }
@@ -127,7 +129,7 @@ select {
 /*}*/
 
 
-[type='checkbox'],
+/*[type='checkbox'],*/
 [type='radio'] {
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -152,4 +154,17 @@ select {
         transition-duration: 0.01ms !important;
         scroll-behavior: auto !important;
     }
+}
+.container{
+    width: 95%;
+    margin: 0 auto;
+
+}
+
+@font-face {
+    font-family: 'Simpsonfont';
+    src: url('../../public/fonts/Simpsonfont DEMO.otf') format('otf');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
 }

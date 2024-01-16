@@ -32,9 +32,11 @@
         />
         <button type=submit class="button">Zaloguj się</button>
       </form>
-      <button><NuxtLink to = '/'>HOME</NuxtLink></button>
-      <button @click.prevent = refresh()>Refresh</button>
-      <button @click.prevent = refresh()>Refresh 2</button>
+      <button>
+        <NuxtLink to='/'>HOME</NuxtLink>
+      </button>
+      <button @click.prevent=refresh()>Refresh</button>
+      <button @click.prevent=refresh()>Refresh 2</button>
 
 
     </div>
@@ -44,32 +46,29 @@
 </template>
 
 <script setup lang="js">
-const {signIn, status, data, refreshToken, refresh, } = useAuth()
+const {signIn, status, data, refreshToken, refresh, token} = useAuth()
 
 let loginError
 let error
 let response = 'hi'
 
 async function handleLogin(username, password) {
-try{
-  console.log("Login: ", username, password)
-  response = await signIn({
-    email: username,
-    password: password
-  })
+  try {
+    console.log("Login: ", username, password)
+    response = await signIn({
+      email: username,
+      password: password
+    })
 
-}catch (error){
-  console.log('ERROR IS')
-  console.log(error.message)
+  } catch (error) {
+    console.log('ERROR IS')
+    console.log(error.message)
+  }finally {
+    if(data){
+      navigateTo("/", {external: true})
+    }
+  }
 }
-}
-
-async function refreshUserToken(){
-  console.log('refresh')
-  await refresh()
-}
-
-
 
 
 </script>

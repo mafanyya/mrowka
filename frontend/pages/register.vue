@@ -1,149 +1,207 @@
 <template>
   <div class="container">
-    <div class="clm-2">
-      <form @submit.prevent="registerUser">
-        <h1>Witaj</h1>
-        <p>Zarejestruj się do Mrówka</p>
-        <input
-            v-model="username"
-            type="text"
-            placeholder="Email"
-        />
-        <input
-            v-model="password"
-            type="password"
-            placeholder="Hasło"
-        />
-        <button type=submit>Zarejestruj sie</button>
-      </form>
-      <button><NuxtLink to = '/'>HOME</NuxtLink></button>
-    </div>
-<!--    <div class="clm-1">-->
-<!--      <button>-->
-<!--        <NuxtLink to="/login">Zaloguj się</NuxtLink>-->
-<!--      </button>-->
-<!--    </div>-->
+    <form @submit.prevent="registerUser">
+      <p class="heading-1">Witaj</p>
+      <p class="heading-2">Zarejestruj się do Mrówka</p>
+      <input
+          v-model="username"
+          type="text"
+          placeholder="Email"
+      />
+      <input
+          v-model="password"
+          type="password"
+          placeholder="Hasło"
+      />
+      <input
+          v-model="name"
+          type="text"
+          placeholder="Imię"
+      />
+      <div class="terms-box">
+        <label for="terms" class="terms-not-check" id = "terms-not-checked" @click.prevent = isTermsChecked()></label>
+        <label for="terms" class="terms-check" id = "terms-checked" @click.prevent = isTermsChecked()>
+          <span class = "inline-checkbox"></span>
+        </label>
+        <input type="checkbox" id="terms">
+        <p>Zaakceptuj nasze warunki</p>
+      </div>
+      <button type=submit class="btn-submit">Zarejestruj sie</button>
+    </form>
   </div>
 </template>
 <script setup lang="js">
-const {signUp, signIn, status} = useAuth()
-
-
+const {signUp, signIn, status, data} = useAuth()
 const username = ref('');
 const password = ref('');
+const name = ref('');
+let isTerms = false
+let error
 
-async function registerUser(){
+
+function isTermsChecked(){
+  const checkbox = document.getElementById('terms')
+  const checked = document.getElementById('terms-checked')
+  const notChecked = document.getElementById('terms-not-checked')
+
+  checkbox.checked = isTerms === false;
+  if(checkbox.checked === true){
+    notChecked.style.display = 'none'
+    checked.style.display = 'flex'
+    isTerms = true
+    console.log(isTerms)
+  }else{
+    notChecked.style.display = 'block'
+    checked.style.display = 'none'
+    isTerms = false
+    console.log(isTerms)
+  }
+}
+async function registerUser() {
   console.log(username.value, password.value)
+  if(isTerms === true){
+  try {
+    await useFetch('http://localhost:8000/api/register', {
+          method: 'POST',
+          body: {
+            email: username.value,
+            password: password.value,
+            name: name.value
+          }
+        }
+    )
+    try {
+      await signIn({
+        email: username.value,
+        password: password.value,
+      })
+    } catch (loginError) {
+      console.log("Login error is ", loginError)
+    }
+  } catch (registerError) {
+    console.log("Register error is ", registerError)
+  } finally {
+    if (data) {
+      navigateTo("/", {external: true})
+    }
+  }
+  }else{
+    let error = "Zaakceptuj nasze warunki"
+    console.log(error)
 
-try{
-  await signUp({
-    email: username.value,
-    password: password.value
-  })
-}catch(registerError) {
-  console.log(registerError)
+  }
 }
-}
+
+
 </script>
-
-
-
-
-
-
 
 <style scoped>
 .container {
   margin: 0 auto;
-  border: none;
+  margin-top: 5em;
   border-radius: 1.5em;
-  width: 65%;
-  height: 800px;
-  margin-top: 4em;
+  width: 40%;
+  height: 50em;
   display: flex;
-}
-
-.container .clm-1 {
-  width: 35%;
-  border: none;
-
-  background-color: orange;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: end;
-}
-
-.container .clm-1 button {
-  margin-bottom: 2em;
-  border: none;
-  border-radius: 1.5em;
-  padding: 1em 2em;
   background-color: white;
-  color: orange;
-
-
-}
-
-.container .clm-2 {
-  width: 60%;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  padding: 5em;
   justify-content: center;
-  padding: 3em;
 
 }
 
-.clm-2 form {
+.container p {
+  font-family: 'Bree Serif', serif;
+}
+
+.container form {
   width: 100%;
   height: 100%;
-
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
 
 }
 
-.clm-2 form input {
-  background-color: #fff4d8;
-  width: 80%;
-  padding: 1em 1.5em;
-  margin-bottom: 1em;
-  border: none;
-  border-radius: 2em;
-
+.container .heading-1 {
+  font-size: 4em;
+  color: #32A88A;
+  margin-bottom: 0.3em;
 }
 
-.clm-2 form input:focus {
-  background-color: #fcedd4;
-
+.container .heading-2 {
+  font-size: 2em;
+  color: #84DCC6;
+  margin-bottom: 2em;
 }
 
-.clm-2 form h1 {
-  font-size: 3rem;
-  margin-bottom: 1em;
+form input {
+  height: 4.5em;
+  background-color: #D6EDFF;
+  border-radius: 1em;
+  margin-bottom: 1.5em;
+  padding-left: 1.5em;
+  padding-right: 1.5em;
+  font-size: 1em;
+  color: #3778b0;
 }
 
-.clm-2 form p {
-  margin-bottom: 3em;
+form input[type = checkbox] {
+  display: none;
 }
 
-.clm-2 form button {
-  background-color: orange;
-  padding: 1em 1.5em;
-  border: none;
-  border-radius: 2em;
-  width: 60%;
-  color: white;
+form input::placeholder {
+  color: #80c2c7;
+  font-size: 1.1em;
+}
+
+form .btn-submit {
   margin-top: 2em;
-
+  width: 100%;
+  height: 4.3em;
+  border-radius: 1em;
+  background-color: #8B95C9;
+  color: white;
+  font-size: 1.1em;
 }
 
-.clm-2 form button:hover {
-  background-color: #ec9a00;
+form .btn-submit:hover {
+  background-color: #6d7bbc;
+}
+
+form .terms-not-check {
+  display: block;
+  width: 1.8em;
+  height: 1.8em;
+  background-color: #6d7bbc;
+  border-radius: 10%;
+  cursor: pointer;
+}
+form .terms-check {
+  display: none;
+  width: 1.8em;
+  height: 1.8em;
+  background-color: #6d7bbc;
+  border-radius: 10%;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+}
+form .terms-check .inline-checkbox{
+  background-color: white;
+  border-radius: 10%;
+  width: 60%;
+  height: 60%;
+}
+form .terms-box{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-top: 1em;
+}
+form .terms-box p{
+  margin-left: 1em;
+  font-size: 1.1em;
+  font-family: 'Poppins', sans-serif;
 }
 
 
