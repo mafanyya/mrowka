@@ -49,7 +49,7 @@
       <div class="btn">
         <div class="rnd">
           <img :src = "data.user.avatar" alt = "avatar">
-          <img src = "~/assets/images/avatars/lion.png" alt = "avatar">
+
         </div>
       </div>
       </NuxtLink>

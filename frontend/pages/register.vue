@@ -3,6 +3,7 @@
     <form @submit.prevent="registerUser">
       <p class="heading-1">Witaj</p>
       <p class="heading-2">Zarejestruj się do Mrówka</p>
+      <p id="login-error" class="login-error"></p>
       <input
           v-model="username"
           type="text"
@@ -19,80 +20,102 @@
           placeholder="Imię"
       />
       <div class="terms-box">
-        <label for="terms" class="terms-not-check" id = "terms-not-checked" @click.prevent = isTermsChecked()></label>
-        <label for="terms" class="terms-check" id = "terms-checked" @click.prevent = isTermsChecked()>
-          <span class = "inline-checkbox"></span>
+        <label for="terms" class="terms-not-check" id="terms-not-checked" @click.prevent=isTermsChecked()></label>
+        <label for="terms" class="terms-check" id="terms-checked" @click.prevent=isTermsChecked()>
+          <span class="inline-checkbox"></span>
         </label>
         <input type="checkbox" id="terms">
         <p>Zaakceptuj nasze warunki</p>
       </div>
       <button type=submit class="btn-submit">Zarejestruj sie</button>
-      <p class = "inf-1">Masz nasze konto?</p>
-      <NuxtLink to ="/login"><p class = "inf-2">Zaloguj się</p></NuxtLink>
+      <p class="inf-1">Masz nasze konto?</p>
+      <NuxtLink to="/login"><p class="inf-2">Zaloguj się</p></NuxtLink>
     </form>
   </div>
 </template>
+
 <script setup lang="js">
 const {signUp, signIn, status, data} = useAuth()
 const username = ref('');
 const password = ref('');
 const name = ref('');
-const avatar = ref('~/assets/images/avatars/lion.png')
+const roles = ['ROLE_USER'];
+const avatar = ref('_nuxt/assets/images/avatars/lion.png')
 let isTerms = false
 let error
 
+definePageMeta({
+  middleware: [
+    function (to, from,) {
+      const {data} = useAuth()
+      if (data.value) {
+        return navigateTo('/')
+      }
+    }
+  ]
+})
 
-function isTermsChecked(){
+async function registerUser() {
+  console.log(username.value, password.value)
+  if (isTerms === true) {
+    if (validateEmail(username.value)) {
+      try {
+        const {data, error} = await useFetch('http://localhost:8000/api/register', {
+              method: 'POST',
+              body: {
+                email: username.value,
+                password: password.value,
+                roles: roles,
+                name: name.value,
+                avatar: avatar.value
+              }
+            }
+        )
+        if (!data.value) {
+          console.log('Error is ', error)
+          console.log('Użytkownik już istnieje')
+        } else {
+          let credentials = {email: username.value, password: password.value}
+          await signIn(
+              credentials,
+              {
+                callbackUrl: '/',
+                external: true
+              })
+        }
+      } catch (error) {
+        console.log('Error from catch is: ', error)
+      }
+    } else {
+      console.log('Validate email error')
+    }
+  } else {
+    console.log("Zaakceptuj nasze warunki")
+
+  }
+}
+
+function validateEmail(email) {
+  let re = /\S+@\S+\.\S+/;
+  return re.test(email);
+}
+
+function isTermsChecked() {
   const checkbox = document.getElementById('terms')
   const checked = document.getElementById('terms-checked')
   const notChecked = document.getElementById('terms-not-checked')
 
   checkbox.checked = isTerms === false;
-  if(checkbox.checked === true){
+  if (checkbox.checked === true) {
     notChecked.style.display = 'none'
     checked.style.display = 'flex'
     isTerms = true
     console.log(isTerms)
-  }else{
+  } else {
     notChecked.style.display = 'block'
     checked.style.display = 'none'
     isTerms = false
     console.log(isTerms)
-  }
-}
-async function registerUser() {
-  console.log(username.value, password.value)
-  if(isTerms === true){
-  try {
-    await useFetch('http://localhost:8000/api/register', {
-          method: 'POST',
-          body: {
-            email: username.value,
-            password: password.value,
-            name: name.value,
-            avatar: avatar.value
-          }
-        }
-    )
-    try {
-      await signIn({
-        email: username.value,
-        password: password.value,
-      })
-    } catch (loginError) {
-      console.log("Login error is ", loginError)
-    }
-  } catch (registerError) {
-    console.log("Register error is ", registerError)
-  } finally {
-    if (data) {
-      navigateTo("/", {external: true})
-    }
-  }
-  }else{
-    let error = "Zaakceptuj nasze warunki"
-    console.log(error)
-
   }
 }
 
@@ -139,6 +162,13 @@ async function registerUser() {
   margin-bottom: 1em;
 }
 
+form .login-error {
+  color: red;
+  visibility: hidden;
+  margin-bottom: 1em;
+  font-family: 'Poppins', sans-serif;
+}
+
 form input {
   height: 4.2em;
   width: 100%;
@@ -183,6 +213,7 @@ form .terms-not-check {
   border-radius: 10%;
   cursor: pointer;
 }
+
 form .terms-check {
   display: none;
   width: 1.8em;
@@ -193,30 +224,35 @@ form .terms-check {
   justify-content: center;
   align-items: center;
 }
-form .terms-check .inline-checkbox{
+
+form .terms-check .inline-checkbox {
   background-color: white;
   border-radius: 10%;
   width: 60%;
   height: 60%;
 }
-form .terms-box{
+
+form .terms-box {
   width: 100%;
   display: flex;
   align-items: center;
   margin-top: 1em;
 }
-form .terms-box p{
+
+form .terms-box p {
   margin-left: 1em;
   font-size: 1.1em;
   font-family: 'Poppins', sans-serif;
 }
-form .inf-1{
+
+form .inf-1 {
   margin-bottom: 0.5em;
   font-family: 'Poppins', sans-serif;
   font-size: 1.1em;
   color: #8B95C9;
 }
-form .inf-2{
+
+form .inf-2 {
   margin-bottom: 0.5em;
   font-family: 'Poppins', sans-serif;
   font-size: 1.1em;

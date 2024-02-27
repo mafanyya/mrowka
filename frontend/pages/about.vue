@@ -3,8 +3,11 @@
 </script>
 
 <template>
-  <NavBar></NavBar>
-<p>About</p>
+  <div class="container">
+    <NavBar></NavBar>
+    <p>About</p>
+  </div>
+
 
 </template>
 

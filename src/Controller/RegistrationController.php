@@ -22,9 +22,11 @@ class RegistrationController extends AbstractController
             $plainPassword = $data['password'];
             $name = $data['name'];
             $avatar = $data['avatar'];
+            $roles = $data['roles'];
             $user = new User();
             $user-> setEmail($email);
             $hashedPassword = $passwordHasher->hashPassword($user, $plainPassword);
+            $user->setRoles($roles);
             $user ->setPassword($hashedPassword);
             $user->setName($name);
             $user->setAvatar($avatar);
