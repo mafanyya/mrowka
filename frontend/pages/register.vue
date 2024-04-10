@@ -40,7 +40,7 @@ const username = ref('');
 const password = ref('');
 const name = ref('');
 const roles = ['ROLE_USER'];
-const avatar = ref('_nuxt/assets/images/avatars/lion.png')
+const avatar = ref('/_nuxt/assets/images/avatars/lion.png')
 let isTerms = false
 let error
 
@@ -67,7 +67,8 @@ async function registerUser() {
                 password: password.value,
                 roles: roles,
                 name: name.value,
-                avatar: avatar.value
+                avatar: avatar.value,
+
               }
             }
         )

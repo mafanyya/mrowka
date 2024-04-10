@@ -25,9 +25,17 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         parent::__construct($registry, User::class);
     }
 
-    /**
-     * Used to upgrade (rehash) the user's password automatically over time.
-     */
+
+
+
+    public function add(User $entity, bool $flush = true): void
+    {
+        $this->getEntityManager()->persist($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
     {
         if (!$user instanceof User) {
@@ -38,22 +46,48 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
     }
+    public function remove(User $entity, bool $flush = true): void
+    {
+        $this->getEntityManager()->remove($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
 
 
 
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */
-    public function findByExampleField($value): array
+    public function findAllOnline(): array
     {
         return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('u.status = 1')
             ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;
+    }
+    public function findOnlineUsers(): array
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.status = true')
+            ->andWhere('u.isAdmin = false')
+            ->orderBy('u.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+    public function findOnlineAdmins(): array
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.status = true')
+            ->andWhere('u.isAdmin = true')
+            ->orderBy('u.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
     }
 
 //    public function findOneBySomeField($value): ?User

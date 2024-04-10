@@ -1,11 +1,6 @@
 <template>
   <div class="container">
     <NavBar/>
-    <!--  <p>Data: {{message}}</p>-->
-    <!--  <p>Data: {{test}}</p>-->
-<!--    <p v-if = "data"> Witaj, {{name}} </p>-->
-
-
     <div class="home">
       <div class="img">
         <img src="~/assets/images/unicorn.svg" alt="">
@@ -25,7 +20,7 @@
 <script setup lang="js">
 
 import NavBar from "~/components/NavBar.vue";
-import {useMyFetch} from "~/composables/useMyFetch.js";
+import {userLogOut} from "~/composables/userLogOut.js";
 
 const {signIn, refresh, status, data, lastRefreshedAt, signOut, getCsrfToken, token, refreshToken} = useAuth()
 let test

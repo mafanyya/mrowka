@@ -45,7 +45,7 @@
 
 
     <div v-if=data class="nav-2-2">
-      <NuxtLink to = "/account">
+      <NuxtLink to = "/dashboard">
       <div class="btn">
         <div class="rnd">
           <img :src = "data.user.avatar" alt = "avatar">

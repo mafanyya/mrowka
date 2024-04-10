@@ -61,6 +61,17 @@ async function handleLogin(email, password) {
           callbackUrl: '/',
            external: true
       })
+      const data = useAuth()
+      const id = data.data.value.user.id
+      console.log('DZIAŁA')
+      await useFetch('http://localhost:8000/api/user/log_in', {
+            method: 'POST',
+            body: {
+              id: id
+            }
+          }
+      )
+
     }else{
       const errorElement = document.getElementById('login-error')
       errorElement.innerText = 'Nieprawidłowy email'

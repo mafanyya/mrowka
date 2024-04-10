@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -32,6 +33,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     private ?string $avatar = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $lastseen = null;
+
+    #[ORM\Column]
+    private ?bool $status = null;
+
+    #[ORM\Column]
+    private ?bool $isAdmin = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?string $pincode = null;
+
 
     public function getId(): ?int
     {
@@ -123,6 +137,54 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setAvatar(string $avatar): static
     {
         $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    public function getLastseen(): ?\DateTimeInterface
+    {
+        return $this->lastseen;
+    }
+
+    public function setLastseen(\DateTimeInterface $lastseen): static
+    {
+        $this->lastseen = $lastseen;
+
+        return $this;
+    }
+
+    public function isStatus(): ?bool
+    {
+        return $this->status;
+    }
+
+    public function setStatus(bool $status): static
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function isIsAdmin(): ?bool
+    {
+        return $this->isAdmin;
+    }
+
+    public function setIsAdmin(bool $isAdmin): static
+    {
+        $this->isAdmin = $isAdmin;
+
+        return $this;
+    }
+
+    public function getPincode(): ?string
+    {
+        return $this->pincode;
+    }
+
+    public function setPincode(?string $pincode): static
+    {
+        $this->pincode = $pincode;
 
         return $this;
     }
