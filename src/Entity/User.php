@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -15,6 +17,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
+
+    #[ORM\Column(length: 13, unique: true)]
+    private ?string $uniqid = null;
 
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
@@ -46,6 +51,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?string $pincode = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $register_at = null;
+
+
 
     public function getId(): ?int
     {
@@ -55,6 +64,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getEmail(): ?string
     {
         return $this->email;
+    }
+    public function getUniqid(): ?string
+    {
+        return $this->uniqid;
+    }
+
+    public function setUniqid(?string $uniqid): static
+    {
+        $this->uniqid = $uniqid;
+
+        return $this;
     }
 
     public function setEmail(string $email): static
@@ -188,4 +208,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function getRegisterAt(): ?\DateTimeImmutable
+    {
+        return $this->register_at;
+    }
+
+    public function setRegisterAt(?\DateTimeImmutable $register_at): static
+    {
+        $this->register_at = $register_at;
+
+        return $this;
+    }
+
+
+
+
 }

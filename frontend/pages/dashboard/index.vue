@@ -11,11 +11,10 @@
 <script setup>
 const data = useAuth()
 const {status, refresh, signOut} = useAuth()
-const email = data.data.value.user.email
-const name = data.data.value.user.name
-const avatar = data.data.value.user.avatar
+// const email = data.data.value.user.email
+// const name = data.data.value.user.name
+// const avatar = data.data.value.user.avatar
 import DashboardNavBar from "~/components/account/DashboardNavBar.vue";
-
 function logOut() {
   signOut()
   navigateTo("/", {external: true})
@@ -23,7 +22,7 @@ function logOut() {
 </script>
 <style scoped>
 .local-container {
-  border: 1px solid red;
+  //border: 1px solid red;
   display: flex;
 }
 

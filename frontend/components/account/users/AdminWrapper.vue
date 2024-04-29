@@ -3,8 +3,7 @@
     <div class="row-1">
       <p>Administratory</p>
     </div>
-    <div class="wrapper">
-
+    <div v-if = "!adminsPending" class="wrapper">
       <template v-for = "user in users.users">
         <div class="user" v-if = "user.status && user.isAdmin">
           <div class="avatar">
@@ -13,9 +12,13 @@
           <div class="inf">
             <div class="row-1">
               <p>{{user.name}}</p>
+              <NuxtLink :to = "'/dashboard/users/' + user.uniqid">
+                <p class = "uniqid">@{{user.uniqid}}</p>
+              </NuxtLink>
             </div>
             <div class="row-2">
               <p>online</p>
+              <i class="fi fi-ss-circle"></i>
             </div>
           </div>
           <div class="panel">
@@ -35,6 +38,9 @@
           <div class="inf">
             <div class="row-1">
               <p>{{user.name}}</p>
+              <NuxtLink :to = "'/dashboard/users/' + user.uniqid">
+                <p class = "uniqid">@{{user.uniqid}}</p>
+              </NuxtLink>
             </div>
             <div class="row-2">
               <p>ostatnio online  {{convertDate(user.lastseen)}}</p>
@@ -54,7 +60,7 @@
 </template>
 
 <script setup lang="js">
-const {pending, data: users, refresh: refreshUsers } = await useFetch('http://localhost:8000/api/users')
+const {pending: adminsPending, data: users, refresh: refreshUsers } = await useFetch('http://localhost:8000/api/users')
 function convertDate(date){
   let convertedDate = new Date(date)
   let options = {year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false}
@@ -102,6 +108,7 @@ function convertDate(date){
   margin-left: 1em;
   padding-left: 1em;
   padding-right: 1em;
+  border-radius: 1em;
 }
 .admin-wrapper .wrapper .user .avatar{
   border-radius: 50%;
@@ -124,6 +131,16 @@ function convertDate(date){
   color: #6d7bbc;
   font-size: 1.3em;
   padding-left: 0;
+  padding-bottom: 0.5em;
+}
+.admin-wrapper .wrapper .user .inf .row-1 .uniqid{
+  font-size: 0.80em;
+  font-weight: 500;
+  color: #727272;
+  margin-left: 0.5em;
+}
+.admin-wrapper .wrapper .user .inf .row-1 .uniqid:hover{
+  text-decoration: underline;
 }
 .admin-wrapper .wrapper .user .inf .row-2{
 //border: 1px solid red;
@@ -135,13 +152,17 @@ function convertDate(date){
   font-weight: 500;
   color: #727272;
 }
+.admin-wrapper .wrapper .user .inf .row-2 i{
+  color: #32A88A;
+  margin-left: 0.3em;
+}
 .admin-wrapper .wrapper .user .panel{
 //border: 1px solid red;
   height: 100%;
   display: flex;
   flex: 1;
   align-items: center;
-  justify-content: center;
+  justify-content: end;
 }
 .admin-wrapper .wrapper .user .panel .btn{
   border-radius: 50%;

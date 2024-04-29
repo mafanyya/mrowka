@@ -3,7 +3,7 @@
     <form @submit.prevent="registerUser">
       <p class="heading-1">Witaj</p>
       <p class="heading-2">Zarejestruj się do Mrówka</p>
-      <p id="login-error" class="login-error"></p>
+      <p id="register-error" class="register-error"></p>
       <input
           v-model="username"
           type="text"
@@ -39,6 +39,7 @@ const {signUp, signIn, status, data} = useAuth()
 const username = ref('');
 const password = ref('');
 const name = ref('');
+const isAdmin = ref(false);
 const roles = ['ROLE_USER'];
 const avatar = ref('/_nuxt/assets/images/avatars/lion.png')
 let isTerms = false
@@ -54,44 +55,83 @@ definePageMeta({
     }
   ]
 })
-
-async function registerUser() {
-  console.log(username.value, password.value)
-  if (isTerms === true) {
-    if (validateEmail(username.value)) {
-      try {
-        const {data, error} = await useFetch('http://localhost:8000/api/register', {
-              method: 'POST',
-              body: {
-                email: username.value,
-                password: password.value,
-                roles: roles,
-                name: name.value,
-                avatar: avatar.value,
-
-              }
-            }
-        )
-        if (!data.value) {
-          console.log('Error is ', error)
-          console.log('Użytkownik już istnieje')
-        } else {
-          let credentials = {email: username.value, password: password.value}
-          await signIn(
-              credentials,
-              {
-                callbackUrl: '/',
-                external: true
-              })
-        }
-      } catch (error) {
-        console.log('Error from catch is: ', error)
-      }
+async function registerUser(){
+  if(!isTerms === true){
+    createError(440)
+  }else {
+    if (!validateEmail(username.value)) {
+      createError(410)
     } else {
-      console.log('Validate email error')
+      if (!validatePassword(password.value)) {
+        createError(420)
+      } else {
+        if (!validateName(name.value)) {
+          createError(430)
+        } else {
+          const {data: registerData, error: registerError} = await useFetch('http://localhost:8000/api/register', {
+                method: 'POST',
+                body: {
+                  email: username.value,
+                  password: password.value,
+                  roles: roles,
+                  name: name.value,
+                  avatar: avatar.value,
+                  isAdmin: isAdmin.value,
+                  status: true
+                }
+              }
+          )
+          if (registerError.value) {
+            console.log('Registration error is ' + registerError)
+            createError(500)
+          }
+          if (registerData.value) {
+            console.log('Registration successful')
+            createError(100)
+            let credentials = {email: username.value, password: password.value}
+            await signIn(
+                credentials,
+                {
+                  callbackUrl: '/',
+                  external: true
+                })
+          }
+        }
+      }
     }
-  } else {
-    console.log("Zaakceptuj nasze warunki")
+  }
+
+}
+function createError(errorCode){
+  const registerError =  document.getElementById('register-error')
+  switch (errorCode){
+    case 100:
+      registerError.style.visibility = 'visible'
+      registerError.innerText = 'Registration successful'
+      break
+    case 410:
+      registerError.style.visibility = 'visible'
+      registerError.innerText = 'Nieprawidłowa poczta'
+      break
+    case 420:
+      registerError.style.visibility = 'visible'
+      registerError.innerText = 'Hasło musi zawierać co najmniej 8 znaków,  tym jedną cyfrę (0-9), jedną wielką literę (A-Z), jedną małą literę (a-z) oraz jeden znak specjalny (!@#$%^&*) '
+      break
+    case 430:
+      registerError.style.visibility = 'visible'
+      registerError.innerText = 'Nieprawidlowe imię'
+      break
+    case 440:
+      registerError.style.visibility = 'visible'
+      registerError.innerText = 'Zaakceptuj nasze warunki'
+      break
+    case 500:
+      registerError.style.visibility = 'visible'
+      registerError.innerText = 'Bląd servera'
+      break
+    default:
+      registerError.style.visibility = 'visible'
+      registerError.innerText = 'Nieznany bład ' + errorCode
 
   }
 }
@@ -99,6 +139,19 @@ async function registerUser() {
 function validateEmail(email) {
   let re = /\S+@\S+\.\S+/;
   return re.test(email);
+}
+function validatePassword(password){
+  let length = password.length
+  let hasLetter = /[A-Z]/.test(password);
+  let hasDigit = /\d/.test(password);
+  let hasSymbol = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password);
+
+  return length >= 8 && length < 50 && hasLetter && hasDigit && hasSymbol;
+}
+function validateName(name){
+  let re =  /^[a-zA-Z]+$/
+  let length = name.length
+  return length >= 3 && length <= 8 && re.test(name)
 }
 
 function isTermsChecked() {
@@ -163,8 +216,8 @@ function isTermsChecked() {
   margin-bottom: 1em;
 }
 
-form .login-error {
-  color: red;
+form .register-error {
+  color: #DE7C7C;
   visibility: hidden;
   margin-bottom: 1em;
   font-family: 'Poppins', sans-serif;

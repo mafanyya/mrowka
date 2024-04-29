@@ -1,79 +1,68 @@
 <template>
 <div class="dashboard-nav-bar">
-  <div class="row-1">
-    <div class="icon">
-      <img src="~/assets/images/icons/arrow-left.svg" alt="">
+  <NuxtLink to = "/">
+    <div class="row-1">
+      <i class="fi fi-sr-left"></i>
+      <p v-if = "userData">{{userData.user.name}}</p>
+      <p v-else>Główna</p>
     </div>
-    {{name}}
-  </div>
+  </NuxtLink>
   <NuxtLink to = "/dashboard">
-    <div id = "btn" class="btn" @mouseover.prevent="scale('btn')">
-      <div class="icon">
-        <img src="~/assets/images/icons/home.svg" alt="">
-      </div>
+    <div id = "btn" class="btn">
+      <i class="fi fi-sr-home"></i>
       <p>Panel</p>
     </div>
   </NuxtLink>
   <NuxtLink to = "/dashboard/users">
     <div class="btn">
-      <div class="icon">
-        <img src="~/assets/images/icons/users.svg" alt="">
-      </div>
+      <i class="fi fi-sr-users-alt"></i>
       <p>Użytkownicy</p>
     </div>
   </NuxtLink>
   <NuxtLink to = "/dashboard/lessons">
     <div class="btn">
-      <div class="icon">
-        <img src="~/assets/images/icons/book-alt.svg" alt="">
-      </div>
-      <p>Lekcji</p>
+      <i class="fi fi-sr-book-bookmark"></i>
+      <p>Zajęcia</p>
     </div>
   </NuxtLink>
   <NuxtLink to = "/dashboard/games">
     <div class="btn">
-      <div class="icon">
-        <img src="~/assets/images/icons/puzzle.svg" alt="">
-      </div>
+      <i class="fi fi-sr-chess-knight-alt"></i>
       <p>Gry</p>
     </div>
   </NuxtLink>
   <NuxtLink to = "/dashboard/tests">
     <div class="btn">
-      <div class="icon">
-        <img src="~/assets/images/icons/test.svg" alt="">
-      </div>
+      <i class="fi fi-sr-test"></i>
       <p>Testy</p>
     </div>
   </NuxtLink>
-<!--  <NuxtLink to = "/dashboard/settings">-->
-    <NuxtLink to = "/">
+  <NuxtLink to = "/dashboard/settings">
     <div class="btn">
-      <div class="icon">
-        <img src="~/assets/images/icons/settings.svg" alt="">
-      </div>
+      <i class="fi fi-sr-settings"></i>
       <p>Ustawienia</p>
     </div>
   </NuxtLink>
   <div class="empty-1"></div>
     <div class="btn-2" @click.prevent = "logOut()">
-      <div class="icon">
-        <img src="~/assets/images/icons/enter.svg" alt="">
-      </div>
+      <i class="fi fi-sr-exit-alt"></i>
       <p>Wyloguj się</p>
     </div>
   <div class="empty-2"></div>
 </div>
 </template>
-<script setup lang="ts">
-import {userLogOut} from "~/composables/userLogOut";
+<script setup lang="js">
+const {data: userData, signOut} = useAuth()
+// const {data: meData, error: meError} = await useFetch('http://localhost:8000/api/users/find-me', {
+//       method: 'POST',
+//       body: {
+//         data: data.value
+//       }
+//     }
+// )
 
-const {status, refresh, signOut} = useAuth()
-const data = useAuth()
-const name = data.data.value.user.name
-const id = data.data.value.user.id
-const avatar = data.data.value.user.avatar
 async function logOut() {
+  const {signOut} = useAuth()
   const {data, error} = await useFetch('http://localhost:8000/api/user/log_out', {
         method: 'POST',
         body: {
@@ -88,7 +77,6 @@ async function logOut() {
       }
   )
 }
-
 </script>
 
 <style scoped>
@@ -105,10 +93,20 @@ async function logOut() {
   color: white;
   font-size: 1.5em;
   display: flex;
-  padding-left: 1.5em;
+  padding-left: 2rem;
   padding-top: 1em;
   padding-bottom: 1em;
   background-color: #6d7bbc;
+  transition: 0.5s ease;
+  cursor: pointer;
+}
+.dashboard-nav-bar .row-1 i{
+  margin-right: 1rem;
+  font-size: 1.5rem;
+}
+.dashboard-nav-bar .row-1:hover{
+  background-color: #8B95C9;
+  transition: 0.5s ease;
 }
 .dashboard-nav-bar .btn{
   height: auto;
@@ -118,25 +116,37 @@ async function logOut() {
   font-size: 1.2em;
   padding-top: 1.1em ;
   padding-bottom: 1.1em;
-  padding-left: 1.5em;
+  padding-left: 2rem;
   background-color: #6d7bbc;
+  transition: 0.5s ease;
+}
+.dashboard-nav-bar .btn i{
+  margin-right: 1rem;
+  font-size: 1.5rem;
+}
+.dashboard-nav-bar .btn:hover{
+  background-color: #8B95C9;
+  transition: 0.5s ease;
 }
 .dashboard-nav-bar .btn-2{
   display: flex;
   align-items: center;
   color: white;
   font-size: 1.3em;
-  padding-left: 1.5em;
+  padding-left: 2rem;
   padding-top: 1.1em;
   padding-bottom: 1.1em;
   background-color: #6d7bbc;
   cursor: pointer;
+  transition: 0.5s ease;
 }
- .icon{
-  width: 1.5em;
-  height: 100%;
-  margin-right: 0.8em;
-  color: white;
+.dashboard-nav-bar .btn-2 i{
+  margin-right: 1rem;
+  font-size: 1.5rem;
+}
+.dashboard-nav-bar .btn-2:hover{
+  background-color: #8B95C9;
+  transition: 0.5s ease;
 }
  .empty-1:empty{
    height: 3em;

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use DateTime;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -12,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\User;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\UserRepository;
+
 
 class UsersController extends AbstractController
 {
@@ -24,13 +26,77 @@ class UsersController extends AbstractController
 
         return $this->json(['users' => $users]);
     }
+    #[Route('/api/users/find-me', name: 'api_users_find_me')]
+    public function findMe(UserRepository $userRepository, Request $request)
+    {
+        $data = json_decode($request->getContent(), associative: true);
+        $uniqId = $data['data']['user']['uniqid'];
+        $user = $userRepository->findOneByUniqId($uniqId);
+
+        return $this->json([
+            'data' => $data,
+            'user' => $user
+            ]);
+    }
+    #[Route('/api/users/find', name: 'api_users_find')]
+    public function find(UserRepository $userRepository, Request $request)
+    {
+        $data = json_decode($request->getContent(), associative: true);
+        $uniqid = $data['uniqid'];
+        $user = $userRepository->findOneByUniqId($uniqid);
+        return $this->json(['user' => $user]);
+    }
+    #[Route('/api/user/edit', name: 'api_user_edit')]
+    public function edit(UserRepository $userRepository, Request $request, EntityManagerInterface $entityManager)
+    {
+        $data = json_decode($request->getContent(), associative: true);
+        $uniqid = $data['uniqid'];
+        $email = $data['email'];
+        $name = $data['name'];
+        $avatar = $data['avatar'];
+        $user = $userRepository->findOneByUniqId($uniqid);
+        $user->setEmail($email);
+        $user->setName($name);
+        $user->setAvatar($avatar);
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+
+        return $this->json(['message' => 'User successfully edited', 'user' => $user]);
+    }
+    #[Route('/api/user/psw-upgrade', name: 'api_user_psw_upgrade')]
+    public function upgradePassword(UserRepository $userRepository, Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPasswordHasher)
+    {
+        $data = json_decode($request->getContent(), associative: true);
+        $uniqid = $data['uniqid'];
+        $plainPassword = $data['password'];
+        $user = $userRepository->findOneByUniqId($uniqid);
+        $hashedPassword = $userPasswordHasher->hashPassword($user, $plainPassword);
+        $userRepository->upgradePassword($user, $hashedPassword);
+
+        return $this->json(['message' => 'Password successful upgrade']);
+    }
+    #[Route('/api/user/psw-check', name: 'api_user_psw_check')]
+    public function passwordCheck(UserRepository $userRepository, Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPasswordHasher)
+    {
+        $data = json_decode($request->getContent(), associative: true);
+        $uniqid = $data['uniqid'];
+        $password = $data['password'];
+
+        $user = $userRepository->findOneByUniqId($uniqid);
+        $isPswValid = $userPasswordHasher->isPasswordValid($user, $password);
+
+
+        return $this->json(['isPswValid' => $isPswValid]);
+    }
 
     #[Route('/api/user/delete', name: 'api_user_delete')]
     public function delete(UserRepository $userRepository, Request $request,)
     {
         $data = json_decode($request->getContent(), associative: true);
-        $id = $data['id'];
-        $user = $userRepository->find($id);
+        $uniqId = $data['uniqid'];
+
+        $user = $userRepository->findOneByUniqId($uniqId);
         $name = $user->getName();
         $userRepository->remove($user);
 
@@ -72,6 +138,9 @@ class UsersController extends AbstractController
         return $this->json(['status' => $status]);
     }
 
+    /**
+     * @throws \Exception
+     */
     #[Route('/api/users/count', name: 'api_users_count')]
     public function countUsers(UserRepository $userRepository)
     {
@@ -81,12 +150,38 @@ class UsersController extends AbstractController
         $adminsOnlineCount = count($userRepository->findOnlineAdmins());
         $usersOnlineCount = count($userRepository->findOnlineUsers());
 
+        $nowDateTime = new DateTime(date("Y-m-d H:i:s"));
+
+
+        $todayDateTime = clone $nowDateTime;
+        $todayDateTime->modify('-1 day');
+        $todayDateTime->format('Y-m-d H:i:s');
+
+        $lastWeekDateTime = clone $nowDateTime;
+        $lastWeekDateTime->modify('-1 week');
+        $lastWeekDateTime->format('Y-m-d H:i:s');
+
+        $usersToday = count($userRepository->findRegisteredUsersByTime($todayDateTime));
+        $usersLastWeek = count($userRepository->findRegisteredUsersByTime($lastWeekDateTime));
+
+        if($usersToday == null){
+            $usersToday = 0;
+        }
+        if($usersLastWeek == null){
+            $usersLastWeek = 0;
+        }
+
         return $this->json([
+            'last_week_time' => $lastWeekDateTime,
+            'today_time' => $todayDateTime,
             'users_count' => $usersCount,
             'all_online_count' => $allOnlineCount,
             'admins_online_count' => $adminsOnlineCount,
-            'users_online_count' => $usersOnlineCount
+            'users_online_count' => $usersOnlineCount,
+            'users_today' => $usersToday,
+            'users_last_week' => $usersLastWeek
             ]);
 
     }
+
 }

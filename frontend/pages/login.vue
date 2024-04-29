@@ -38,8 +38,6 @@
 
 <script setup lang="js">
 const {signIn, status, data, refreshToken, refresh, token } = useAuth()
-let loginError
-
 definePageMeta({
   middleware: [
     function (to, from,) {
@@ -63,7 +61,6 @@ async function handleLogin(email, password) {
       })
       const data = useAuth()
       const id = data.data.value.user.id
-      console.log('DZIAŁA')
       await useFetch('http://localhost:8000/api/user/log_in', {
             method: 'POST',
             body: {
@@ -71,7 +68,6 @@ async function handleLogin(email, password) {
             }
           }
       )
-
     }else{
       const errorElement = document.getElementById('login-error')
       errorElement.innerText = 'Nieprawidłowy email'
@@ -88,22 +84,22 @@ async function handleLogin(email, password) {
       errorElement.innerText = 'Bład servera'
       errorElement.style.visibility = 'visible'
     }
+    console.log(error)
   }finally {
   }
-  console.log("Login: ", username, password)
+
 }
-function validateEmail(email){
+function validateEmail(email) {
   let re = /\S+@\S+\.\S+/;
   return re.test(email);
 }
+
 function changePswVisibility() {
   const checkBox = document.getElementById('psw-visibility')
   const visibleIcon = document.getElementById('psw-visible')
   const hiddenIcon = document.getElementById('psw-hidden')
   const input = document.getElementById('psw-input')
-
   checkBox.checked = checkBox.checked === false;
-
   if (checkBox.checked === true) {
     hiddenIcon.style.display = 'none'
     visibleIcon.style.display = 'block'
@@ -112,10 +108,8 @@ function changePswVisibility() {
     hiddenIcon.style.display = 'block'
     visibleIcon.style.display = 'none'
     input.type = 'password'
-
   }
 }
-
 </script>
 
 <style scoped>
@@ -160,7 +154,7 @@ function changePswVisibility() {
 }
 
 form .login-error {
-  color: red;
+  color: #DE7C7C;
   visibility: hidden;
   margin-bottom: 1em;
   font-family: 'Poppins', sans-serif;
@@ -250,7 +244,6 @@ form .psw-input input[type = checkbox] {
   margin-left: 3.5em;
   margin-top: 1.2em;
   cursor: pointer;
-
 }
 
 .psw-input .input-2 label img {

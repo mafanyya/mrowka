@@ -27,8 +27,13 @@ class RegistrationController extends AbstractController
             $name = $data['name'];
             $avatar = $data['avatar'];
             $roles = $data['roles'];
+            $isAdmin = $data['isAdmin'];
             $lastSeen = new DateTimeImmutable(date("Y-m-d H:i:s"));
             $lastSeen->format('Y-m-d H:i:s');
+            $registerTime = new DateTimeImmutable(date("Y-m-d H:i:s"));
+            $registerTime->format('Y-m-d H:i:s');
+            $uniqId = $this->uniqidGen();
+            $status = $data['status'];
 
             $user = new User();
             $user-> setEmail($email);
@@ -37,16 +42,30 @@ class RegistrationController extends AbstractController
             $user ->setPassword($hashedPassword);
             $user->setName($name);
             $user->setAvatar($avatar);
-            $user->setStatus('true');
+            $user->setStatus($status);
             $user->setLastseen($lastSeen);
-            $user->setIsAdmin(false);
+            $user->setIsAdmin($isAdmin);
+            $user->setUniqid($uniqId);
+            $user->setRegisterAt($registerTime);
 
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->json(['message' => 'Registration successful']);
-
+            return $this->json([
+                'message' => 'Registration successful',
+                'user' => $uniqId
+                ]);
         }
         return 'register/api';
+    }
+    public function uniqidGen($lenght = 13) {
+        if (function_exists("random_bytes")) {
+            $bytes = random_bytes(ceil($lenght / 2));
+        } elseif (function_exists("openssl_random_pseudo_bytes")) {
+            $bytes = openssl_random_pseudo_bytes(ceil($lenght / 2));
+        } else {
+            throw new Exception("no cryptographically secure random function available");
+        }
+        return substr(bin2hex($bytes), 0, $lenght);
     }
 }
