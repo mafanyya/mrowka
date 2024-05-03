@@ -21,20 +21,19 @@ class WordRepository extends ServiceEntityRepository
         parent::__construct($registry, Word::class);
     }
 
-//    /**
-//     * @return Word[] Returns an array of Word objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('w')
-//            ->andWhere('w.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('w.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @return Word[] Returns an array of Lesson objects
+     */
+    public function findWordsByLesson($id): array
+    {
+        return $this->createQueryBuilder('w')
+            ->andWhere('w.lesson = :id')
+            ->setParameter('id', $id)
+            ->orderBy('w.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 
 //    public function findOneBySomeField($value): ?Word
 //    {

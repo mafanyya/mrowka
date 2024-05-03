@@ -19,6 +19,9 @@ class Word
     #[ORM\ManyToOne(inversedBy: 'dictionary')]
     private ?Lesson $lesson = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $translation = null;
+
 
     public function getId(): ?int
     {
@@ -45,6 +48,18 @@ class Word
     public function setLesson(?Lesson $lesson): static
     {
         $this->lesson = $lesson;
+
+        return $this;
+    }
+
+    public function getTranslation(): ?string
+    {
+        return $this->translation;
+    }
+
+    public function setTranslation(?string $translation): static
+    {
+        $this->translation = $translation;
 
         return $this;
     }

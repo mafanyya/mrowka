@@ -25,10 +25,10 @@
       <p>Zajęcia</p>
     </div>
   </NuxtLink>
-  <NuxtLink to = "/dashboard/games">
+  <NuxtLink to = "/dashboard/dictionary">
     <div class="btn">
-      <i class="fi fi-sr-chess-knight-alt"></i>
-      <p>Gry</p>
+      <i class="fi fi-sr-diary-bookmark-down"></i>
+      <p>Słownik</p>
     </div>
   </NuxtLink>
   <NuxtLink to = "/dashboard/tests">
@@ -84,7 +84,7 @@ async function logOut() {
   display: flex;
   flex-direction: column;
   width: 20em;
-  height: 100vh;
+  height: auto;
   position: sticky;
 }
 .dashboard-nav-bar .row-1{

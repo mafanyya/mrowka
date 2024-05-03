@@ -287,11 +287,15 @@ function changePswVisibility() {
 <style scoped>
 .local-container {
 //border: 1px solid red; display: flex;
+  height: 100%;
+  width: 100%;
 }
 
 .local-container .main {
 //border: 5px solid green; display: flex;
+  display: flex;
   flex: 1;
+
 }
 
 .local-container .main .clm-1 {

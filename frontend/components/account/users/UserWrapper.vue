@@ -220,7 +220,6 @@ async function deleteUser(uniqid) {
   padding: 3em;
   padding-top: 2em;
   overflow-y: scroll;
-  position: relative;
   width: 100%;
 }
 

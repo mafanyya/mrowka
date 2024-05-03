@@ -33,6 +33,7 @@ const {status, refresh, signOut} = useAuth()
 const {pending: usersPending, data: users, refresh: refreshUsers } = await useFetch('http://localhost:8000/api/users')
 const {data: usersStatistics, refresh: refreshStatisticsUsers, pending: statisticsPending } = await useFetch('http://localhost:8000/api/users/count')
 </script>
+
 <style scoped>
 .local-container {
   display: flex;
@@ -49,7 +50,6 @@ const {data: usersStatistics, refresh: refreshStatisticsUsers, pending: statisti
   display: flex;
   flex-direction: column;
   padding-top: 1rem;
-
 }
 .local-container .main .clm-2{
   //border: 1px solid orange;
@@ -63,7 +63,6 @@ const {data: usersStatistics, refresh: refreshStatisticsUsers, pending: statisti
 }
 .local-container .main .clm-2 .row-2{
   //border: 1px solid orange;
-
   height: 40%;
 }
 

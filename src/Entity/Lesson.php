@@ -36,6 +36,9 @@ class Lesson
     #[ORM\OneToMany(mappedBy: 'lesson', targetEntity: Word::class)]
     private Collection $dictionary;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $img = null;
+
     public function __construct()
     {
         $this->dictionary = new ArrayCollection();
@@ -136,6 +139,18 @@ class Lesson
                 $dictionary->setLesson(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getImg(): ?string
+    {
+        return $this->img;
+    }
+
+    public function setImg(?string $img): static
+    {
+        $this->img = $img;
 
         return $this;
     }

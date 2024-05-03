@@ -7,8 +7,9 @@
           <LessonSettingsNavBar/>
           <LessonSectionWrapper/>
         </div>
-        <div class="clm-2"></div>
-
+        <div class="clm-2">
+          <LessonsWrapper/>
+        </div>
       </div>
     </div>
   </div>
@@ -23,6 +24,7 @@ const {status, refresh, signOut} = useAuth()
 // const avatar = data.data.value.user.avatar
 import DashboardNavBar from "~/components/account/DashboardNavBar.vue";
 import LessonSettingsNavBar from "~/components/account/lessons/LessonSettingsNavBar.vue";
+import LessonsWrapper from "~/components/account/lessons/LessonsWrapper.vue";
 
 function logOut() {
   signOut()
@@ -30,24 +32,25 @@ function logOut() {
 }
 </script>
 <style scoped>
-.container .local-container {
+.local-container {
   //border: 1px solid red;
   display: flex;
   width: 100%;
+  height: 100%;
+  overflow-y: hidden;
 }
 
-.container .local-container .main{
+.local-container .main{
   //border: 1px solid green;
   display: flex;
   flex: 1;
 }
-.container .local-container .main .clm-1{
+.local-container .main .clm-1{
   width: 65%;
-
 }
-.container .local-container .main .clm-2{
+.local-container .main .clm-2{
   display: flex;
   flex: 1;
-
+  //border: 1px solid red;
 }
 </style>

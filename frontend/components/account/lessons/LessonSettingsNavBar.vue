@@ -1,7 +1,7 @@
 <template>
  <div class="lesson-settings-nav-bar">
      <div class="clm-1">
-       <p>Zajęcia</p>
+       <p>Sekcje zajęć</p>
      </div>
      <div class="clm-2">
        <NuxtLink to = "/dashboard/users/add">
@@ -54,9 +54,11 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  transition: 0.25s ease;
 }
 .lesson-settings-nav-bar  .clm-2 .btn-2:hover{
   background: #239076;
+  transition: 0.25s ease;
 }
 .lesson-settings-nav-bar  .clm-2 .btn-inner-2{
   border: 2px solid white;
