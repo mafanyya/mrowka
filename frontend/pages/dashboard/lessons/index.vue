@@ -51,6 +51,7 @@ function logOut() {
 .local-container .main .clm-2{
   display: flex;
   flex: 1;
+  flex-direction: column;
   //border: 1px solid red;
 }
 </style>

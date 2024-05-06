@@ -4,17 +4,49 @@
       <p>Słownik</p>
     </div>
     <div class="clm-2">
-      <NuxtLink to = "/dashboard/users/add">
-        <div  class = 'btn-2'>
+        <div @click.prevent = "addWord()" class = 'btn-2'>
           <div class="btn-inner-2">
-            <i class="fi fi-sr-add"></i>
+            <i id = "btn-icon" class="fi fi-sr-add"></i>
           </div>
         </div>
-      </NuxtLink>
     </div>
   </div>
 </template>
 <script setup lang="js">
+let btnStatus = false
+const emit = defineEmits(['updateForm'])
+const prop = defineProps(['isPending'])
+function addWord(){
+  let btnIcon = document.getElementById('btn-icon')
+  if(btnStatus === false){
+
+    emit('updateForm' , true)
+    btnIcon.className = 'fi fi-sr-memo-pad'
+    btnStatus = !btnStatus
+  }else{
+    emit('updateForm', false)
+    btnIcon.className = 'fi fi-sr-add'
+    btnStatus = !btnStatus
+  }
+}
+
+// function checkIsPending(isPending){
+//   let btnIcon = document.getElementById('btn-icon')
+//   if(btnStatus === false){
+//     if(isPending){
+//       btnIcon.className = 'fi fi-rr-refresh'
+//     }else{
+//       btnIcon.className = 'fi fi-sr-memo-pad'
+//     }
+//   }else{
+//     if(isPending){
+//       btnIcon.className = 'fi fi-rr-refresh'
+//     }else{
+//       btnIcon.className = 'fi fi-sr-add'
+//     }
+//   }
+// }
+
 </script>
 
 <style scoped>
@@ -74,6 +106,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
 
 }
 </style>

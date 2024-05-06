@@ -93,6 +93,7 @@ async function upgradePassword(){
 
         if(pswUpgradeData.value){
           createError(100)
+
         }
         if(pswUpgradeError.value){
           createError(500)

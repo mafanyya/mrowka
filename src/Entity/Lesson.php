@@ -30,7 +30,7 @@ class Lesson
     private ?string $description = null;
 
 
-    #[ORM\Column]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?int $Number = null;
 
     #[ORM\OneToMany(mappedBy: 'lesson', targetEntity: Word::class)]

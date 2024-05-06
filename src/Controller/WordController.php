@@ -90,6 +90,29 @@ class WordController extends AbstractController
             }
         return $this->json(['words' => $wordsByLessonArray]);
     }
+    #[Route('/api/add-word', name: 'api_add_word')]
+    public function addWord(WordRepository $wordRepository, Request $request, LessonRepository $lessonRepository, EntityManagerInterface $entityManager)
+    {
+        $data = json_decode($request->getContent(), associative: true);
+        $name = $data['name'];
+        $translation = $data['translation'];
+        $lessonId = $data['lessonId'];
+        $lesson = $lessonRepository->find($lessonId);
+
+
+        $word = new Word();
+        $word->setName($name);
+        $word->setTranslation($translation);
+
+        $dictionary = $lesson->getDictionary();
+        $dictionary->add($word);
+        $word->setLesson($lesson);
+
+        $entityManager->persist($word);
+        $entityManager->flush();
+
+        return $this->json(['message' => "Word $name successfully added."]);
+    }
 //    #[Route('/api/lessons-by-section', name: 'api_lessons_by_section')]
 //    public function lessonBySection(LessonRepository $lessonRepository, Request $request)
 //    {
