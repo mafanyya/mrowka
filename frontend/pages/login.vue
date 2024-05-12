@@ -37,7 +37,8 @@
 </template>
 
 <script setup lang="js">
-const {signIn, status, data, refreshToken, refresh, token } = useAuth()
+const {signIn, status, data, refreshToken, refresh, token} = useAuth()
+
 definePageMeta({
   middleware: [
     function (to, from,) {
@@ -125,7 +126,6 @@ function changePswVisibility() {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-
 }
 
 .container p {

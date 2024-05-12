@@ -33,7 +33,7 @@
             type="text"
             id = "lesson-title-input"
             minlength="1"
-            maxlength="50"
+            maxlength="30"
         >
       </div>
       <label for="lesson-description-input">Opis zajęcia</label>
@@ -43,7 +43,7 @@
             id = "lesson-description-input"
             form = "add-lesson-form"
             minlength="1"
-            maxlength="255"
+            maxlength="145"
         />
       </div>
       <label for="lesson-description-input">Sekcja</label>

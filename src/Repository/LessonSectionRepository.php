@@ -21,18 +21,25 @@ class LessonSectionRepository extends ServiceEntityRepository
         parent::__construct($registry, LessonSection::class);
     }
 
+    public function remove(LessonSection $entity, bool $flush = true): void
+    {
+        $this->getEntityManager()->remove($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
     /**
      * @return LessonSection[] Returns an array of LessonSection objects
      */
-    public function findByExampleField($value): array
+    public function findLessonSectionByUniqId($uniqid): ?LessonSection
     {
         return $this->createQueryBuilder('l')
-            ->andWhere('l.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('l.id', 'ASC')
-            ->setMaxResults(10)
+            ->andWhere('l.uniqid = :uniqid')
+            ->setParameter('uniqid', $uniqid)
             ->getQuery()
-            ->getResult()
+            ->getOneOrNullResult()
         ;
     }
 

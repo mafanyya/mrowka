@@ -108,7 +108,8 @@
               type = "text"
               maxlength="30"
               minlength="1"
-              placeholder="">
+              placeholder=""
+              required>
         </div>
         <label for="translation-input">Tłumaczenie</label>
         <div class="input-2">
@@ -117,7 +118,8 @@
               id = "translation-input"
               type = "text"
               maxlength="30"
-              minlength="1">
+              minlength="1"
+              required>
         </div>
         <label for="lesson-input">Zajęcie</label>
         <div @click.prevent = "openLessonsOptions()" class="input-3">
@@ -126,7 +128,8 @@
               id = "lesson-input"
               type = "text"
               placeholder="Wybierz zajęcie"
-              readonly>
+              readonly
+              required>
           <div @click.prevent = "openLessonsOptions()" id = "icon-input" class="icon-input">
             <i id = "unfold-icon" class="fi fi-br-angle-circle-down"></i>
           </div>

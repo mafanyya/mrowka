@@ -31,6 +31,9 @@ class LessonSection
     #[ORM\OneToMany(mappedBy: 'lessonSection', targetEntity: Lesson::class)]
     private Collection $lessons;
 
+    #[ORM\Column(length: 13)]
+    private ?string $uniqid = null;
+
     public function __construct()
     {
         $this->lessons = new ArrayCollection();
@@ -115,6 +118,18 @@ class LessonSection
                 $lesson->setLessonSection(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUniqid(): ?string
+    {
+        return $this->uniqid;
+    }
+
+    public function setUniqid(string $uniqid): static
+    {
+        $this->uniqid = $uniqid;
 
         return $this;
     }
