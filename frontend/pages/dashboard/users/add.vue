@@ -4,13 +4,13 @@
       <DashboardNavBar/>
       <div class="main">
         <div class="clm-1">
-          <div id = "form-header" class="row-1">
+          <div id="form-header" class="row-1">
             <p>Dodaj użytkownika</p>
           </div>
-          <div id = "form-wrapper" class="form-wrapper">
+          <div id="form-wrapper" class="form-wrapper">
             <p class="header">Informacja ogólna</p>
-            <p id = "register-error" class = "register-error"></p>
-            <form id = "add-form" @submit.prevent="addUser()">
+            <p id="register-error" class="register-error"></p>
+            <form id="add-form" @submit.prevent="addUser()">
               <input
                   v-model="email"
                   type="text"
@@ -21,7 +21,7 @@
                     v-model="password"
                     type="password"
                     placeholder="Hasło"
-                    id = "psw-input"
+                    id="psw-input"
                 />
                 <div class="input-2">
                   <input type="checkbox" id="psw-visibility">
@@ -40,7 +40,6 @@
                 <p>Czy administrator?</p>
                 <label for="isAdmin" id="check-box" class="check-box">
                   <span id="check-box-btn" class=check-box-btn @click.prevent="checkBoxMove">
-<!--                    <i class="fi fi-sr-cross" id = "check-icon"></i>-->
                   </span>
                 </label>
                 <input
@@ -52,12 +51,12 @@
               <button type="submit" class="submit-btn">Dodaj użytkownika</button>
             </form>
           </div>
-          <div id = "success-wrapper" class="success-wrapper">
-            <p>Użytkownik {{name.value}} pomyślnie zarejestrowany</p>
+          <div id="success-wrapper" class="success-wrapper">
+            <p>Użytkownik {{ name.value }} pomyślnie zarejestrowany</p>
             <div class="row">
-              <button @click.prevent = "toForm()">Dodaj jeszcze</button>
-              <NuxtLink to = "/dashboard/users">
-                <p class = "btn-2">Wróc do listy</p>
+              <button @click.prevent="toForm()">Dodaj jeszcze</button>
+              <NuxtLink to="/dashboard/users">
+                <p class="btn-2">Wróc do listy</p>
               </NuxtLink>
             </div>
           </div>
@@ -83,7 +82,6 @@
 
 <script setup>
 import DashboardNavBar from "~/components/account/DashboardNavBar.vue";
-
 const email = ref('')
 const password = ref('')
 const name = ref('')
@@ -98,14 +96,13 @@ const avatars = ref([
   {img: '/_nuxt/assets/images/avatars/puppy.png'}
 ])
 
-
-function checkIsAdmin(){
+function checkIsAdmin() {
   let isAdminCheckBox = document.getElementById('isAdmin')
   let status = isAdminCheckBox.checked
-  if(status){
+  if (status) {
     roles = ref(["ROLE_ADMIN", "ROLE_USER"])
     isAdmin = ref(true)
-  }else{
+  } else {
     roles = ref(["ROLE_USER"])
     isAdmin = ref(false)
   }
@@ -113,15 +110,15 @@ function checkIsAdmin(){
 
 async function addUser() {
   checkIsAdmin()
-  if(!validateEmail(email.value)) {
+  if (!validateEmail(email.value)) {
     createError(410)
-  }else{
-    if(!validatePassword(password.value)){
+  } else {
+    if (!validatePassword(password.value)) {
       createError(420)
-    }else{
-      if(!validateName(name.value)){
+    } else {
+      if (!validateName(name.value)) {
         createError(430)
-      }else{
+      } else {
         name.value = capitalizeName(name.value)
         console.log('Name is ' + name.value)
         const {data: userData, error: userError} = await useFetch('http://localhost:8000/api/register', {
@@ -137,9 +134,8 @@ async function addUser() {
               },
             }
         )
-        if(userData.value){
+        if (userData.value) {
           console.log('USER DATA IS')
-          // navigateTo('/dashboard/users/')
           const formWrapper = document.getElementById('form-wrapper')
           const formHeader = document.getElementById('form-header')
           const avatarBtn = document.getElementById('avatar-btn')
@@ -150,7 +146,7 @@ async function addUser() {
           avatarBtn.style.display = 'none'
           successWrapper.style.display = 'flex'
         }
-        if(userError.value){
+        if (userError.value) {
           console.log('USER ERROR IS ')
           console.log(userError.value)
           createError(500)
@@ -159,9 +155,10 @@ async function addUser() {
     }
   }
 }
-function createError(errorCode){
-  const registerError =  document.getElementById('register-error')
-  switch (errorCode){
+
+function createError(errorCode) {
+  const registerError = document.getElementById('register-error')
+  switch (errorCode) {
     case 100:
       registerError.style.visibility = 'visible'
       registerError.innerText = 'Registration successful'
@@ -181,47 +178,50 @@ function createError(errorCode){
     case 500:
       registerError.style.visibility = 'visible'
       registerError.innerText = 'Bląd servera'
-          break
+      break
     default:
       registerError.style.visibility = 'visible'
       registerError.innerText = 'Nieznany bład ' + errorCode
-
+      break
   }
 }
-function toForm(){
+
+function toForm() {
   const formWrapper = document.getElementById('form-wrapper')
   const formHeader = document.getElementById('form-header')
   const avatarBtn = document.getElementById('avatar-btn')
   const successWrapper = document.getElementById('success-wrapper')
   const addForm = document.getElementById('add-form')
-
   addForm.reset()
   formWrapper.style.display = 'flex'
   formHeader.style.display = 'flex'
   avatarBtn.style.display = 'flex'
   successWrapper.style.display = 'none'
-
 }
+
 function capitalizeName(name) {
   return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
 }
+
 function validateEmail(email) {
   let re = /\S+@\S+\.\S+/;
   return re.test(email);
 }
-function validatePassword(password){
+
+function validatePassword(password) {
   let length = password.length
   let hasLetter = /[A-Z]/.test(password);
   let hasDigit = /\d/.test(password);
   let hasSymbol = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password);
-
   return length >= 8 && length < 50 && hasLetter && hasDigit && hasSymbol;
 }
-function validateName(name){
-  let re =  /^[a-zA-Z]+$/
+
+function validateName(name) {
+  let re = /^[a-zA-Z]+$/
   let length = name.length
   return length >= 3 && length <= 8 && re.test(name)
 }
+
 function checkBoxMove() {
   let elem = document.getElementById('check-box')
   let btn = document.getElementById('check-box-btn')
@@ -250,6 +250,7 @@ function sectionVisibilityChange() {
   section2.style.display = 'flex'
   section22.style.display = 'block'
 }
+
 function selectAvatar(img) {
   let section1 = document.getElementById('avatar-1')
   let section12 = document.getElementById('avatar-btn')
@@ -263,10 +264,12 @@ function selectAvatar(img) {
   section12.style.display = 'block'
   setAvatar(img)
 }
+
 function setAvatar(img) {
   avatar = ref(img)
   return avatar
 }
+
 function changePswVisibility() {
   const checkBox = document.getElementById('psw-visibility')
   const visibleIcon = document.getElementById('psw-visible')
@@ -286,54 +289,49 @@ function changePswVisibility() {
 </script>
 <style scoped>
 .local-container {
-//border: 1px solid red; display: flex;
-  height: 100%;
+//border: 1px solid red; display: flex; height: 100%;
   width: 100%;
 }
 
 .local-container .main {
-//border: 5px solid green; display: flex;
-  display: flex;
+//border: 5px solid green; display: flex; display: flex;
   flex: 1;
-
 }
 
 .local-container .main .clm-1 {
-//border: 1px solid red; width: 50%;
-  padding: 2em;
+//border: 1px solid red; width: 50%; padding: 2em;
   display: flex;
   flex-direction: column;
 }
-.local-container .main .clm-1 .success-wrapper{
+
+.local-container .main .clm-1 .success-wrapper {
   display: none;
-  //border: 1px solid grey;
-  height: auto;
+//border: 1px solid grey; height: auto;
   margin-top: 10rem;
-  //justify-content: center;
-  align-items: center;
+//justify-content: center; align-items: center;
   flex-direction: column;
   padding-top: 2em;
   font-size: 2em;
   color: #32A88A;
 }
 
-.local-container .main .clm-1 .success-wrapper .row{
-  //border: 1px solid red;
-  width: 90%;
+.local-container .main .clm-1 .success-wrapper .row {
+//border: 1px solid red; width: 90%;
   height: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 6rem;
 }
-.local-container .main .clm-1 .success-wrapper .row .btn-2{
+
+.local-container .main .clm-1 .success-wrapper .row .btn-2 {
   font-size: 1.3rem;
   color: #8B95C9;
   margin-top: 1rem;
 }
-.local-container .main .clm-1 .success-wrapper .row button{
-  //border: 1px solid red;
-  padding: 1rem;
+
+.local-container .main .clm-1 .success-wrapper .row button {
+//border: 1px solid red; padding: 1rem;
   background-color: #8B95C9;
   color: white;
   font-size: 1.2rem;
@@ -344,50 +342,42 @@ function changePswVisibility() {
 }
 
 .local-container .main .clm-1 .row-1 {
-//border: 1px solid red; font-size: 2.5rem;
-  color: #6d7bbc;
+//border: 1px solid red; font-size: 2.5rem; color: #6d7bbc;
   margin-bottom: 1em;
   display: block;
-
 }
 
 .local-container .main .clm-1 .form-wrapper {
-//border: 1px solid red; //background-color: #f8f8f8; //box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px; //border: 1px solid red; display: flex;
-  flex-direction: column;
+//border: 1px solid red; //background-color: #f8f8f8; //box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px; //border: 1px solid red; display: flex; flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 2em;
-  //display: flex;
-  display: flex;
+//display: flex; display: flex;
 }
-.local-container .main .clm-1 .form-wrapper .register-error{
+
+.local-container .main .clm-1 .form-wrapper .register-error {
   visibility: hidden;
   color: #DE7C7C;
-  //border: 1px solid red;
-  margin-bottom: 1em;
+//border: 1px solid red; margin-bottom: 1em;
 }
 
 .local-container .main .clm-1 .form-wrapper form {
-//border: 1px solid red; width: 100%;
-  display: flex;
+//border: 1px solid red; width: 100%; display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
 .local-container .main .clm-1 .form-wrapper .header {
-//border: 1px solid red; font-size: 1.2em;
-  width: 100%;
+//border: 1px solid red; font-size: 1.2em; width: 100%;
   margin-bottom: 1em;
-//padding-left: 1.5rem; font-weight: 500;
-  color: #727272;
+//padding-left: 1.5rem; font-weight: 500; color: #727272;
   display: block;
 
 }
 
 .local-container .main .clm-1 .form-wrapper input[type=text], input[type=password] {
-//border: 1px solid green; height: 4em;
-  width: 100%;
+//border: 1px solid green; height: 4em; width: 100%;
   margin-bottom: 2.5em;
   background-color: #D6EDFF;
   border-radius: 1em;
@@ -395,51 +385,50 @@ function changePswVisibility() {
   padding-right: 1.5rem;
   font-size: 1.09em;
   color: #3778b0;
-
 }
-
 
 
 .local-container .main .clm-1 .form-wrapper input[type=checkbox] {
   display: none;
 
 }
-.local-container .main .clm-1 .form-wrapper .psw-input{
+
+.local-container .main .clm-1 .form-wrapper .psw-input {
   display: flex;
-  //border: 1px solid red;
-  width: 100%;
+//border: 1px solid red; width: 100%;
 }
-.local-container .main .clm-1 .form-wrapper .psw-input .input-2{
+
+.local-container .main .clm-1 .form-wrapper .psw-input .input-2 {
   margin-bottom: 2.7em;
   display: flex;
   flex: 1;
   background-color: #D6EDFF;
   border-top-right-radius: 1em;
   border-bottom-right-radius: 1em;
-  //border: 1px solid red;
-  height: 4.40em;
+//border: 1px solid red; height: 4.40em;
   align-items: center;
   justify-content: end;
   padding-right: 1.5em;
 }
-.local-container .main .clm-1 .form-wrapper .psw-input .input-2 input [type = checkbox]{
+
+.local-container .main .clm-1 .form-wrapper .psw-input .input-2 input [type = checkbox] {
   display: none;
 }
-.local-container .main .clm-1 .form-wrapper .psw-input .input-2 label{
-  //border: 1px solid orange;
-  width: 2.5em;
+
+.local-container .main .clm-1 .form-wrapper .psw-input .input-2 label {
+//border: 1px solid orange; width: 2.5em;
   cursor: pointer;
-
-
 }
+
 .local-container .main .clm-1 .form-wrapper .psw-input .input-2 label img {
   width: 100%;
 }
+
 #psw-visible {
   display: none;
 }
 
-.local-container .main .clm-1 .form-wrapper .psw-input input{
+.local-container .main .clm-1 .form-wrapper .psw-input input {
   width: 80%;
   border-bottom-right-radius: 0;
   border-top-right-radius: 0;
@@ -447,18 +436,15 @@ function changePswVisibility() {
 
 .local-container .main .clm-1 .form-wrapper .is-admin-check {
   display: flex;
-//border: 1px solid red; width: 100%;
-  font-size: 1.2em;
+//border: 1px solid red; width: 100%; font-size: 1.2em;
   color: #6d7bbc;
   flex-direction: column;
-
 }
 
 .local-container .main .clm-1 .form-wrapper .is-admin-check .check-box {
   display: flex;
   align-items: center;
-//border: 1px solid green; height: 2em;
-  width: 4em;
+//border: 1px solid green; height: 2em; width: 4em;
   border-radius: 15em;
   padding-left: 0.2em;
   padding-right: 0.2em;
@@ -468,8 +454,7 @@ function changePswVisibility() {
 }
 
 .local-container .main .clm-1 .form-wrapper .is-admin-check .check-box .check-box-btn {
-//border: 1px solid red; height: 1.5em;
-  width: 1.5em;
+//border: 1px solid red; height: 1.5em; width: 1.5em;
   border-radius: 50%;
   cursor: pointer;
   display: flex;
@@ -486,8 +471,7 @@ function changePswVisibility() {
 }
 
 .local-container .main .clm-1 .form-wrapper .submit-btn {
-//border: 1px solid red; height: 4em;
-  border-radius: 1em;
+//border: 1px solid red; height: 4em; border-radius: 1em;
   margin-top: 1.5em;
   width: 90%;
   background-color: #6d7bbc;
@@ -505,20 +489,16 @@ function changePswVisibility() {
 }
 
 .local-container .main .clm-2 .section-1 {
-//border: 1px solid red; width: 27rem;
-  height: 27rem;
+//border: 1px solid red; width: 27rem; height: 27rem;
   margin-top: 10rem;
   background-color: #8B95C9;
   border-radius: 50%;
-//display: flex; align-items: center;
-  justify-content: center;
+//display: flex; align-items: center; justify-content: center;
   display: flex;
-
 }
 
 .local-container .main .clm-2 .section-1 .inner {
-//border: 1px solid red; width: 25rem;
-  height: 25rem;
+//border: 1px solid red; width: 25rem; height: 25rem;
   border-radius: 50%;
   background-color: white;
   padding: 1em;
@@ -538,8 +518,7 @@ function changePswVisibility() {
 }
 
 .local-container .main .clm-2 .section-2-1 {
-//border: 1px solid red; width: 85%;
-  height: auto;
+//border: 1px solid red; width: 85%; height: auto;
   display: none;
   flex-wrap: wrap;
   justify-content: center;

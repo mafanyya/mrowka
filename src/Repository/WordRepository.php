@@ -35,6 +35,15 @@ class WordRepository extends ServiceEntityRepository
             ;
     }
 
+    public function remove(Word $entity, bool $flush = true): void
+    {
+        $this->getEntityManager()->remove($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
 //    public function findOneBySomeField($value): ?Word
 //    {
 //        return $this->createQueryBuilder('w')

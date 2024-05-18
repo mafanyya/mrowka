@@ -39,6 +39,15 @@ class Lesson
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $img = null;
 
+    #[ORM\OneToOne(inversedBy: 'lesson', cascade: ['persist', 'remove'])]
+    private ?Test $test = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $content = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $lessonUrl = null;
+
     public function __construct()
     {
         $this->dictionary = new ArrayCollection();
@@ -151,6 +160,42 @@ class Lesson
     public function setImg(?string $img): static
     {
         $this->img = $img;
+
+        return $this;
+    }
+
+    public function getTest(): ?Test
+    {
+        return $this->test;
+    }
+
+    public function setTest(?Test $test): static
+    {
+        $this->test = $test;
+
+        return $this;
+    }
+
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
+
+    public function setContent(?string $content): static
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
+    public function getLessonUrl(): ?string
+    {
+        return $this->lessonUrl;
+    }
+
+    public function setLessonUrl(?string $lessonUrl): static
+    {
+        $this->lessonUrl = $lessonUrl;
 
         return $this;
     }

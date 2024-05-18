@@ -1,33 +1,33 @@
 <template>
-  <p class = "header">Zmień hasło</p>
+  <p class="header">Zmień hasło</p>
   <div class="security-section">
     <div class="form-wrapper">
-        <form @submit.prevent=upgradePassword()>
-          <p id="upgrade-error" class="error"></p>
-          <label for="old-psw-input">Aktualne hasło</label>
-          <input
-              type="password"
-              id="old-psw-input"
-              v-model="oldPassword"
-          />
-          <label for="new-psw-input">Nowe hasło</label>
-          <label id = "psw-label-error" class = "psw-label-error">Hasło musi zawierać co najmniej 8 znaków</label>
-          <input
-              type="password"
-              id="new-psw-input"
-              v-model="newPassword"
-          />
-          <ProgressBar
-              :progress = progressBarValidate(newPassword)
-          />
-          <label for="repeat-psw">Potwierdź nowe hasło</label>
-          <input
-              type="password"
-              id="repeat-psw"
-              v-model="repeatPassword"
-          />
-          <button :disabled="upgradePending" type="submit" id="submit-btn">Odśwież hasło</button>
-        </form>
+      <form @submit.prevent=upgradePassword()>
+        <p id="upgrade-error" class="error"></p>
+        <label for="old-psw-input">Aktualne hasło</label>
+        <input
+            type="password"
+            id="old-psw-input"
+            v-model="oldPassword"
+        />
+        <label for="new-psw-input">Nowe hasło</label>
+        <label id="psw-label-error" class="psw-label-error">Hasło musi zawierać co najmniej 8 znaków</label>
+        <input
+            type="password"
+            id="new-psw-input"
+            v-model="newPassword"
+        />
+        <ProgressBar
+            :progress=progressBarValidate(newPassword)
+        />
+        <label for="repeat-psw">Potwierdź nowe hasło</label>
+        <input
+            type="password"
+            id="repeat-psw"
+            v-model="repeatPassword"
+        />
+        <button :disabled="upgradePending" type="submit" id="submit-btn">Odśwież hasło</button>
+      </form>
     </div>
   </div>
 </template>
@@ -56,11 +56,8 @@ let uniqId = ref(props.uniqid)
 if (props.userPending) {
   document.getElementById('submit-btn').disable = true
 }
-// onMounted(() => {
-//   updateProgressBar(props.progress)
-// })
 
-async function passwordCheck(){
+async function passwordCheck() {
   const {data: pswCheckData, error: pswCheckError} = await useFetch('http://localhost:8000/api/user/psw-check', {
         method: 'POST',
         body: {
@@ -71,17 +68,22 @@ async function passwordCheck(){
   )
   return pswCheckData.value.isPswValid
 }
-async function upgradePassword(){
-  if(!await passwordCheck(oldPassword)){
+
+async function upgradePassword() {
+  if (!await passwordCheck(oldPassword)) {
     createError(410)
-  }else{
-    if(!validatePassword(newPassword.value)){
+  } else {
+    if (!validatePassword(newPassword.value)) {
       createError(420)
-    }else{
-      if(!checkRepeatPassword(newPassword.value, repeatPassword.value)){
+    } else {
+      if (!checkRepeatPassword(newPassword.value, repeatPassword.value)) {
         createError(430)
-      }else{
-        const {data: pswUpgradeData, error: pswUpgradeError, pending: pswUpgradePending} = await useFetch('http://localhost:8000/api/user/psw-upgrade', {
+      } else {
+        const {
+          data: pswUpgradeData,
+          error: pswUpgradeError,
+          pending: pswUpgradePending
+        } = await useFetch('http://localhost:8000/api/user/psw-upgrade', {
               method: 'POST',
               body: {
                 uniqid: uniqId.value,
@@ -90,12 +92,10 @@ async function upgradePassword(){
             }
         )
         upgradePending = pswUpgradePending
-
-        if(pswUpgradeData.value){
+        if (pswUpgradeData.value) {
           createError(100)
-
         }
-        if(pswUpgradeError.value){
+        if (pswUpgradeError.value) {
           createError(500)
         }
       }
@@ -103,51 +103,54 @@ async function upgradePassword(){
 
   }
 }
-function checkRepeatPassword(newPassword, repeatPassword){
+
+function checkRepeatPassword(newPassword, repeatPassword) {
   console.log('NEW PASSWORD IS ' + newPassword + 'REPEAT PASSWORD IS ' + repeatPassword)
   return newPassword === repeatPassword;
 
 }
-watch(() =>newPassword.value, (newValue) => {
+
+watch(() => newPassword.value, (newValue) => {
   progressBarValidate(newValue)
   passwordLengthCheck(newValue)
   console.log(newValue)
 })
 
-function passwordLengthCheck(password){
+function passwordLengthCheck(password) {
   let passwordInput = document.getElementById('new-psw-input')
   let passwordLabel = document.getElementById('psw-label-error')
-  if(password.length < 8){
+  if (password.length < 8) {
     passwordInput.style.border = '1px solid #DE7C7C'
     passwordLabel.style.display = 'block'
-  }else{
+  } else {
     passwordInput.style.border = 'none'
     passwordLabel.style.display = 'none'
   }
 
 }
-function progressBarValidate(password){
+
+function progressBarValidate(password) {
   let progress = 0
 
-  if(/[A-Z]/.test(password)){
+  if (/[A-Z]/.test(password)) {
     progress = progress + 25
   }
-  if(/\d/.test(password)){
+  if (/\d/.test(password)) {
     progress = progress + 25
   }
-  if(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)){
+  if (/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) {
     progress = progress + 25
   }
-  if(password.length >= 8){
+  if (password.length >= 8) {
     progress = progress + 25
   }
-  if(password.length < 8 && progress > 75 ){
+  if (password.length < 8 && progress > 75) {
     progress = 75
   }
   return progress
 }
 
-function validatePassword(password){
+function validatePassword(password) {
   let length = password.length
   let hasLetter = /[A-Z]/.test(password);
   let hasDigit = /\d/.test(password);
@@ -192,28 +195,20 @@ function createError(errorCode) {
   }
 }
 
-
-
-function test() {
-  console.log("AVATAR IS " + avatar.value)
-}
 </script>
 
-
 <style scoped>
-.header{
-//border: 1px solid red;
-  margin-bottom: 1rem;
+.header {
+//border: 1px solid red; margin-bottom: 1rem;
   font-size: 2rem;
   color: #727272;
 }
 
 .security-section {
-//border: 1px solid red; height: 100%;
-  width: 100%;
+//border: 1px solid red; height: 100%; width: 100%;
   display: flex;
-
 }
+
 .security-section .form-wrapper {
   display: flex;
   flex-direction: column;
@@ -221,19 +216,17 @@ function test() {
 }
 
 
-.security-section .form-wrapper  form {
-//border: 1px solid orange; display: flex;
-  flex-direction: column;
+.security-section .form-wrapper form {
+//border: 1px solid orange; display: flex; flex-direction: column;
   width: 100%;
 }
 
 .security-section .form-wrapper form .error {
-//border: 1px solid red; margin-bottom: 1rem;
-  margin-left: 1rem;
+//border: 1px solid red; margin-bottom: 1rem; margin-left: 1rem;
   color: #DE7C7C;
 }
 
-.security-section .form-wrapper  form label{
+.security-section .form-wrapper form label {
   color: #727272;
   font-size: 0.9rem;
   margin-left: 1rem;
@@ -241,8 +234,7 @@ function test() {
 }
 
 .security-section .form-wrapper input[type = password] {
-//border: 1px solid red; width: 100%;
-  height: 3.5rem;
+//border: 1px solid red; width: 100%; height: 3.5rem;
   background-color: #D6EDFF;
   margin-bottom: 2rem;
   border-radius: 1em;
@@ -254,23 +246,25 @@ function test() {
 .security-section .form-wrapper input[type = checkbox] {
   display: none;
 }
-.security-section .form-wrapper input:focus{
+
+.security-section .form-wrapper input:focus {
   border: 1px solid #6d7bbc;
 }
 
 .security-section .form-wrapper form button {
-//border: 1px solid red; height: 5rem;
-  margin-top: 4rem;
+//border: 1px solid red; height: 5rem; margin-top: 4rem;
   border-radius: 1rem;
   background-color: #8B95C9;
   color: white;
   font-size: 1.1rem;
   transition: 0.25s ease;
 }
-.security-section .form-wrapper form .psw-label-error{
+
+.security-section .form-wrapper form .psw-label-error {
   color: #DE7C7C;
   display: none;
 }
+
 .security-section .form-wrapper form button:hover {
   background-color: #6D7BBC;
   transition: 0.25s ease;
@@ -279,6 +273,4 @@ function test() {
 .security-section .form-wrapper form button:disabled {
   background-color: #727272;
 }
-
-
 </style>

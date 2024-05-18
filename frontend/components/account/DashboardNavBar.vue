@@ -53,14 +53,6 @@
 </template>
 <script setup lang="js">
 const {data: userData, signOut} = useAuth()
-// const {data: meData, error: meError} = await useFetch('http://localhost:8000/api/users/find-me', {
-//       method: 'POST',
-//       body: {
-//         data: data.value
-//       }
-//     }
-// )
-
 async function logOut() {
   const {signOut} = useAuth()
   const {data, error} = await useFetch('http://localhost:8000/api/user/log_out', {
@@ -156,6 +148,4 @@ async function logOut() {
   flex-grow: 1;
   background-color: #6d7bbc;
 }
-
-
 </style>

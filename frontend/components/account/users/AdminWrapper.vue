@@ -70,12 +70,10 @@ function convertDate(date){
 
 <style scoped>
 .admin-wrapper{
-
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
-
 }
 .admin-wrapper .row-1{
   background-color: #6d7bbc;
@@ -91,19 +89,17 @@ function convertDate(date){
 .admin-wrapper .wrapper{
   //border: 1px solid red;
   padding-top: 1.5em;
-
   flex-direction: column;
   width: 100%;
   overflow-y: scroll;
 }
 .admin-wrapper .wrapper .user{
-
   height: 6rem;
   display: flex;
   align-items: center;
   margin-bottom: 1.5em;
   background-color: #f8f8f8;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+//box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   margin-right: 1em;
   margin-left: 1em;
   padding-left: 1em;
@@ -186,6 +182,4 @@ function convertDate(date){
   width: 70%;
   height: 70%;
 }
-
-
 </style>

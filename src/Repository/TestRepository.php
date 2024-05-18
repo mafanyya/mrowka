@@ -21,6 +21,16 @@ class TestRepository extends ServiceEntityRepository
         parent::__construct($registry, Test::class);
     }
 
+    public function remove(Test $test, bool $flush = true): void
+    {
+
+        $this->getEntityManager()->remove($test);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
 //    /**
 //     * @return Test[] Returns an array of Test objects
 //     */

@@ -76,7 +76,6 @@
 
 <script setup lang="js">
 import DeleteUserAlert from "~/components/account/users/DeleteUserAlert.vue";
-
 let uniqId
 
 let props = defineProps({
@@ -98,7 +97,6 @@ function openUserDeleteAlert(id){
   let deleteAlert = document.getElementById('delete-alert')
   deleteAlert.style.display = 'flex'
   uniqId = id
-
 }
 async function confirmDelete(index) {
   switch (index) {
@@ -114,7 +112,6 @@ async function confirmDelete(index) {
       console.log("Confirm delete error, undefined case: " + index)
           break
   }
-
 }
 async function deleteUser(uniqid) {
     const {data: deleteUserData, error: deleteUserError} = await useFetch('http://localhost:8000/api/user/delete', {
@@ -144,7 +141,6 @@ async function deleteUser(uniqid) {
   confirmText.innerText = 'Czy na pewno chcesz usunąć użytkownika?'
   btnConfirmRow.style.display = 'flex'
   uniqId = null
-
     await refreshUsers()
     await props.refreshUsersStatistics()
 }
@@ -161,7 +157,6 @@ async function deleteUser(uniqid) {
   display: none;
   justify-content: center;
   padding-bottom: 1rem;
-
 }
 .delete-alert .inner{
 //border: 1px solid red;
@@ -182,8 +177,7 @@ async function deleteUser(uniqid) {
   padding-bottom: 0.5rem;
   padding-top: 1rem;
   font-size: 1.2rem;
-  color: #6D7BBC
-;
+  color: #6D7BBC;
 }
 .delete-alert .inner .row-2{
 //border: 1px solid red;
@@ -217,8 +211,7 @@ async function deleteUser(uniqid) {
   text-decoration: underline;
 }
 .user-wrapper {
-  padding: 3em;
-  padding-top: 2em;
+  padding: 2em 3em 3em;
   overflow-y: scroll;
   width: 100%;
 }
@@ -232,7 +225,7 @@ async function deleteUser(uniqid) {
 //background-color: #f5f8ff; padding: 0.5em;
   padding-left: 1em;
   border-radius: 1em;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  //box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 
 .user-wrapper .user .avatar {

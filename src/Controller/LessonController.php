@@ -2,10 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Answer;
 use App\Entity\Lesson;
 use App\Entity\LessonSection;
+use App\Entity\Question;
+use App\Entity\Test;
 use App\Repository\LessonRepository;
 use App\Repository\LessonSectionRepository;
+use App\Repository\TestRepository;
 use DateTime;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
@@ -65,6 +69,27 @@ public function lessons(LessonRepository $lessonRepository)
         return $this->json([
             'lesson' => $lessonArray]);
     }
+
+    #[Route('/api/section-by-id', name: 'api_section_by_id')]
+    public function sectionById(LessonRepository $lessonRepository, LessonSectionRepository $lessonSectionRepository, Request $request)
+    {
+        $data = json_decode($request->getContent(), associative: true);
+        $id = $data['id'];
+
+        $section = $lessonSectionRepository->find($id);
+        $sectionArray = [];
+        $sectionArray[] = [
+            'id' => $section->getId(),
+            'uniqId' => $section->getUniqid(),
+            'title' => $section->getTitle(),
+            'description' => $section->getDescription(),
+            'difficulty' => $section->getDifficulty(),
+            'img' => $section->getImg(),
+        ];
+        return $this->json([
+            'section' => $sectionArray]);
+    }
+
     #[Route('/api/lesson-sections', name: 'api_lesson_sections')]
     public function lessonSections(LessonSectionRepository $lessonSectionRepository, LessonRepository $lessonRepository)
     {
@@ -148,6 +173,29 @@ public function lessons(LessonRepository $lessonRepository)
             'section' => $sectionArray]);
     }
 
+    #[Route('/api/lesson-by-uniqid', name: 'api_lesson_by_uniqid')]
+    public function lessonByUniqId(LessonRepository $lessonRepository, LessonSectionRepository $lessonSectionRepository, Request $request)
+    {
+        $data = json_decode($request->getContent(), associative: true);
+        $uniqid = $data['uniqid'];
+
+        $lesson = $lessonRepository->findLessonByUniqId($uniqid);
+        $lessonArray = [];
+        $lessonArray = [
+            'id' => $lesson->getId(),
+            'uniqId' => $lesson->getUniqid(),
+            'title' => $lesson->getTitle(),
+            'description' => $lesson->getDescription(),
+            'img' => $lesson->getImg(),
+            'sectionId' => $lesson->getLessonSection()->getId(),
+            'testId' => $lesson->getTest()->getId(),
+            'lessonUrl' => $lesson->getLessonUrl(),
+            'content' => $lesson->getContent()
+        ];
+        return $this->json([
+            'lesson' => $lessonArray]);
+    }
+
 
     #[Route('/api/add-lesson', name: 'api_add_lesson')]
     public function addLesson(Request $request, LessonSectionRepository $lessonSectionRepository, EntityManagerInterface $entityManager)
@@ -155,19 +203,175 @@ public function lessons(LessonRepository $lessonRepository)
         $data = json_decode($request->getContent(), associative: true);
         $title = $data['title'];
         $description = $data['description'];
+        $lessonUrl = $data['lessonUrl'];
+        $lessonContent = $data['lessonContent'];
         $sectionId = $data['sectionId'];
         $section = $lessonSectionRepository->find($sectionId);
         $sectionImg = $section->getImg();
-        $uniqId = $this->uniqidGen();
+        $lessonUniqId = $this->uniqidGen();
+        $testUniqId = $this->uniqidGen();
 
         $lesson = new Lesson();
         $lesson->setTitle($title);
         $lesson->setDescription($description);
-        $lesson->setUniqid($uniqId);
+        $lesson->setUniqid($lessonUniqId);
         $lesson->setImg($sectionImg);
         $lesson->setLessonSection($section);
+        $lesson->setContent($lessonContent);
+        $lesson->setLessonUrl($lessonUrl);
+
+        $test = new Test();
+        $test->setTitle("Test: $title");
+        $test->setUniqid($testUniqId);
+        $test->setLesson($lesson);
+
+        $question1 = new Question();
+        $question1->setTitle('Question1');
+        $question1->setNumber(1);
+        $question1->setTest($test);
+
+        $question2 = new Question();
+        $question2->setTitle('Question2');
+        $question2->setNumber(2);
+        $question2->setTest($test);
+
+        $question3 = new Question();
+        $question3->setTitle('Question3');
+        $question3->setNumber(3);
+        $question3->setTest($test);
+
+        $question4 = new Question();
+        $question4->setTitle('Question4');
+        $question4->setNumber(4);
+        $question4->setTest($test);
+
+        $question5 = new Question();
+        $question5->setTitle('Question5');
+        $question5->setNumber(5);
+        $question5->setTest($test);
+
+
+        $answer1_1 = new Answer();
+        $answer1_1->setTitle('Answer1');
+        $answer1_1->setNumber(1);
+        $answer1_1->setIsTrue(true);
+        $answer1_1->setQuestion($question1);
+
+        $answer2_1 = new Answer();
+        $answer2_1->setTitle('Answer1');
+        $answer2_1->setNumber(1);
+        $answer2_1->setIsTrue(true);
+        $answer2_1->setQuestion($question2);
+
+        $answer3_1 = new Answer();
+        $answer3_1->setTitle('Answer1');
+        $answer3_1->setNumber(1);
+        $answer3_1->setIsTrue(true);
+        $answer3_1->setQuestion($question3);
+
+        $answer4_1 = new Answer();
+        $answer4_1->setTitle('Answer1');
+        $answer4_1->setNumber(1);
+        $answer4_1->setIsTrue(true);
+        $answer4_1->setQuestion($question4);
+
+        $answer5_1 = new Answer();
+        $answer5_1->setTitle('Answer1');
+        $answer5_1->setNumber(1);
+        $answer5_1->setIsTrue(true);
+        $answer5_1->setQuestion($question5);
+
+        $answer1_2 = new Answer();
+        $answer1_2->setTitle('Answer2');
+        $answer1_2->setNumber(2);
+        $answer1_2->setIsTrue(false);
+        $answer1_2->setQuestion($question1);
+
+        $answer2_2 = new Answer();
+        $answer2_2->setTitle('Answer2');
+        $answer2_2->setNumber(2);
+        $answer2_2->setIsTrue(false);
+        $answer2_2->setQuestion($question2);
+
+        $answer3_2 = new Answer();
+        $answer3_2->setTitle('Answer2');
+        $answer3_2->setNumber(2);
+        $answer3_2->setIsTrue(false);
+        $answer3_2->setQuestion($question3);
+
+        $answer4_2 = new Answer();
+        $answer4_2->setTitle('Answer2');
+        $answer4_2->setNumber(2);
+        $answer4_2->setIsTrue(false);
+        $answer4_2->setQuestion($question4);
+
+        $answer5_2 = new Answer();
+        $answer5_2->setTitle('Answer2');
+        $answer5_2->setNumber(2);
+        $answer5_2->setIsTrue(false);
+        $answer5_2->setQuestion($question5);
+
+
+        $answer1_3 = new Answer();
+        $answer1_3->setTitle('Answer3');
+        $answer1_3->setNumber(3);
+        $answer1_3->setIsTrue(false);
+        $answer1_3->setQuestion($question1);
+
+        $answer2_3 = new Answer();
+        $answer2_3->setTitle('Answer3');
+        $answer2_3->setNumber(3);
+        $answer2_3->setIsTrue(false);
+        $answer2_3->setQuestion($question2);
+
+        $answer3_3 = new Answer();
+        $answer3_3->setTitle('Answer3');
+        $answer3_3->setNumber(3);
+        $answer3_3->setIsTrue(false);
+        $answer3_3->setQuestion($question3);
+
+        $answer4_3 = new Answer();
+        $answer4_3->setTitle('Answer3');
+        $answer4_3->setNumber(3);
+        $answer4_3->setIsTrue(false);
+        $answer4_3->setQuestion($question4);
+
+        $answer5_3 = new Answer();
+        $answer5_3->setTitle('Answer3');
+        $answer5_3->setNumber(3);
+        $answer5_3->setIsTrue(false);
+        $answer5_3->setQuestion($question5);
+
 
         $entityManager->persist($lesson);
+        $entityManager->persist($test);
+
+        $entityManager->persist($question1);
+        $entityManager->persist($question2);
+        $entityManager->persist($question3);
+        $entityManager->persist($question4);
+        $entityManager->persist($question5);
+
+        $entityManager->persist($answer1_1);
+        $entityManager->persist($answer1_2);
+        $entityManager->persist($answer1_3);
+
+        $entityManager->persist($answer2_1);
+        $entityManager->persist($answer2_2);
+        $entityManager->persist($answer2_3);
+
+        $entityManager->persist($answer3_1);
+        $entityManager->persist($answer3_2);
+        $entityManager->persist($answer3_3);
+
+        $entityManager->persist($answer4_1);
+        $entityManager->persist($answer4_2);
+        $entityManager->persist($answer4_3);
+
+        $entityManager->persist($answer5_1);
+        $entityManager->persist($answer5_2);
+        $entityManager->persist($answer5_3);
+
         $entityManager->flush();
 
         return $this->json(['message' => "Lesson $title successfully added."]);
@@ -245,19 +449,22 @@ public function lessons(LessonRepository $lessonRepository)
         return $this->json(['message' => "Section $title successfully edited."]);
     }
     #[Route('/api/remove-lesson', name: 'api_remove_lesson')]
-    public function removeLesson(LessonRepository $lessonRepository, Request $request, EntityManagerInterface $entityManager)
+    public function removeLesson(LessonRepository $lessonRepository, TestRepository $testRepository, Request $request, EntityManagerInterface $entityManager)
     {
         $data = json_decode($request->getContent(), associative: true);
         $lessonId = $data['id'];
 
         $lesson = $lessonRepository->find($lessonId);
+        $lessonTest = $lesson->getTest();
         $lessonUniqId = $lesson->getUniqid();
+        $testRepository->remove($lessonTest);
+
         $lessonRepository->remove($lesson);
 
         return $this->json(['message' => "Lesson $lessonUniqId successfully deleted."]);
     }
     #[Route('/api/remove-lesson-section', name: 'api_remove_lesson_section')]
-    public function removeLessonSection(LessonSectionRepository $lessonSectionRepository, LessonRepository $lessonRepository, Request $request, EntityManagerInterface $entityManager)
+    public function removeLessonSection(LessonSectionRepository $lessonSectionRepository, LessonRepository $lessonRepository, TestRepository $testRepository, Request $request, EntityManagerInterface $entityManager)
     {
         $data = json_decode($request->getContent(), associative: true);
         $sectionUniqId = $data['uniqId'];
@@ -266,6 +473,7 @@ public function lessons(LessonRepository $lessonRepository)
         $lessonSection = $lessonSectionRepository->findLessonSectionByUniqId($sectionUniqId);
         $lessonSectionId = $lessonSection->getId();
         $lessons = $lessonRepository->findLessonsBySection($lessonSectionId);
+
         foreach($lessons as $lesson){
             $lessonRepository->remove($lesson);
         }

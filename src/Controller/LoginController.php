@@ -18,13 +18,6 @@ use Symfony\Config\LexikJwtAuthentication\TokenExtractors\AuthorizationHeaderCon
 class LoginController extends AbstractController
 {
 
-
-//    #[Route('/api/login', name: 'api_login')]
-//    public function login()
-//    {
-//        return;
-//    }
-
     #[Route('/api/users/me', name: 'api_users_me')]
     public function getCredential():Response
     {

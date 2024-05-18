@@ -1,5 +1,5 @@
 <template>
-  <p class = "header">Konto</p>
+  <p class="header">Konto</p>
   <div class="profile-section">
     <div class="form-wrapper">
       <div class="row-1">
@@ -86,6 +86,7 @@ let uniqId = ref(props.uniqid)
 if (props.userPending) {
   document.getElementById('submit-btn').disable = true
 }
+
 async function editUser() {
   if (!validateEmail(email.value)) {
     createError(410)
@@ -118,6 +119,7 @@ async function editUser() {
   }
 
 }
+
 function createError(errorCode) {
   const registerError = document.getElementById('register-error')
   switch (errorCode) {
@@ -145,6 +147,7 @@ function createError(errorCode) {
       registerError.style.visibility = 'visible'
       registerError.style.color = 'red'
       registerError.innerText = 'Nieznany bład ' + errorCode
+      break
 
   }
 }
@@ -177,37 +180,32 @@ function validateName(name) {
   return length >= 3 && length <= 8 && re.test(name)
 }
 
-function test() {
-  console.log("AVATAR IS " + avatar.value)
-}
 </script>
 
 
 <style scoped>
 .profile-section {
-//border: 1px solid red; height: 100%;
-  width: 100%;
-  display: flex;
+//border: 1px solid red; height: 100%; width: 100%; display: flex;
 
 }
-.header{
-  //border: 1px solid red;
-  margin-bottom: 1rem;
-  font-size: 2rem;
+
+.header {
+//border: 1px solid red; margin-bottom: 1rem; font-size: 2rem;
   color: #727272;
 }
+
 .profile-section .form-wrapper {
   display: flex;
   flex-direction: column;
   width: 50%;
 }
+
 .profile-section .avatar-wrapper {
   border: none;
   width: 50%;
   display: none;
   flex-direction: column;
   padding: 3rem;
-
 }
 
 .profile-section .avatar-wrapper .row-1 {
@@ -223,9 +221,7 @@ function test() {
 }
 
 .profile-section .avatar-wrapper .avatar-icon {
-//border: 1px solid red; height: 8rem;
-  width: 8rem;
-  border-radius: 50%;
+//border: 1px solid red; height: 8rem; width: 8rem; border-radius: 50%;
   cursor: pointer;
 }
 
@@ -234,9 +230,7 @@ function test() {
 }
 
 .profile-section .form-wrapper .row-1 {
-//border: 1px solid red; width: 100%;
-  height: 8rem;
-  margin-bottom: 3rem;
+//border: 1px solid red; width: 100%; height: 8rem; margin-bottom: 3rem;
   display: flex;
   align-items: center;
   color: #727272;
@@ -248,30 +242,20 @@ function test() {
 }
 
 .profile-section .form-wrapper .row-1 .avatar {
-//border: 1px solid red; height: 8rem;
-  width: 8rem;
-  border-radius: 50%;
+//border: 1px solid red; height: 8rem; width: 8rem; border-radius: 50%;
   margin-right: 1.5rem;
-
 }
 
 .profile-section .form-wrapper .row-2 {
-//border: 1px solid red; display: flex;
-  flex: 1;
-  width: 100%;
-
+//border: 1px solid red; display: flex; flex: 1; width: 100%;
 }
 
 .profile-section .form-wrapper .row-2 form {
-//border: 1px solid orange; display: flex;
-  flex-direction: column;
-  width: 100%;
+//border: 1px solid orange; display: flex; flex-direction: column; width: 100%;
 }
 
 .profile-section .form-wrapper .row-2 form .error {
-//border: 1px solid red; margin-bottom: 1rem;
-  margin-left: 1rem;
-  color: red;
+//border: 1px solid red; margin-bottom: 1rem; margin-left: 1rem; color: red;
 }
 
 .profile-section .form-wrapper .row-2 form label {
@@ -282,9 +266,7 @@ function test() {
 }
 
 .profile-section .form-wrapper .row-2 input[type = text] {
-//border: 1px solid red; width: 100%;
-  height: 3.5rem;
-  background-color: #D6EDFF;
+//border: 1px solid red; width: 100%; height: 3.5rem; background-color: #D6EDFF;
   margin-bottom: 2rem;
   border-radius: 1em;
   padding-left: 1rem;
@@ -294,16 +276,14 @@ function test() {
 
 .profile-section .form-wrapper .row-2 input[type = checkbox] {
   display: none;
-
 }
-.profile-section .form-wrapper .row-2 input:focus{
+
+.profile-section .form-wrapper .row-2 input:focus {
   border: 1px solid #6d7bbc;
 }
 
 .profile-section .form-wrapper .row-2 form button {
-//border: 1px solid red; height: 5rem;
-  margin-top: 4rem;
-  border-radius: 1rem;
+//border: 1px solid red; height: 5rem; margin-top: 4rem; border-radius: 1rem;
   background-color: #8B95C9;
   color: white;
   font-size: 1.1rem;
@@ -318,6 +298,4 @@ function test() {
 .profile-section .form-wrapper .row-2 form button:disabled {
   background-color: #727272;
 }
-
-
 </style>

@@ -29,6 +29,18 @@ class LessonRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    /**
+     * @return Lesson[] Returns an array of LessonSection objects
+     */
+    public function findLessonByUniqId($uniqid): ?Lesson
+    {
+        return $this->createQueryBuilder('l')
+            ->andWhere('l.uniqid = :uniqid')
+            ->setParameter('uniqid', $uniqid)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
 
     /**
      * @return Lesson[] Returns an array of Lesson objects

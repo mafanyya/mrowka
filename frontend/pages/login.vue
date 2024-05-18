@@ -25,12 +25,11 @@
               src="~/assets/images/icons/visibility-off.svg" alt=""></label>
           <label for="psw-visibility" id="psw-hidden" @click.prevent="changePswVisibility()"><img
               src="~/assets/images/icons/visibility-on.svg" alt=""></label>
-
         </div>
       </div>
       <button type=submit class="btn-submit">Zaloguj się</button>
       <p class="inf-1">Jeszcze nie masz konta?</p>
-      <NuxtLink to="/register" id = 'login-btn' ><p class="inf-2">Zarejestruj się</p></NuxtLink>
+      <NuxtLink to="/register" id='login-btn'><p class="inf-2">Zarejestruj się</p></NuxtLink>
     </form>
 
   </div>
@@ -52,14 +51,14 @@ definePageMeta({
 
 async function handleLogin(email, password) {
   try {
-    if(validateEmail(email)){
+    if (validateEmail(email)) {
       let credentials = {email: email, password: password}
       await signIn(
           credentials,
           {
-          callbackUrl: '/',
-           external: true
-      })
+            callbackUrl: '/',
+            external: true
+          })
       const data = useAuth()
       const id = data.data.value.user.id
       await useFetch('http://localhost:8000/api/user/log_in', {
@@ -69,7 +68,7 @@ async function handleLogin(email, password) {
             }
           }
       )
-    }else{
+    } else {
       const errorElement = document.getElementById('login-error')
       errorElement.innerText = 'Nieprawidłowy email'
       errorElement.style.visibility = 'visible'
@@ -80,16 +79,17 @@ async function handleLogin(email, password) {
       const errorElement = document.getElementById('login-error')
       errorElement.innerText = 'Błędne dane logowania'
       errorElement.style.visibility = 'visible'
-    }else if(error.data.status >= 500 && error.data.status < 600){
+    } else if (error.data.status >= 500 && error.data.status < 600) {
       const errorElement = document.getElementById('login-error')
       errorElement.innerText = 'Bład servera'
       errorElement.style.visibility = 'visible'
     }
     console.log(error)
-  }finally {
+  } finally {
   }
 
 }
+
 function validateEmail(email) {
   let re = /\S+@\S+\.\S+/;
   return re.test(email);
@@ -138,7 +138,6 @@ function changePswVisibility() {
   display: flex;
   flex-direction: column;
   align-items: center;
-
 }
 
 .container .heading-1 {
@@ -209,8 +208,7 @@ form .inf-2 {
 }
 
 form .psw-input {
-//border: 1px solid red; display: flex;
-  width: 100%;
+//border: 1px solid red; display: flex; width: 100%;
   align-items: center;
 }
 
@@ -226,7 +224,6 @@ form .psw-input input[type = checkbox] {
 
 .psw-input .input-2 {
   display: flex;
-
   margin-top: -1.5em;
   background-color: #D6EDFF;
   width: 20%;
@@ -240,8 +237,7 @@ form .psw-input input[type = checkbox] {
 }
 
 .psw-input .input-2 label {
-//border: 1px solid red; width: 2em;
-  margin-left: 3.5em;
+//border: 1px solid red; width: 2em; margin-left: 3.5em;
   margin-top: 1.2em;
   cursor: pointer;
 }

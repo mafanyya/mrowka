@@ -1,4 +1,3 @@
-
 <template>
   <div class="container">
     <div class="local-container">
@@ -19,7 +18,6 @@
                 <DifficultyPanel :index= "sectionData.section[0].difficulty" :id = "sectionData.section[0].id"/>
               </div>
             </div>
-
             <NuxtLink to = "/dashboard/lessons">
               <div class="home-btn">
                 <i class="fi fi-sr-book-bookmark"></i>
@@ -60,7 +58,6 @@
               <p id = "delete-message" class = "delete-message"></p>
             </div>
             <div class="credentials-section">
-
               <div id = "lessons" class="lessons">
                 <SectionPageLessonWrapper
                     :section-uniqid = "uniqId"
@@ -104,7 +101,6 @@ const uniqId = route.params.uniqid
 let formLessonId = ref()
 let isRefresh = ref(false)
 
-
 const {data: sectionData, error: sectionError, refresh: refreshSection, pending: sectionPending} = await useFetch('http://localhost:8000/api/section-by-uniqid', {
       method: 'POST',
       body: {
@@ -136,7 +132,6 @@ function changeSection(section){
   let editSectionSection = document.getElementById('section-edit')
   let addLessonSection = document.getElementById('lesson-add')
   let deleteSectionSection = document.getElementById('section-delete')
-
   switch (section){
     case 1:
       lessonsSection.style.display = 'flex'
@@ -170,7 +165,6 @@ function changeSection(section){
       console.warn('ERROR: Error from change section. Undefined section index: ' + section)
       break
   }
-
 }
 function isRefreshToggle(){
   isRefresh.value = !isRefresh.value
@@ -186,7 +180,6 @@ function openDeletePanel(lessonId){
   settingSection.style.height = 20 + 'rem'
   deletePanel.style.display = 'flex'
   deleteLessonId.value = lessonId
-
 }
 async function deletePanelAction(index) {
   let deletePanel = document.getElementById('delete-panel')
@@ -221,16 +214,15 @@ async function deletePanelAction(index) {
             deleteMessage.style.display = 'block'
             deleteMessage.style.color = 'green'
             deleteMessage.innerText = 'Zajęcię pomyślnie usunięte'
-
           }
           if(deleteLessonError.value){
             console.log('ERROR: Delete lesson error is ')
             console.log(deleteLessonError.value)
+            deletePanel.style.display = 'none'
             deleteMessage.style.display = 'block'
             deleteMessage.style.color = '#DE7C7C'
             deleteMessage.innerText = 'Nie udało się usunąć zajęcie'
           }
-
   }
 }
 
@@ -241,7 +233,6 @@ async function deletePanelAction(index) {
   display: flex;
   width: 100%;
   height: 100%;
-//overflow-y: auto;
 }
 
 .local-container .main{
@@ -341,7 +332,6 @@ async function deletePanelAction(index) {
   font-size: 2rem;
   color: #6D7BBC;
   transition: 1s ease;
-
 }
 .local-container .main .profile-wrapper .profile-row-1 .credentials .uniqid{
   color: #727272;

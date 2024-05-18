@@ -1,53 +1,50 @@
 <template>
-<div class="add-lesson-section-form">
-  <form id = "add-lesson-section-data" @submit.prevent = "addLessonSection()">
-    <p id = "form-error-sections" class="form-error-sections"></p>
-    <label for="title-input">Nazwa</label>
-    <input
-        type="text"
-        v-model = "title"
-        id = "title-input"
-        maxlength="30"
-        minlength="1"
-        required
-    >
-    <label>Trudność</label>
-
-    <div class="difficulty-input">
-      <div class="panel">
-        <div @click.prevent = "selectDifficulty(1)" class = "point" id="pnt-1"></div>
-        <div @click.prevent = "selectDifficulty(2)" class = "point" id="pnt-2"></div>
-        <div @click.prevent = "selectDifficulty(3)" class = "point" id="pnt-3"></div>
-        <div @click.prevent = "selectDifficulty(4)" class = "point" id="pnt-4"></div>
+  <div class="add-lesson-section-form">
+    <form id="add-lesson-section-data" @submit.prevent="addLessonSection()">
+      <p id="form-error-sections" class="form-error-sections"></p>
+      <label for="title-input">Nazwa</label>
+      <input
+          type="text"
+          v-model="title"
+          id="title-input"
+          maxlength="30"
+          minlength="1"
+          required
+      >
+      <label>Trudność</label>
+      <div class="difficulty-input">
+        <div class="panel">
+          <div @click.prevent="selectDifficulty(1)" class="point" id="pnt-1"></div>
+          <div @click.prevent="selectDifficulty(2)" class="point" id="pnt-2"></div>
+          <div @click.prevent="selectDifficulty(3)" class="point" id="pnt-3"></div>
+          <div @click.prevent="selectDifficulty(4)" class="point" id="pnt-4"></div>
+        </div>
+        <p id="difficulty-header" class="difficulty-header"></p>
       </div>
-      <p id = "difficulty-header" class = "difficulty-header"></p>
-    </div>
-
-    <label for= "description-input">Opis</label>
-    <textarea
-      id = 'description-input'
-      v-model = "description"
-      rows = 5
-      form = "add-lesson-section-data"
-      maxlength="145"
-      minlength="1"
-      required
-    />
-    <div class="row-img">
-      <label class = "image-input" for="image-input">Wybierz obrazek</label>
-      <p id = 'img-name' class = "img-name"></p>
-    </div>
-
-    <input
-        type="file"
-        accept=".png, .jpg, .jpeg"
-        id = "image-input"
-        @change = "checkImgSize"
-        required
-    >
-    <button type = "submit">Dodaj sekcję</button>
-  </form>
-</div>
+      <label for="description-input">Opis</label>
+      <textarea
+          id='description-input'
+          v-model="description"
+          rows=5
+          form="add-lesson-section-data"
+          maxlength="145"
+          minlength="1"
+          required
+      />
+      <div class="row-img">
+        <label class="image-input" for="image-input">Wybierz obrazek</label>
+        <p id='img-name' class="img-name"></p>
+      </div>
+      <input
+          type="file"
+          accept=".png, .jpg, .jpeg"
+          id="image-input"
+          @change="checkImgSize"
+          required
+      >
+      <button type="submit">Dodaj sekcję</button>
+    </form>
+  </div>
 </template>
 
 <script setup lang="js">
@@ -66,7 +63,6 @@ let props = defineProps({
   }
 })
 
-
 onMounted(async () => {
   let difficultyHeader = document.getElementById('difficulty-header')
   let point1 = document.getElementById('pnt-1')
@@ -77,7 +73,6 @@ onMounted(async () => {
 
 function capitalize(sentence) {
   const sentences = sentence.split(/([.!?])/);
-
   const capitalizedSentences = sentences.map((sentence, index) => {
     if (index % 2 === 0) {
       return sentence.charAt(0).toUpperCase() + sentence.slice(1);
@@ -85,9 +80,9 @@ function capitalize(sentence) {
       return sentence;
     }
   });
-
   return capitalizedSentences.join('');
 }
+
 function checkImgSize(event) {
   const file = event.target.files[0]
   let imgDataLocal = new FormData()
@@ -120,13 +115,18 @@ function checkImgSize(event) {
     }
   }
 }
-function changeImgName(name){
+
+function changeImgName(name) {
   let imgNameBlock = document.getElementById('img-name')
   imgNameBlock.innerText = name
 }
 
 async function handelImg() {
-  const {data: imgUploadData, error: imgUploadError, pending: imgUploadPending} = await useFetch('http://localhost:8000/api/upload-img', {
+  const {
+    data: imgUploadData,
+    error: imgUploadError,
+    pending: imgUploadPending
+  } = await useFetch('http://localhost:8000/api/upload-img', {
         method: 'POST',
         body: imgData
       }
@@ -149,14 +149,19 @@ async function handelImg() {
     return false
   }
 }
+
 async function addLessonSection() {
-  if(!await handelImg()){
+  if (!await handelImg()) {
     createError(402)
-  }else{
+  } else {
     img.value = createImgPath(imgRealName)
     title.value = capitalize(title.value)
     description.value = capitalize(description.value)
-    const {data: sectionAddData, error: sectionAddError, pending: sectionAddPending} = await useFetch('http://localhost:8000/api/add-lesson-section', {
+    const {
+      data: sectionAddData,
+      error: sectionAddError,
+      pending: sectionAddPending
+    } = await useFetch('http://localhost:8000/api/add-lesson-section', {
           method: 'POST',
           body: {
             title: title.value,
@@ -170,20 +175,22 @@ async function addLessonSection() {
     console.log('Difficulty is ' + difficulty.value)
     console.log('Description is ' + description.value)
     console.log('Img is ' + img.value)
-    if(sectionAddData.value){
+    if (sectionAddData.value) {
       let addLessonSectionForm = document.getElementById('add-lesson-section-form')
       addLessonSectionForm.reset
       props.refreshSections()
       createError(100)
     }
-    if(sectionAddError.value){
+    if (sectionAddError.value) {
       createError(500)
     }
   }
 }
-function createImgPath(name){
+
+function createImgPath(name) {
   return '/_nuxt/assets/images/sections/' + name
 }
+
 function selectDifficulty(id) {
   let pnt1 = document.getElementById('pnt-1')
   let pnt2 = document.getElementById('pnt-2')
@@ -191,7 +198,6 @@ function selectDifficulty(id) {
   let pnt4 = document.getElementById('pnt-4')
   let difficultyHeader = document.getElementById('difficulty-header')
   switch (id) {
-
     case 1:
       pnt1.style.backgroundColor = '#32A88A'
       pnt2.style.backgroundColor = '#84DCC6'
@@ -227,7 +233,6 @@ function selectDifficulty(id) {
     default:
       console.warn('Undefined value (id) in selectDifficulty switch. Value (id) is ' + id)
       break
-
   }
 }
 
@@ -258,34 +263,34 @@ function createError(errorCode) {
     default:
       formError.style.visibility = 'visible'
       formError.innerText = 'Nieznany bład ' + errorCode
-
   }
 }
 </script>
 <style scoped>
-.add-lesson-section-form{
-  //border: 1px solid red;
-  width: 100%;
+.add-lesson-section-form {
+//border: 1px solid red; width: 100%;
   height: 100%;
   padding-left: 3rem;
 }
-.add-lesson-section-form form{
+
+.add-lesson-section-form form {
   width: 70%;
-  //border: 1px solid purple;
-  margin-top: 4rem;
+//border: 1px solid purple; margin-top: 4rem;
 }
-.add-lesson-section-form form .form-error-sections{
+
+.add-lesson-section-form form .form-error-sections {
   margin-left: 1rem;
   color: #DE7C7C;
   margin-bottom: 1.5rem;
   transition: 0.25s ease;
 }
-.add-lesson-section-form form label{
+
+.add-lesson-section-form form label {
   color: #727272;
   padding-left: 1rem;
-
 }
-.add-lesson-section-form form input[type = text]{
+
+.add-lesson-section-form form input[type = text] {
   background-color: #D6EDFF;
   height: 3.5rem;
   border-radius: 1rem;
@@ -296,39 +301,41 @@ function createError(errorCode) {
   color: #6d7bbc;
   font-size: 0.9rem;
 }
-.add-lesson-section-form form input[type = text]:focus{
+
+.add-lesson-section-form form input[type = text]:focus {
   border: 2px solid #8B95C9;
 }
-.add-lesson-section-form form .difficulty-input{
-  //border: 1px solid green;
-  margin-top: 1rem;
+
+.add-lesson-section-form form .difficulty-input {
+//border: 1px solid green; margin-top: 1rem;
   height: auto;
   width: 100%;
   display: flex;
   align-items: center;
   margin-bottom: 2rem;
-
-
 }
-.add-lesson-section-form form .difficulty-input .panel{
+
+.add-lesson-section-form form .difficulty-input .panel {
   width: 38%;
   display: flex;
   justify-content: space-between;
 }
-.add-lesson-section-form form .difficulty-input .panel .point{
-  //border: 1px solid red;
-  height: 2.5rem;
+
+.add-lesson-section-form form .difficulty-input .panel .point {
+//border: 1px solid red; height: 2.5rem;
   width: 2.5rem;
   border-radius: 50%;
   cursor: pointer;
   background-color: #84DCC6;
 }
-.add-lesson-section-form form .difficulty-input .difficulty-header{
+
+.add-lesson-section-form form .difficulty-input .difficulty-header {
   color: #727272;
   margin-left: 2rem;
   font-size: 1.2rem;
 }
-.add-lesson-section-form form textarea{
+
+.add-lesson-section-form form textarea {
   background-color: #D6EDFF;
   margin-top: 0.5rem;
   margin-bottom: 1rem;
@@ -340,10 +347,12 @@ function createError(errorCode) {
   color: #6d7bbc;
   font-size: 0.9rem;
 }
-.add-lesson-section-form form textarea:focus{
+
+.add-lesson-section-form form textarea:focus {
   border: 2px solid #8B95C9;
 }
-.add-lesson-section-form form input[type = file]{
+
+.add-lesson-section-form form input[type = file] {
   width: 0.1px;
   height: 0.1px;
   opacity: 0;
@@ -351,22 +360,23 @@ function createError(errorCode) {
   position: absolute;
   z-index: -1;
 }
-.add-lesson-section-form form .row-img{
-  //border: 1px solid red;
-  height: 4rem;
+
+.add-lesson-section-form form .row-img {
+//border: 1px solid red; height: 4rem;
   display: flex;
   align-items: center;
 }
-.add-lesson-section-form form .row-img .img-name{
-  //border: 1px solid red;
-  height: 100%;
+
+.add-lesson-section-form form .row-img .img-name {
+//border: 1px solid red; height: 100%;
   margin-left: 1rem;
   display: flex;
   align-items: center;
   color: #727272;
 
 }
-.add-lesson-section-form form .row-img .image-input{
+
+.add-lesson-section-form form .row-img .image-input {
   border-radius: 0.5rem;
   height: 100%;
   display: flex;
@@ -379,13 +389,14 @@ function createError(errorCode) {
   background-color: #84DCC6;
   color: white;
   transition: 0.25s ease;
-
 }
-.add-lesson-section-form form .row-img .image-input:hover{
+
+.add-lesson-section-form form .row-img .image-input:hover {
   background-color: #32A88A;
   transition: 0.25s ease;
 }
-.add-lesson-section-form form button[type = submit]{
+
+.add-lesson-section-form form button[type = submit] {
   border-radius: 0.5rem;
   margin-top: 3rem;
   padding-top: 2rem;
@@ -396,7 +407,8 @@ function createError(errorCode) {
   width: 100%;
   transition: 0.25s ease;
 }
-.add-lesson-section-form form button[type = submit]:hover{
+
+.add-lesson-section-form form button[type = submit]:hover {
   background-color: #6D7BBC;
   transition: 0.25s ease;
 }

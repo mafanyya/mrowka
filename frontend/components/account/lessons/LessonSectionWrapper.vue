@@ -102,14 +102,12 @@ async function getLessonsBySection(id) {
   display: flex;
   justify-content: center;
   align-items: center;
-
 }
 .lesson-sections-wrapper .lesson-section {
 //border: 1px solid red;
   width: 100%;
   background-color: #f8f8f8;
   border-radius: 1em;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   padding: 1.5rem;
   display: flex;
   height: 100%;
@@ -139,8 +137,6 @@ async function getLessonsBySection(id) {
   font-size: 0.8rem;
   color: #727272;
   line-height: 1.1rem;
-  //padding-bottom: 1rem;
-
 }
 
 .lesson-sections-wrapper .lesson-section .clm-1 .panel {
@@ -199,7 +195,6 @@ async function getLessonsBySection(id) {
   height: 100%;
   padding: 0;
   margin: 0;
-
 }
 
 .lesson-sections-wrapper .lesson-section .clm-2 .row-2 .play-btn {
@@ -225,5 +220,4 @@ async function getLessonsBySection(id) {
   background-color: #32A88A;
   transition: 0.25s ease;
 }
-
 </style>

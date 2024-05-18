@@ -113,20 +113,22 @@ class WordController extends AbstractController
 
         return $this->json(['message' => "Word $name successfully added."]);
     }
-//    #[Route('/api/lessons-by-section', name: 'api_lessons_by_section')]
-//    public function lessonBySection(LessonRepository $lessonRepository, Request $request)
-//    {
-//        $data = json_decode($request->getContent(), associative: true);
-//        $id = $data['id'];
-//        $lessonsBySection = $lessonRepository->findLessonsBySection($id);
-//        $lessonsCount = count($lessonsBySection);
-//        if($lessonsBySection == null){
-//            $lessonsCount = 0;
-//        }
-//
-//        return $this->json([
-//            'lessonsCount' => $lessonsCount]);
-//    }
+
+    #[Route('/api/remove-word', name: 'api_remove_word')]
+
+    public function removeWord(WordRepository $wordRepository, Request $request)
+    {
+        $data = json_decode($request->getContent(), associative: true);
+        $wordId = $data['id'];
+
+        $word = $wordRepository->find($wordId);
+        $wordName = $word->getName();
+
+        $wordRepository->remove($word);
+
+        return $this->json(['message' => "Word $wordName successfully deleted."]);
+    }
+
 
 
 

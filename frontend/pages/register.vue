@@ -55,10 +55,11 @@ definePageMeta({
     }
   ]
 })
-async function registerUser(){
-  if(!isTerms === true){
+
+async function registerUser() {
+  if (!isTerms === true) {
     createError(440)
-  }else {
+  } else {
     if (!validateEmail(username.value)) {
       createError(410)
     } else {
@@ -102,9 +103,10 @@ async function registerUser(){
   }
 
 }
-function createError(errorCode){
-  const registerError =  document.getElementById('register-error')
-  switch (errorCode){
+
+function createError(errorCode) {
+  const registerError = document.getElementById('register-error')
+  switch (errorCode) {
     case 100:
       registerError.style.visibility = 'visible'
       registerError.innerText = 'Registration successful'
@@ -132,6 +134,7 @@ function createError(errorCode){
     default:
       registerError.style.visibility = 'visible'
       registerError.innerText = 'Nieznany bład ' + errorCode
+      break
 
   }
 }
@@ -140,16 +143,17 @@ function validateEmail(email) {
   let re = /\S+@\S+\.\S+/;
   return re.test(email);
 }
-function validatePassword(password){
+
+function validatePassword(password) {
   let length = password.length
   let hasLetter = /[A-Z]/.test(password);
   let hasDigit = /\d/.test(password);
   let hasSymbol = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password);
-
   return length >= 8 && length < 50 && hasLetter && hasDigit && hasSymbol;
 }
-function validateName(name){
-  let re =  /^[a-zA-Z]+$/
+
+function validateName(name) {
+  let re = /^[a-zA-Z]+$/
   let length = name.length
   return length >= 3 && length <= 8 && re.test(name)
 }
@@ -158,7 +162,6 @@ function isTermsChecked() {
   const checkbox = document.getElementById('terms')
   const checked = document.getElementById('terms-checked')
   const notChecked = document.getElementById('terms-not-checked')
-
   checkbox.checked = isTerms === false;
   if (checkbox.checked === true) {
     notChecked.style.display = 'none'
@@ -188,7 +191,6 @@ function isTermsChecked() {
   padding: 5em;
   justify-content: center;
   flex-direction: column;
-
 }
 
 .container p {
@@ -201,7 +203,6 @@ function isTermsChecked() {
   display: flex;
   flex-direction: column;
   align-items: center;
-
 }
 
 .container .heading-1 {
@@ -313,6 +314,4 @@ form .inf-2 {
   font-weight: 600;
   color: #8B95C9;
 }
-
-
 </style>

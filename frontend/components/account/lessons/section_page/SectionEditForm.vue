@@ -1,55 +1,53 @@
 <template>
   <div class="section-edit-form">
-    <template v-if = "sectionData">
-    <form id = "add-lesson-section-data" @submit.prevent = "editLessonSection()">
-      <p id = "form-error-sections" class="form-error-sections"></p>
-      <label for="title-input">Nazwa</label>
-      <input
-          type="text"
-          v-model = "title"
-          id = "title-input"
-          maxlength="30"
-          minlength="1"
-          required
-      >
-      <label>Trudność</label>
-
-      <div class="difficulty-input">
-        <div class="panel">
-          <div @click.prevent = "selectDifficulty(1)" class = "point" id="pnt-1"></div>
-          <div @click.prevent = "selectDifficulty(2)" class = "point" id="pnt-2"></div>
-          <div @click.prevent = "selectDifficulty(3)" class = "point" id="pnt-3"></div>
-          <div @click.prevent = "selectDifficulty(4)" class = "point" id="pnt-4"></div>
+    <p class="header">Edytowanie zajęcia</p>
+    <template v-if="sectionData">
+      <form id="add-lesson-section-data" @submit.prevent="editLessonSection()">
+        <p id="form-error-sections" class="form-error-sections"></p>
+        <label for="title-input">Nazwa</label>
+        <input
+            type="text"
+            v-model="title"
+            id="title-input"
+            maxlength="30"
+            minlength="1"
+            required
+        >
+        <label>Trudność</label>
+        <div class="difficulty-input">
+          <div class="panel">
+            <div @click.prevent="selectDifficulty(1)" class="point" id="pnt-1"></div>
+            <div @click.prevent="selectDifficulty(2)" class="point" id="pnt-2"></div>
+            <div @click.prevent="selectDifficulty(3)" class="point" id="pnt-3"></div>
+            <div @click.prevent="selectDifficulty(4)" class="point" id="pnt-4"></div>
+          </div>
+          <p id="difficulty-header" class="difficulty-header"></p>
         </div>
-        <p id = "difficulty-header" class = "difficulty-header"></p>
-      </div>
-
-      <label for= "description-input">Opis</label>
-      <textarea
-          id = 'description-input'
-          v-model = "description"
-          rows = 5
-          form = "add-lesson-section-data"
-          maxlength="145"
-          minlength="1"
-          required
-      />
-      <div class="row-img">
-        <div class="section-img">
-          <img :src="sectionData.section[0].img" alt="">
+        <label for="description-input">Opis</label>
+        <textarea
+            id='description-input'
+            v-model="description"
+            rows=5
+            form="add-lesson-section-data"
+            maxlength="145"
+            minlength="1"
+            required
+        />
+        <div class="row-img">
+          <div class="section-img">
+            <img :src="sectionData.section[0].img" alt="">
+          </div>
+          <label class="image-input" for="image-input">Wybierz obrazek</label>
+          <p id='img-name' class="img-name"></p>
         </div>
-        <label class = "image-input" for="image-input">Wybierz obrazek</label>
-        <p id = 'img-name' class = "img-name"></p>
-      </div>
-
-      <input
-          type="file"
-          accept=".png, .jpg, .jpeg"
-          id = "image-input"
-          @change = "checkImgSize"
-      >
-      <button type = "submit">Edytuj sekcję</button>
-    </form>
+        <input
+            type="file"
+            accept=".png, .jpg, .jpeg"
+            id="image-input"
+            @change="checkImgSize"
+        >
+        <button type="submit">Edytuj sekcję</button>
+      </form>
     </template>
   </div>
 </template>
@@ -63,14 +61,19 @@ let props = defineProps({
 })
 let emit = defineEmits(['refreshLessonSection'])
 
-const {data: sectionData, error: sectionError, refresh: refreshSection, pending: sectionPending} = await useFetch('http://localhost:8000/api/section-by-uniqid', {
+const {
+  data: sectionData,
+  error: sectionError,
+  refresh: refreshSection,
+  pending: sectionPending
+} = await useFetch('http://localhost:8000/api/section-by-uniqid', {
       method: 'POST',
       body: {
         uniqid: props.uniqId
       }
     }
 )
-if (sectionData.value){
+if (sectionData.value) {
   console.log('SECTION IS ')
   console.log(sectionData.value.section[0])
 }
@@ -83,7 +86,6 @@ let imgData
 let imgName = ref('')
 let imgRealName
 
-
 onMounted(async () => {
   let pnt1 = document.getElementById('pnt-1')
   let pnt2 = document.getElementById('pnt-2')
@@ -91,7 +93,7 @@ onMounted(async () => {
   let pnt4 = document.getElementById('pnt-4')
   let difficultyHeader = document.getElementById('difficulty-header')
 
-  switch (sectionData.value.section[0].difficulty){
+  switch (sectionData.value.section[0].difficulty) {
     case 1:
       pnt1.style.backgroundColor = '#32A88A'
       pnt2.style.backgroundColor = '#84DCC6'
@@ -105,7 +107,7 @@ onMounted(async () => {
       pnt3.style.backgroundColor = '#84DCC6'
       pnt4.style.backgroundColor = '#84DCC6'
       difficultyHeader.innerText = 'Elementarny'
-        break
+      break
     case 3:
       pnt1.style.backgroundColor = '#32A88A'
       pnt2.style.backgroundColor = '#32A88A'
@@ -126,14 +128,12 @@ onMounted(async () => {
       pnt3.style.backgroundColor = '#84DCC6'
       pnt4.style.backgroundColor = '#84DCC6'
       difficultyHeader.innerText = 'Nieznany'
-        break
+      break
   }
-
 });
 
 function capitalize(sentence) {
   const sentences = sentence.split(/([.!?])/);
-
   const capitalizedSentences = sentences.map((sentence, index) => {
     if (index % 2 === 0) {
       return sentence.charAt(0).toUpperCase() + sentence.slice(1);
@@ -141,9 +141,9 @@ function capitalize(sentence) {
       return sentence;
     }
   });
-
   return capitalizedSentences.join('');
 }
+
 function checkImgSize(event) {
   const file = event.target.files[0]
   let imgDataLocal = new FormData()
@@ -176,13 +176,18 @@ function checkImgSize(event) {
     }
   }
 }
-function changeImgName(name){
+
+function changeImgName(name) {
   let imgNameBlock = document.getElementById('img-name')
   imgNameBlock.innerText = name
 }
 
 async function handelImg() {
-  const {data: imgUploadData, error: imgUploadError, pending: imgUploadPending} = await useFetch('http://localhost:8000/api/upload-img', {
+  const {
+    data: imgUploadData,
+    error: imgUploadError,
+    pending: imgUploadPending
+  } = await useFetch('http://localhost:8000/api/upload-section-img', {
         method: 'POST',
         body: imgData
       }
@@ -205,17 +210,22 @@ async function handelImg() {
     return false
   }
 }
+
 async function editLessonSection() {
   console.log('EDIT SECTION')
-  if( imgData && !await handelImg()){
+  if (imgData && !await handelImg()) {
     createError(402)
-  }else{
-    if(imgData){
+  } else {
+    if (imgData) {
       img.value = createImgPath(imgRealName)
     }
     title.value = capitalize(title.value)
     description.value = capitalize(description.value)
-    const {data: sectionEditData, error: sectionEditError, pending: sectionEditPending} = await useFetch('http://localhost:8000/api/edit-lesson-section', {
+    const {
+      data: sectionEditData,
+      error: sectionEditError,
+      pending: sectionEditPending
+    } = await useFetch('http://localhost:8000/api/edit-lesson-section', {
           method: 'POST',
           body: {
             id: id.value,
@@ -230,18 +240,20 @@ async function editLessonSection() {
     console.log('Difficulty is ' + difficulty.value)
     console.log('Description is ' + description.value)
     console.log('Img is ' + img.value)
-    if(sectionEditData.value){
+    if (sectionEditData.value) {
       emit("refreshLessonSection")
       createError(100)
     }
-    if(sectionEditError.value){
+    if (sectionEditError.value) {
       createError(500)
     }
   }
 }
-function createImgPath(name){
+
+function createImgPath(name) {
   return '/_nuxt/assets/images/sections/' + name
 }
+
 function selectDifficulty(id) {
   let pnt1 = document.getElementById('pnt-1')
   let pnt2 = document.getElementById('pnt-2')
@@ -249,7 +261,6 @@ function selectDifficulty(id) {
   let pnt4 = document.getElementById('pnt-4')
   let difficultyHeader = document.getElementById('difficulty-header')
   switch (id) {
-
     case 1:
       pnt1.style.backgroundColor = '#32A88A'
       pnt2.style.backgroundColor = '#84DCC6'
@@ -285,7 +296,6 @@ function selectDifficulty(id) {
     default:
       console.warn('Undefined value (id) in selectDifficulty switch. Value (id) is ' + id)
       break
-
   }
 }
 
@@ -316,35 +326,43 @@ function createError(errorCode) {
     default:
       formError.style.visibility = 'visible'
       formError.innerText = 'Nieznany bład ' + errorCode
-
   }
 }
 </script>
 <style scoped>
-.section-edit-form{
-//border: 1px solid red;
-  width: 100%;
+.section-edit-form {
+//border: 1px solid red; width: 100%;
   height: 100%;
-  padding-left: 3rem;
+  padding-left: 2rem;
   margin-top: 1rem;
 }
-.section-edit-form form{
+
+.section-edit-form .header {
+  margin-left: 1rem;
+  color: #727272;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.section-edit-form form {
   width: 50%;
 //border: 1px solid purple;
 }
-.section-edit-form form .form-error-sections{
+
+.section-edit-form form .form-error-sections {
   margin-left: 1rem;
   color: #DE7C7C;
   margin-bottom: 1.5rem;
   transition: 0.25s ease;
 }
-.section-edit-form form label{
+
+.section-edit-form form label {
   color: #727272;
   padding-left: 1rem;
-  font-size: 0.9rem;
-
+  font-size: 1rem;
 }
-.section-edit-form form input[type = text]{
+
+.section-edit-form form input[type = text] {
   background-color: #D6EDFF;
   height: 3.5rem;
   border-radius: 0.5rem;
@@ -355,41 +373,41 @@ function createError(errorCode) {
   color: #6d7bbc;
   font-size: 0.9rem;
 }
-.section-edit-form form input[type = text]:focus{
+
+.section-edit-form form input[type = text]:focus {
   border: 2px solid #8B95C9;
 }
-.section-edit-form form .difficulty-input{
-//border: 1px solid green;
-  margin-top: 1rem;
+
+.section-edit-form form .difficulty-input {
+//border: 1px solid green; margin-top: 1rem;
   height: auto;
   width: 100%;
   display: flex;
   align-items: center;
   margin-bottom: 2rem;
-
-
-
 }
-.section-edit-form form .difficulty-input .panel{
-  //border: 1px solid green;
-  width: 30%;
+
+.section-edit-form form .difficulty-input .panel {
+//border: 1px solid green; width: 30%;
   display: flex;
   justify-content: space-between;
 }
-.section-edit-form form .difficulty-input .panel .point{
-//border: 1px solid red;
-  height: 1.5rem;
+
+.section-edit-form form .difficulty-input .panel .point {
+//border: 1px solid red; height: 1.5rem;
   width: 1.5rem;
   border-radius: 50%;
   cursor: pointer;
   background-color: #84DCC6;
 }
-.section-edit-form form .difficulty-input .difficulty-header{
+
+.section-edit-form form .difficulty-input .difficulty-header {
   color: #727272;
   margin-left: 1rem;
   font-size: 1rem;
 }
-.section-edit-form form textarea{
+
+.section-edit-form form textarea {
   background-color: #D6EDFF;
   margin-top: 0.5rem;
   margin-bottom: 2rem;
@@ -402,10 +420,12 @@ function createError(errorCode) {
   font-size: 0.9rem;
   line-height: 1.2rem;
 }
-.section-edit-form form textarea:focus{
+
+.section-edit-form form textarea:focus {
   border: 2px solid #8B95C9;
 }
-.section-edit-form form input[type = file]{
+
+.section-edit-form form input[type = file] {
   width: 0.1px;
   height: 0.1px;
   opacity: 0;
@@ -413,14 +433,15 @@ function createError(errorCode) {
   position: absolute;
   z-index: -1;
 }
-.section-edit-form form .row-img{
+
+.section-edit-form form .row-img {
   margin-bottom: 2rem;
   height: 4rem;
   display: flex;
   align-items: center;
 }
-.section-edit-form form .row-img .section-img{
 
+.section-edit-form form .row-img .section-img {
   height: 3rem;
   width: 3rem;
   margin-right: 1rem;
@@ -428,24 +449,23 @@ function createError(errorCode) {
   display: flex;
   justify-content: center;
   align-items: center;
-
 }
 
-.section-edit-form form .row-img .section-img img{
+.section-edit-form form .row-img .section-img img {
   height: 100%;
   width: 100%;
   border-radius: 50%;
 }
-.section-edit-form form .row-img .img-name{
-//border: 1px solid red;
-  height: 100%;
+
+.section-edit-form form .row-img .img-name {
+//border: 1px solid red; height: 100%;
   margin-left: 1rem;
   display: flex;
   align-items: center;
   color: #727272;
-
 }
-.section-edit-form form .row-img .image-input{
+
+.section-edit-form form .row-img .image-input {
   border-radius: 0.5rem;
   height: 80%;
   display: flex;
@@ -458,13 +478,14 @@ function createError(errorCode) {
   background-color: #84DCC6;
   color: white;
   transition: 0.10s ease;
-
 }
-.section-edit-form form .row-img .image-input:hover{
+
+.section-edit-form form .row-img .image-input:hover {
   background-color: #3ecea8;
   transition: 0.10s ease;
 }
-.section-edit-form form button[type = submit]{
+
+.section-edit-form form button[type = submit] {
   border-radius: 0.5rem;
   margin-top: 1rem;
   padding-top: 1rem;
@@ -475,7 +496,8 @@ function createError(errorCode) {
   width: 70%;
   transition: 0.25s ease;
 }
-.section-edit-form form button[type = submit]:hover{
+
+.section-edit-form form button[type = submit]:hover {
   background-color: #6D7BBC;
   transition: 0.25s ease;
 }

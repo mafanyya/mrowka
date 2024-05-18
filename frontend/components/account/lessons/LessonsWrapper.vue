@@ -18,7 +18,9 @@
       </div>
       <div class="inf">
         <p class = "title">{{lesson.title}}</p>
-        <p class = "uniqid">@{{lesson.uniqid}}</p>
+        <NuxtLink :to = "'/dashboard/lessons/lesson/' + lesson.uniqid">
+          <p class = "uniqid">@{{lesson.uniqid}}</p>
+        </NuxtLink>
       </div>
     </div>
   </template>
@@ -45,6 +47,25 @@
             minlength="1"
             maxlength="145"
         />
+      </div>
+      <label for="lesson-content-input">Konspekt zajęcia</label>
+      <div class="input-2">
+        <textarea
+            v-model="lessonContent"
+            id="lesson-content-input"
+            form="add-lesson-form"
+            minlength="1"
+        />
+      </div>
+      <label for="lesson-url-input">Link do video</label>
+      <div class="input-1">
+        <input
+            form="add-lesson-form"
+            v-model="lessonUrl"
+            type="text"
+            id="lesson-url-input"
+            minlength="1"
+        >
       </div>
       <label for="lesson-description-input">Sekcja</label>
       <div  @click.prevent = "openSectionOptions()" class="input-3">
@@ -84,6 +105,8 @@
 let title = ref('')
 let description = ref('')
 let sectionId = ref('')
+let lessonUrl = ref()
+let lessonContent = ref()
 const {pending: lessonsPending, data: lessonsData, error: lessonsError, refresh: refreshLessons} = await useFetch('http://localhost:8000/api/lessons')
 const {pending: sectionsPending, data: lessonSectionsData, refresh: refreshLessonSections} = await useFetch('http://localhost:8000/api/lesson-sections')
 if(lessonsError.value){
@@ -98,7 +121,9 @@ async function addLesson(){
             body: {
               title: title.value,
               description: description.value,
-              sectionId: sectionId.value
+              sectionId: sectionId.value,
+              lessonContent: lessonContent.value,
+              lessonUrl: lessonUrl.value,
             },
           }
       )
@@ -121,7 +146,6 @@ function convertTitle(title){
   return title
       .split(/\s+/)
       .map(word => {
-
         if (word.length === 0) {
           return '';
         } else if (word[0] === word[0].toUpperCase()) {
@@ -152,7 +176,6 @@ function createError(errorCode){
     default:
       formError.style.visibility = 'visible'
       formError.innerText = 'Nieznany bład ' + errorCode
-
   }
 }
 
@@ -196,7 +219,6 @@ function openSectionOptions(){
   let unfoldIcon = document.getElementById('unfold-icon')
   let iconInput = document.getElementById('icon-input')
   let sectionOptions = document.getElementById('section-options')
-
   if(!isSectionSettingsOpen){
     unfoldIcon.className = 'fi fi-br-angle-circle-up'
     iconInput.style.borderBottomRightRadius = '0'
@@ -216,7 +238,6 @@ function selectSectionValue(id){
   let unfoldIcon = document.getElementById('unfold-icon')
   let iconInput = document.getElementById('icon-input')
   let sectionOptions = document.getElementById('section-options')
-
   unfoldIcon.className = 'fi fi-br-angle-circle-down'
   iconInput.style.borderBottomRightRadius = '0.5rem'
   lessonSectionInput.style.borderBottomLeftRadius = '0.5rem'
@@ -226,7 +247,6 @@ function selectSectionValue(id){
   sectionId.value = id
 }
 </script>
-
 <style scoped>
 .lessons-wrapper{
   //border: 1px solid green;
@@ -234,9 +254,8 @@ function selectSectionValue(id){
   height: 100%;
   overflow-y: scroll;
   display: block;
-
-
 }
+
 .add-lesson{
 //border: 1px solid red;
   width: 100%;
@@ -246,10 +265,12 @@ function selectSectionValue(id){
   padding-right: 2rem;
   padding-left: 2rem;
 }
+
 .add-lesson form{
   //border: 1px solid red;
   width: 100%;
 }
+
 .add-lesson form .form-error{
   color: #DE7C7C;
   margin-left: 1rem;
@@ -260,7 +281,6 @@ function selectSectionValue(id){
   color: #727272;
   margin-left: 1rem;
   margin-bottom: 1rem;
-
 }
 .add-lesson form  .input-1{
   height: 2.5rem;
@@ -340,10 +360,7 @@ function selectSectionValue(id){
   background-color: #D6EDFF;
   border-bottom-left-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  padding-top: 0.5rem;
-  padding-bottom: 1rem;
+  padding: 0.5rem 1rem 1rem;
   display: none;
 }
 .add-lesson form  .input-3-sections .sections-wrapper{
@@ -352,7 +369,6 @@ function selectSectionValue(id){
   overflow-y: auto;
   font-size: 0.9rem;
   color: #7886ba;
-
 }
 .add-lesson form  .input-3-sections .sections-wrapper .section{
   //border: 1px solid red;
@@ -462,7 +478,7 @@ function selectSectionValue(id){
   margin-right: 1rem;
   margin-left: 1rem;
   background-color: #f8f8f8;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  //box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   border-radius: 1rem;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
@@ -496,6 +512,10 @@ function selectSectionValue(id){
 .lessons-wrapper .lesson .inf .uniqid{
   font-size: 0.8rem;
   color: #727272;
+  cursor: pointer;
+}
+.lessons-wrapper .lesson .inf .uniqid:hover{
+  text-decoration: underline;
 }
 .lessons-wrapper .lesson .img{
   //border: 1px solid red;
@@ -510,6 +530,5 @@ function selectSectionValue(id){
 .lessons-wrapper .lesson .img img{
   width: 90%;
   height: 90%;
-
 }
 </style>
