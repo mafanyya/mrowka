@@ -64,7 +64,9 @@ public function lessons(LessonRepository $lessonRepository)
           'uniqId' => $lesson->getUniqid(),
           'img' => $lesson->getImg(),
           'description' => $lesson->getDescription(),
-          'lessonSection' => $lessonSectionId
+          'lessonSection' => $lessonSectionId,
+          'lessonContent' => $lesson->getContent(),
+          'lessonUrl' => $lesson->getLessonUrl()
         ];
         return $this->json([
             'lesson' => $lessonArray]);
@@ -108,7 +110,9 @@ public function lessons(LessonRepository $lessonRepository)
                     'description' => $lesson->getDescription(),
                     'number' => $lesson->getNumber(),
                     'img' => $lesson->getImg(),
-                    'sectionId' => $sectionId
+                    'sectionId' => $sectionId,
+                    'lessonContent' => $lesson->getContent(),
+                    'lessonUrl' => $lesson->getLessonUrl()
                 ];
             }
             $sectionsArray[] = [
@@ -145,7 +149,9 @@ public function lessons(LessonRepository $lessonRepository)
                 'description' => $lesson->getDescription(),
                 'number' => $lesson->getNumber(),
                 'img' => $lesson->getImg(),
-                'lessonSectionId' => $lessonSectionId
+                'lessonSectionId' => $lessonSectionId,
+                'lessonContent' => $lesson->getContent(),
+                'lessonUrl' => $lesson->getLessonUrl()
             ];
         }
 
@@ -385,6 +391,8 @@ public function lessons(LessonRepository $lessonRepository)
         $title = $data['title'];
         $description = $data['description'];
         $sectionId = $data['sectionId'];
+        $lessonUrl = $data['lessonUrl'];
+        $lessonContent = $data['lessonContent'];
 
         $lesson = $lessonRepository->find($id);
         $section = $lessonSectionRepository->find($sectionId);
@@ -396,6 +404,8 @@ public function lessons(LessonRepository $lessonRepository)
         $lesson->setUniqid($uniqId);
         $lesson->setLessonSection($section);
         $lesson->setImg($sectionImg);
+        $lesson->setContent($lessonContent);
+        $lesson->setLessonUrl($lessonUrl);
 
         $entityManager->persist($lesson);
         $entityManager->flush();

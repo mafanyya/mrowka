@@ -12,6 +12,10 @@ use App\Entity\User;
 use App\Entity\RefreshToken;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTManager;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 use Symfony\Config\LexikJwtAuthentication\TokenExtractors\AuthorizationHeaderConfig;
 
 
@@ -22,8 +26,22 @@ class LoginController extends AbstractController
     public function getCredential():Response
     {
         $user = $this->getUser();
+
+        $encoder = new JsonEncoder();
+        $defaultContext = [
+            AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function (object $object, string $format, array $context): string {
+                return $object->getId();
+            },
+        ];
+        $normalizer = new ObjectNormalizer(null, null, null, null, null, null, $defaultContext);
+
+        $serializer = new Serializer([$normalizer], [$encoder]);
+        $data = $serializer->serialize($user, 'json');
+        $userData = json_decode($data, true);
+
+
         return $this->json([
-            'user' => $user
+            'user' => $userData
         ]);
     }
 

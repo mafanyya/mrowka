@@ -1,9 +1,9 @@
 <template>
 <div class="lesson-dictionary-section">
-  <template v-if = "!wordsData">
+  <template v-if = "!wordsData || wordsData.words.length === 0">
     <div class="no-words">
       <i class="fi fi-br-books"></i>
-      <p>Brak słów</p>
+      <p>Brak słów w tej lekcji</p>
     </div>
   </template>
   <template v-else>
@@ -30,11 +30,21 @@
               </div>
             </div>
             <div class="clm-2">
-              <NuxtLink class="link" :to="'/dashboard/section/' + word.lessonId">
-                <div class="lesson-id">
+              <template v-if = "userData">
+                <div v-if = "!isHasWord(word.id)" @click.prevent = "addWordUser(word.id)" class="lesson-id">
                   <i class="fi fi-rr-add"></i>
                 </div>
-              </NuxtLink>
+                <div v-if = "isHasWord(word.id) || wordsPending" @click.prevent = "removeWordUser(word.id)" class="lesson-id">
+                  <i class="fi fi-br-check-circle"></i>
+                  <i class="fi fi-br-cross-small"></i>
+                </div>
+              </template>
+              <template v-else>
+                <div  class="lesson-id-disabled" >
+                  <p>Loading...</p>
+                  <i class="fi fi-rr-truck-loading"></i>
+                </div>
+              </template>
             </div>
           </div>
 
@@ -46,6 +56,7 @@
 </div>
 </template>
 <script setup lang="js">
+const {refresh: refreshUser, status: userStatus, data: userData, signOut, token, refreshToken} = useAuth()
 let props = defineProps({
   lessonId: {
     type: Number
@@ -64,6 +75,66 @@ const {
       }
     }
 )
+
+async function addWordUser(wordId) {
+  const {
+    data: addWordData,
+    error: addWordError,
+    refresh: refreshAddWord,
+    pending: addWordPending
+  } = await useFetch('http://localhost:8000/api/add-word-user', {
+        method: 'POST',
+        body: {
+          wordId: wordId,
+          userId: userData.value.user.id
+        }
+      }
+  )
+  if(addWordData.value){
+    console.log('Add word data is ')
+    console.log(addWordData.value)
+    await refreshUser()
+  }
+  if(addWordError.value){
+    console.log('Add word error is ')
+    console.log(addWordError.value)
+  }
+}
+
+async function removeWordUser(wordId) {
+  const {
+    data: removeWordData,
+    error: removeWordError,
+    refresh: refreshRemoveWord,
+    pending: removeWordPending
+  } = await useFetch('http://localhost:8000/api/remove-word-user', {
+        method: 'POST',
+        body: {
+          wordId: wordId,
+          userId: userData.value.user.id
+        }
+      }
+  )
+  if(removeWordData.value){
+    console.log('Add word data is ')
+    console.log(removeWordData.value)
+    await refreshUser()
+  }
+  if(removeWordError.value){
+    console.log('Add word error is ')
+    console.log(removeWordError.value)
+  }
+}
+
+function isHasWord(wordId){
+  console.log(wordId)
+  for(let word of userData.value.user.words){
+    console.log(word)
+    if(word.id === wordId){
+      return true
+    }
+  }
+}
 </script>
 
 <style scoped>
@@ -182,6 +253,53 @@ const {
   border-radius: 0.5rem;
   color: white;
   cursor: pointer;
+  transition: 0.25s ease;
+  font-size: 1.1rem;
+}
+
+.lesson-dictionary-section  .words-wrapper .word .row-1 .clm-2 .lesson-id .fi-rr-truck-loading{
+  background-color: #747474;
+  margin-left: 1rem;
+  cursor: default;
+}
+.lesson-dictionary-section  .words-wrapper .word .row-1 .clm-2 .lesson-id p{
+  color: #727272;
+  margin-right: 1rem;
+}
+.lesson-dictionary-section  .words-wrapper .word .row-1 .clm-2 .lesson-id .fi-br-check-circle{
+  background-color: transparent;
+  margin-left: 1rem;
+  cursor: default;
+  color: #32a88a;
+  font-size: 1.5rem;
+
+}
+.lesson-dictionary-section  .words-wrapper .word .row-1 .clm-2 .lesson-id .fi-br-check-circle:hover{
+  background-color: #32A88A;
+}
+.lesson-dictionary-section  .words-wrapper .word .row-1 .clm-2 .lesson-id .fi-br-cross-small{
+  background-color: #DE7C7C;
+  margin-left: 1rem;
+}
+.lesson-dictionary-section  .words-wrapper .word .row-1 .clm-2 .lesson-id .fi-br-cross-small:hover{
+  background-color: #e16363;
+}
+
+.lesson-dictionary-section  .words-wrapper .word .row-1 .clm-2 .lesson-id-disabled {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.lesson-dictionary-section  .words-wrapper .word .row-1 .clm-2 .lesson-id-disabled i {
+  height: 2rem;
+  width: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #32A88A;
+  border-radius: 0.5rem;
+  color: white;
   transition: 0.25s ease;
   font-size: 1.1rem;
 }

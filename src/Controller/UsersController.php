@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Repository\LessonRepository;
+use App\Repository\TestRepository;
+use App\Repository\WordRepository;
 use DateTime;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
@@ -13,6 +16,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\User;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\UserRepository;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 
 class UsersController extends AbstractController
@@ -24,27 +31,43 @@ class UsersController extends AbstractController
     {
         $users = $userRepository->findAll();
 
-        return $this->json(['users' => $users]);
-    }
-    #[Route('/api/users/find-me', name: 'api_users_find_me')]
-    public function findMe(UserRepository $userRepository, Request $request)
-    {
-        $data = json_decode($request->getContent(), associative: true);
-        $uniqId = $data['data']['user']['uniqid'];
-        $user = $userRepository->findOneByUniqId($uniqId);
+        $encoder = new JsonEncoder();
+        $defaultContext = [
+            AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function (object $object, string $format, array $context): string {
+                return $object->getId();
+            },
+        ];
+        $normalizer = new ObjectNormalizer(null, null, null, null, null, null, $defaultContext);
 
-        return $this->json([
-            'data' => $data,
-            'user' => $user
-            ]);
+        $serializer = new Serializer([$normalizer], [$encoder]);
+        $encodeData = $serializer->serialize($users, 'json');
+
+        $usersData = json_decode($encodeData, true);
+
+        return $this->json(['users' => $usersData]);
     }
+
     #[Route('/api/users/find', name: 'api_users_find')]
     public function find(UserRepository $userRepository, Request $request)
     {
         $data = json_decode($request->getContent(), associative: true);
         $uniqid = $data['uniqid'];
         $user = $userRepository->findOneByUniqId($uniqid);
-        return $this->json(['user' => $user]);
+
+        $encoder = new JsonEncoder();
+        $defaultContext = [
+            AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function (object $object, string $format, array $context): string {
+                return $object->getId();
+            },
+        ];
+        $normalizer = new ObjectNormalizer(null, null, null, null, null, null, $defaultContext);
+
+        $serializer = new Serializer([$normalizer], [$encoder]);
+        $encodeData = $serializer->serialize($user, 'json');
+
+        $userData = json_decode($encodeData, true);
+
+        return $this->json(['user' => $userData]);
     }
     #[Route('/api/user/edit', name: 'api_user_edit')]
     public function edit(UserRepository $userRepository, Request $request, EntityManagerInterface $entityManager)
@@ -62,7 +85,7 @@ class UsersController extends AbstractController
         $entityManager->flush();
 
 
-        return $this->json(['message' => 'User successfully edited', 'user' => $user]);
+        return $this->json(['message' => 'User successfully edited']);
     }
     #[Route('/api/user/psw-upgrade', name: 'api_user_psw_upgrade')]
     public function upgradePassword(UserRepository $userRepository, Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPasswordHasher)
@@ -182,6 +205,73 @@ class UsersController extends AbstractController
             'users_last_week' => $usersLastWeek
             ]);
 
+    }
+
+    #[Route('/api/add-word-user', name: 'api_add_word_user')]
+    public function addWordUser(UserRepository $userRepository, WordRepository $wordRepository, Request $request, EntityManagerInterface $entityManager)
+    {
+        $data = json_decode($request->getContent(), associative: true);
+        $wordId = $data['wordId'];
+        $userId = $data['userId'];
+
+        $user = $userRepository->find($userId);
+        $word = $wordRepository->find($wordId);
+
+        $user->addWord($word);
+        $wordName = $word->getName();
+
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+
+        return $this->json(['wordName' => $wordName]);
+    }
+
+    #[Route('/api/remove-word-user', name: 'api_remove_word_user')]
+    public function removeWordUser(UserRepository $userRepository, WordRepository $wordRepository, Request $request, EntityManagerInterface $entityManager)
+    {
+        $data = json_decode($request->getContent(), associative: true);
+        $wordId = $data['wordId'];
+        $userId = $data['userId'];
+
+        $user = $userRepository->find($userId);
+        $word = $wordRepository->find($wordId);
+
+        $user->removeWord($word);
+        $wordName = $word->getName();
+
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+
+        return $this->json(['wordName' => $wordName]);
+    }
+
+    #[Route('/api/add-lesson-user', name: 'api_add_lesson_user')]
+    public function addLessonUser(UserRepository $userRepository, WordRepository $wordRepository, TestRepository $testRepository, LessonRepository $lessonRepository, Request $request, EntityManagerInterface $entityManager)
+    {
+        $data = json_decode($request->getContent(), associative: true);
+        $testId = $data['testId'];
+        $userId = $data['userId'];
+
+        $test = $testRepository->find($testId);
+        $user = $userRepository->find($userId);
+
+        $lesson = $test->getLesson();
+        $section = $lesson->getLessonSection();
+
+        $user->addTest($test);
+        $user->addLesson($lesson);
+        $user->addSection($section);
+
+        $testTitle = $test->getTitle();
+
+
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+
+        return $this->json(['testTitle' => $testTitle]);
     }
 
 }

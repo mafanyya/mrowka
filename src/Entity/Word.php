@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\WordRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: WordRepository::class)]
@@ -21,6 +23,14 @@ class Word
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $translation = null;
+
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'words')]
+    private Collection $users;
+
+    public function __construct()
+    {
+        $this->users = new ArrayCollection();
+    }
 
 
     public function getId(): ?int
@@ -60,6 +70,33 @@ class Word
     public function setTranslation(?string $translation): static
     {
         $this->translation = $translation;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): static
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->addWord($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): static
+    {
+        if ($this->users->removeElement($user)) {
+            $user->removeWord($this);
+        }
 
         return $this;
     }

@@ -54,6 +54,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $register_at = null;
 
+    #[ORM\ManyToMany(targetEntity: Word::class, inversedBy: 'users')]
+    private Collection $words;
+
+    #[ORM\ManyToMany(targetEntity: Test::class, inversedBy: 'users')]
+    private Collection $tests;
+
+    #[ORM\ManyToMany(targetEntity: Lesson::class, inversedBy: 'users')]
+    private Collection $lessons;
+
+    #[ORM\ManyToMany(targetEntity: LessonSection::class, inversedBy: 'users')]
+    private Collection $sections;
+
+    public function __construct()
+    {
+        $this->words = new ArrayCollection();
+        $this->tests = new ArrayCollection();
+        $this->lessons = new ArrayCollection();
+        $this->sections = new ArrayCollection();
+    }
+
 
 
     public function getId(): ?int
@@ -217,6 +237,102 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setRegisterAt(?\DateTimeImmutable $register_at): static
     {
         $this->register_at = $register_at;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Word>
+     */
+    public function getWords(): Collection
+    {
+        return $this->words;
+    }
+
+    public function addWord(Word $word): static
+    {
+        if (!$this->words->contains($word)) {
+            $this->words->add($word);
+        }
+
+        return $this;
+    }
+
+    public function removeWord(Word $word): static
+    {
+        $this->words->removeElement($word);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Test>
+     */
+    public function getTests(): Collection
+    {
+        return $this->tests;
+    }
+
+    public function addTest(Test $test): static
+    {
+        if (!$this->tests->contains($test)) {
+            $this->tests->add($test);
+        }
+
+        return $this;
+    }
+
+    public function removeTest(Test $test): static
+    {
+        $this->tests->removeElement($test);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Lesson>
+     */
+    public function getLessons(): Collection
+    {
+        return $this->lessons;
+    }
+
+    public function addLesson(Lesson $lesson): static
+    {
+        if (!$this->lessons->contains($lesson)) {
+            $this->lessons->add($lesson);
+        }
+
+        return $this;
+    }
+
+    public function removeLesson(Lesson $lesson): static
+    {
+        $this->lessons->removeElement($lesson);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, LessonSection>
+     */
+    public function getSections(): Collection
+    {
+        return $this->sections;
+    }
+
+    public function addSection(LessonSection $section): static
+    {
+        if (!$this->sections->contains($section)) {
+            $this->sections->add($section);
+        }
+
+        return $this;
+    }
+
+    public function removeSection(LessonSection $section): static
+    {
+        $this->sections->removeElement($section);
 
         return $this;
     }

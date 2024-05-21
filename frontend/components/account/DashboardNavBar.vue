@@ -27,14 +27,26 @@
   </NuxtLink>
   <NuxtLink to = "/dashboard/dictionary">
     <div class="btn">
-      <i class="fi fi-sr-diary-bookmark-down"></i>
+      <i class="fi fi-sr-book"></i>
       <p>Słownik</p>
+    </div>
+  </NuxtLink>
+  <NuxtLink to = "/dashboard/mydictionary">
+    <div class="btn">
+      <i class="fi fi-sr-diary-bookmark-down"></i>
+      <p>Mój słownik</p>
     </div>
   </NuxtLink>
   <NuxtLink to = "/dashboard/tests">
     <div class="btn">
       <i class="fi fi-sr-test"></i>
       <p>Testy</p>
+    </div>
+  </NuxtLink>
+  <NuxtLink to = "/dashboard/achievements">
+    <div class="btn">
+      <i class="fi fi-sr-trophy-star"></i>
+      <p>Osiągnięcia</p>
     </div>
   </NuxtLink>
   <NuxtLink to = "/dashboard/settings">
@@ -53,6 +65,12 @@
 </template>
 <script setup lang="js">
 const {data: userData, signOut} = useAuth()
+const data = useAuth()
+let id
+if(userData.value){
+  id = userData.value.user.id
+}
+
 async function logOut() {
   const {signOut} = useAuth()
   const {data, error} = await useFetch('http://localhost:8000/api/user/log_out', {

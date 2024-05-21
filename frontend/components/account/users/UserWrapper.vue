@@ -75,7 +75,6 @@
 </template>
 
 <script setup lang="js">
-import DeleteUserAlert from "~/components/account/users/DeleteUserAlert.vue";
 let uniqId
 
 let props = defineProps({

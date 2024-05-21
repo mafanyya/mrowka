@@ -48,9 +48,17 @@ class Lesson
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $lessonUrl = null;
 
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'lessons')]
+    private Collection $users;
+
+    #[ORM\OneToMany(mappedBy: 'lesson', targetEntity: Achievement::class)]
+    private Collection $achievements;
+
     public function __construct()
     {
         $this->dictionary = new ArrayCollection();
+        $this->users = new ArrayCollection();
+        $this->achievements = new ArrayCollection();
     }
 
 
@@ -196,6 +204,63 @@ class Lesson
     public function setLessonUrl(?string $lessonUrl): static
     {
         $this->lessonUrl = $lessonUrl;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): static
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->addLesson($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): static
+    {
+        if ($this->users->removeElement($user)) {
+            $user->removeLesson($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Achievement>
+     */
+    public function getAchievements(): Collection
+    {
+        return $this->achievements;
+    }
+
+    public function addAchievement(Achievement $achievement): static
+    {
+        if (!$this->achievements->contains($achievement)) {
+            $this->achievements->add($achievement);
+            $achievement->setLesson($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAchievement(Achievement $achievement): static
+    {
+        if ($this->achievements->removeElement($achievement)) {
+            // set the owning side to null (unless already changed)
+            if ($achievement->getLesson() === $this) {
+                $achievement->setLesson(null);
+            }
+        }
 
         return $this;
     }

@@ -24,6 +24,24 @@
             maxlength="255"
         />
         </div>
+        <label for="lesson-content-input">Konspekt zajęcia</label>
+        <div class="input-2">
+        <textarea
+            v-model="lessonContent"
+            id="lesson-content-input"
+            form="add-lesson-form"
+            minlength="1"
+        />
+        </div>
+        <label for="lesson-url-input">Link zajęcia</label>
+        <div class="input-1">
+          <input
+              v-model="lessonUrl"
+              type="text"
+              id="lesson-url-input"
+              minlength="1"
+          >
+        </div>
         <label for="lesson-description-input">Sekcja</label>
         <div @click.prevent="openSectionOptions()" class="input-3">
           <input
@@ -97,6 +115,8 @@ if (lessonError.value) {
 let title = ref(lessonData.value.lesson.title)
 let description = ref(lessonData.value.lesson.description)
 let sectionId = ref(lessonData.value.lesson.lessonSection)
+let lessonContent = ref(lessonData.value.lesson.lessonContent)
+let lessonUrl = ref(lessonData.value.lesson.lessonUrl)
 
 async function editLesson() {
   title.value = convertTitle(title.value)
@@ -110,7 +130,9 @@ async function editLesson() {
           id: props.lessonId,
           title: title.value,
           description: description.value,
-          sectionId: sectionId.value
+          sectionId: sectionId.value,
+          lessonUrl: lessonUrl.value,
+          lessonContent: lessonContent.value
         },
       }
   )
@@ -214,6 +236,7 @@ function selectSectionValue(id) {
   padding-top: 1rem;
   padding-right: 2rem;
   padding-left: 2rem;
+  overflow-y: auto;
 }
 
 .lesson-edit-form .header {

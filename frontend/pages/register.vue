@@ -109,7 +109,8 @@ function createError(errorCode) {
   switch (errorCode) {
     case 100:
       registerError.style.visibility = 'visible'
-      registerError.innerText = 'Registration successful'
+        registerError.style.color = '#32A88A'
+      registerError.innerText = 'Pomyślnie zarejestrowany'
       break
     case 410:
       registerError.style.visibility = 'visible'

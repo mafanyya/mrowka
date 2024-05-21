@@ -34,9 +34,13 @@ class LessonSection
     #[ORM\Column(length: 13)]
     private ?string $uniqid = null;
 
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'sections')]
+    private Collection $users;
+
     public function __construct()
     {
         $this->lessons = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -130,6 +134,33 @@ class LessonSection
     public function setUniqid(string $uniqid): static
     {
         $this->uniqid = $uniqid;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): static
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->addSection($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): static
+    {
+        if ($this->users->removeElement($user)) {
+            $user->removeSection($this);
+        }
 
         return $this;
     }
