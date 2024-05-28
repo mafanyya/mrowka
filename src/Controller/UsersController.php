@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Repository\AchievementRepository;
 use App\Repository\LessonRepository;
+use App\Repository\LessonSectionRepository;
 use App\Repository\TestRepository;
 use App\Repository\WordRepository;
 use DateTime;
@@ -27,9 +29,99 @@ class UsersController extends AbstractController
 
 
     #[Route('/api/users', name: 'api_users')]
-    public function index(UserRepository $userRepository)
+    public function index(UserRepository $userRepository, WordRepository $wordRepository, LessonRepository $lessonRepository,
+                         LessonSectionRepository $lessonSectionRepository, AchievementRepository $achievementRepository,
+                         TestRepository $testRepository, Request $request):Response
     {
         $users = $userRepository->findAll();
+        $usersArray = [];
+
+        foreach ($users as $user){
+            $userId = $user->getId();
+            $words = $wordRepository->findWordsByUser($userId);
+            $wordsArray = [];
+            $sectionsArray = [];
+            foreach ($words as $word){
+                $sectionsArray[] = [
+                    'id' => $word->getLesson()->getLessonSection()->getId()
+                ];
+
+                $wordsArray[] = [
+                    'id' => $word->getId(),
+                    'name' => $word->getName(),
+                    'translation' => $word->getTranslation(),
+                    'img' => $word->getLesson()->getImg(),
+                    'lessonUniqid' => $word->getLesson()->getUniqid(),
+                    'lessonId' => $word->getLesson()->getId(),
+                    'sectionId' => $word->getLesson()->getLessonSection()->getId(),
+
+                ];
+            }
+            $achievementsArray = [];
+            $achievements = $achievementRepository->findAchievementsByUser($userId);
+            foreach ($achievements as $achievement){
+                $achievementsArray[] = [
+                    'id' => $achievement->getId(),
+                    'title' => $achievement->getTitle(),
+                    'uniqid' => $achievement->getUniqid(),
+                    'img' => $achievement->getImg()
+                ];
+            }
+
+            $testsArray = [];
+            $tests = $testRepository->findtestsByUser($userId);
+            foreach ($tests as $test){
+                $testsArray[] = [
+                    'id' => $test->getId(),
+                    'title' => $test->getTitle(),
+                    'uniqid' => $test->getUniqid(),
+                ];
+            }
+
+            $sectionsArray = [];
+            $sections = $lessonSectionRepository->findSectionsByUser($userId);
+            foreach ($sections as $section){
+                $sectionsArray[] = [
+                    'id' => $section->getId(),
+                    'title' => $section->getTitle(),
+                    'uniqid' => $section->getUniqid(),
+                ];
+            }
+
+            $lessonsArray = [];
+            $lessons = $lessonRepository->findLessonsByUser($userId);
+            foreach ($lessons as $lesson){
+                $lessonsArray[] = [
+                    'id' => $lesson->getId(),
+                    'title' => $lesson->getTitle(),
+                    'uniqid' => $lesson->getUniqid(),
+                ];
+            }
+
+            $userData = [];
+            $userData = [
+                'id' => $user->getId(),
+                'uniqid' => $user->getUniqid(),
+                'email' => $user->getEmail(),
+                'name' =>$user->getName(),
+                'avatar' => $user->getAvatar(),
+                'password' => $user->getPassword(),
+                'lastSeen' => $user->getLastseen(),
+                'registeredAt' => $user->getRegisterAt(),
+                'roles' => $user->getRoles(),
+                'status' => $user->isStatus(),
+                'isAdmin' => $user->isIsAdmin(),
+                'achievements' => $achievementsArray,
+                'lessons' => $lessonsArray,
+                'sections' => $sectionsArray,
+                'tests' => $testsArray,
+                'words' => $wordsArray
+            ];
+
+            $usersArray[] = [
+                'user' => $userData
+            ];
+        }
 
         $encoder = new JsonEncoder();
         $defaultContext = [
@@ -40,7 +132,7 @@ class UsersController extends AbstractController
         $normalizer = new ObjectNormalizer(null, null, null, null, null, null, $defaultContext);
 
         $serializer = new Serializer([$normalizer], [$encoder]);
-        $encodeData = $serializer->serialize($users, 'json');
+        $encodeData = $serializer->serialize($usersArray, 'json');
 
         $usersData = json_decode($encodeData, true);
 
@@ -48,11 +140,94 @@ class UsersController extends AbstractController
     }
 
     #[Route('/api/users/find', name: 'api_users_find')]
-    public function find(UserRepository $userRepository, Request $request)
+    public function find(UserRepository $userRepository, WordRepository $wordRepository, LessonRepository $lessonRepository,
+                         LessonSectionRepository $lessonSectionRepository, AchievementRepository $achievementRepository,
+                         TestRepository $testRepository, Request $request):Response
     {
         $data = json_decode($request->getContent(), associative: true);
         $uniqid = $data['uniqid'];
         $user = $userRepository->findOneByUniqId($uniqid);
+
+        $userId = $user->getId();
+        $words = $wordRepository->findWordsByUser($userId);
+        $wordsArray = [];
+        $sectionsArray = [];
+        foreach ($words as $word){
+            $sectionsArray[] = [
+                'id' => $word->getLesson()->getLessonSection()->getId()
+            ];
+
+            $wordsArray[] = [
+                'id' => $word->getId(),
+                'name' => $word->getName(),
+                'translation' => $word->getTranslation(),
+                'img' => $word->getLesson()->getImg(),
+                'lessonUniqid' => $word->getLesson()->getUniqid(),
+                'lessonId' => $word->getLesson()->getId(),
+                'sectionId' => $word->getLesson()->getLessonSection()->getId(),
+
+            ];
+        }
+        $achievementsArray = [];
+        $achievements = $achievementRepository->findAchievementsByUser($userId);
+        foreach ($achievements as $achievement){
+            $achievementsArray[] = [
+                'id' => $achievement->getId(),
+                'title' => $achievement->getTitle(),
+                'uniqid' => $achievement->getUniqid(),
+                'img' => $achievement->getImg()
+            ];
+        }
+
+        $testsArray = [];
+        $tests = $testRepository->findtestsByUser($userId);
+        foreach ($tests as $test){
+            $testsArray[] = [
+                'id' => $test->getId(),
+                'title' => $test->getTitle(),
+                'uniqid' => $test->getUniqid(),
+            ];
+        }
+
+        $sectionsArray = [];
+        $sections = $lessonSectionRepository->findSectionsByUser($userId);
+        foreach ($sections as $section){
+            $sectionsArray[] = [
+                'id' => $section->getId(),
+                'title' => $section->getTitle(),
+                'uniqid' => $section->getUniqid(),
+            ];
+        }
+
+        $lessonsArray = [];
+        $lessons = $lessonRepository->findLessonsByUser($userId);
+        foreach ($lessons as $lesson){
+            $lessonsArray[] = [
+                'id' => $lesson->getId(),
+                'title' => $lesson->getTitle(),
+                'uniqid' => $lesson->getUniqid(),
+            ];
+        }
+
+        $userData = [];
+        $userData = [
+            'id' => $user->getId(),
+            'uniqid' => $user->getUniqid(),
+            'email' => $user->getEmail(),
+            'name' =>$user->getName(),
+            'avatar' => $user->getAvatar(),
+            'password' => $user->getPassword(),
+            'lastSeen' => $user->getLastseen(),
+            'registeredAt' => $user->getRegisterAt(),
+            'roles' => $user->getRoles(),
+            'status' => $user->isStatus(),
+            'isAdmin' => $user->isIsAdmin(),
+            'achievements' => $achievementsArray,
+            'lessons' => $lessonsArray,
+            'sections' => $sectionsArray,
+            'tests' => $testsArray,
+            'words' => $wordsArray
+        ];
 
         $encoder = new JsonEncoder();
         $defaultContext = [
@@ -63,11 +238,14 @@ class UsersController extends AbstractController
         $normalizer = new ObjectNormalizer(null, null, null, null, null, null, $defaultContext);
 
         $serializer = new Serializer([$normalizer], [$encoder]);
-        $encodeData = $serializer->serialize($user, 'json');
+        $data = $serializer->serialize($userData, 'json');
+        $userDataValue = json_decode($data, true);
 
-        $userData = json_decode($encodeData, true);
 
-        return $this->json(['user' => $userData]);
+        return $this->json([
+            'user' => $userDataValue,
+            'test' => 'test'
+        ]);
     }
     #[Route('/api/user/edit', name: 'api_user_edit')]
     public function edit(UserRepository $userRepository, Request $request, EntityManagerInterface $entityManager)
@@ -168,10 +346,12 @@ class UsersController extends AbstractController
     public function countUsers(UserRepository $userRepository)
     {
         $users = $userRepository->findAll();
-        $usersCount = count($users);
+        $usersAllCount = count($users);
         $allOnlineCount = count($userRepository->findAllOnline());
         $adminsOnlineCount = count($userRepository->findOnlineAdmins());
         $usersOnlineCount = count($userRepository->findOnlineUsers());
+        $usersCount = count($userRepository->findUsers());
+        $adminsCount = count($userRepository->findAdmins());
 
         $nowDateTime = new DateTime(date("Y-m-d H:i:s"));
 
@@ -197,12 +377,14 @@ class UsersController extends AbstractController
         return $this->json([
             'last_week_time' => $lastWeekDateTime,
             'today_time' => $todayDateTime,
-            'users_count' => $usersCount,
+            'users_count' => $usersAllCount,
             'all_online_count' => $allOnlineCount,
             'admins_online_count' => $adminsOnlineCount,
             'users_online_count' => $usersOnlineCount,
             'users_today' => $usersToday,
-            'users_last_week' => $usersLastWeek
+            'users_last_week' => $usersLastWeek,
+            'admins_count' => $adminsCount,
+            'users_count_users' => $usersCount
             ]);
 
     }
@@ -258,6 +440,10 @@ class UsersController extends AbstractController
         $user = $userRepository->find($userId);
 
         $lesson = $test->getLesson();
+        $achievements = $lesson->getAchievements();
+        foreach ($achievements as $achievement) {
+            $user->addAchievement($achievement);
+        }
         $section = $lesson->getLessonSection();
 
         $user->addTest($test);

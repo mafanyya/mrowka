@@ -31,8 +31,21 @@ class WordRepository extends ServiceEntityRepository
             ->setParameter('id', $id)
             ->orderBy('w.id', 'ASC')
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
+    }
+
+    /**
+     * @return Word[] Returns an array of Word objects
+     */
+    public function findWordsByUser($id): array
+    {
+        return $this->createQueryBuilder('w')
+            ->innerJoin('w.users', 'u')
+            ->andWhere('u.id = :id')
+            ->setParameter('id', $id)
+            ->orderBy('w.id', 'ASC')
+            ->getQuery()
+            ->getResult();
     }
 
     public function remove(Word $entity, bool $flush = true): void
@@ -43,6 +56,7 @@ class WordRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
 
 //    public function findOneBySomeField($value): ?Word
 //    {

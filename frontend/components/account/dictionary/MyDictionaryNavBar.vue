@@ -27,24 +27,21 @@ function addWord() {
 
 <style scoped>
 .dictionary-settings-nav-bar {
-//border: 1px solid red; width: 100%;
-  height: 5rem;
+//border: 1px solid red; width: 100%; height: 5rem;
   display: flex;
   margin-top: 1rem;
   padding: 3rem 3rem;
 }
 
 .dictionary-settings-nav-bar .clm-1 {
-//border: 1px solid red; width: 70%;
-  display: flex;
+//border: 1px solid red; width: 70%; display: flex;
   align-items: center;
   font-size: 3rem;
   color: #6d7bbc;
 }
 
 .dictionary-settings-nav-bar .clm-2 {
-//border: 1px solid red; width: 30%;
-  display: flex;
+//border: 1px solid red; width: 30%; display: flex;
   justify-content: end;
   align-items: center;
 }

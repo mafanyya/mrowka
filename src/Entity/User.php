@@ -66,12 +66,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: LessonSection::class, inversedBy: 'users')]
     private Collection $sections;
 
+    #[ORM\ManyToMany(targetEntity: Achievement::class, inversedBy: 'users')]
+    private Collection $achievements;
+
     public function __construct()
     {
         $this->words = new ArrayCollection();
         $this->tests = new ArrayCollection();
         $this->lessons = new ArrayCollection();
         $this->sections = new ArrayCollection();
+        $this->achievements = new ArrayCollection();
     }
 
 
@@ -333,6 +337,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeSection(LessonSection $section): static
     {
         $this->sections->removeElement($section);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Achievement>
+     */
+    public function getAchievements(): Collection
+    {
+        return $this->achievements;
+    }
+
+    public function addAchievement(Achievement $achievement): static
+    {
+        if (!$this->achievements->contains($achievement)) {
+            $this->achievements->add($achievement);
+        }
+
+        return $this;
+    }
+
+    public function removeAchievement(Achievement $achievement): static
+    {
+        $this->achievements->removeElement($achievement);
 
         return $this;
     }

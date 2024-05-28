@@ -12,6 +12,7 @@
 </template>
 <script setup lang="js">
 import {onMounted} from "vue";
+
 let props = defineProps({
   progress: {
     type: Number
@@ -64,18 +65,15 @@ function updateProgressBar(progress) {
 </script>
 <style scoped>
 .progress-bar {
-//border: 1px solid red; width: 100%;
-  display: flex;
+//border: 1px solid red; width: 100%; display: flex;
   flex-direction: column;
   height: 3rem;
   margin-bottom: 2rem;
-//align-items: center; justify-content: center;
-//padding-right: 1rem; //padding-left: 1rem;
+//align-items: center; justify-content: center; //padding-right: 1rem; //padding-left: 1rem;
 }
 
 .progress-bar .header {
-//border: 1px solid red; color: #727272;
-  font-size: 0.9rem;
+//border: 1px solid red; color: #727272; font-size: 0.9rem;
   margin-left: 1rem;
   margin-bottom: 0.5rem;
   display: flex;
@@ -114,8 +112,7 @@ function updateProgressBar(progress) {
 }
 
 .progress-bar .bar {
-//border: 1px solid green; background-color: #84DCC6;
-  width: 100%;
+//border: 1px solid green; background-color: #84DCC6; width: 100%;
   height: 1rem;
   display: flex;
   border-radius: 1rem;

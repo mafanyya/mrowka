@@ -270,8 +270,7 @@ function selectSectionValue(id) {
 
 .lesson-edit-form form .input-1 input {
   background-color: #D6EDFF;
-//border: 1px solid red; height: 3rem;
-  width: 100%;
+//border: 1px solid red; height: 3rem; width: 100%;
   margin-bottom: 1rem;
   border-radius: 0.5rem;
   padding-left: 1rem;
@@ -292,8 +291,7 @@ function selectSectionValue(id) {
 
 .lesson-edit-form form .input-2 textarea {
   background-color: #D6EDFF;
-//border: 1px solid red; height: 100%;
-  width: 100%;
+//border: 1px solid red; height: 100%; width: 100%;
   margin-bottom: 1rem;
   border-radius: 0.5rem;
   padding: 1rem;
@@ -330,8 +328,7 @@ function selectSectionValue(id) {
 
 .lesson-edit-form form .input-3 input {
   background-color: #D6EDFF;
-//border: 1px solid red; height: 2.5rem;
-  width: 85%;
+//border: 1px solid red; height: 2.5rem; width: 85%;
   margin-bottom: 1rem;
   border-top-left-radius: 0.5rem;
   border-bottom-left-radius: 0.5rem;
@@ -344,23 +341,20 @@ function selectSectionValue(id) {
 
 .lesson-edit-form form .input-3-sections {
   height: 12rem;
-//border: 1px solid red; background-color: #D6EDFF;
-  border-bottom-left-radius: 0.5rem;
+//border: 1px solid red; background-color: #D6EDFF; border-bottom-left-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
   padding: 0.5rem 1rem 1rem;
   display: none;
 }
 
 .lesson-edit-form form .input-3-sections .sections-wrapper {
-//border: 1px solid red; height: 100%;
-  overflow-y: auto;
+//border: 1px solid red; height: 100%; overflow-y: auto;
   font-size: 0.9rem;
   color: #7886ba;
 }
 
 .lesson-edit-form form .input-3-sections .sections-wrapper .section {
-//border: 1px solid red; height: 1.5rem;
-  margin-bottom: 0.5rem;
+//border: 1px solid red; height: 1.5rem; margin-bottom: 0.5rem;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -380,8 +374,7 @@ function selectSectionValue(id) {
 }
 
 .lesson-edit-form form .input-3-sections .sections-wrapper .section .img {
-//border: 1px solid red; width: 6%;
-  margin-right: 0.5rem;
+//border: 1px solid red; width: 6%; margin-right: 0.5rem;
   margin-left: 0.5rem;
 }
 
@@ -407,8 +400,7 @@ function selectSectionValue(id) {
 }
 
 .lesson-edit-form form button[type = submit] {
-//border: 1px solid red; width: 100%;
-  height: 4rem;
+//border: 1px solid red; width: 100%; height: 4rem;
   margin-top: 2rem;
   background-color: #8B95C9;
   border-radius: 0.5rem;

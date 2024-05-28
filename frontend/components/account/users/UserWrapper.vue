@@ -11,17 +11,18 @@
       </div>
     </div>
   <div v-if = "!props.usersPending" class="user-wrapper">
-    <template v-for="user in users.users">
-      <div class="user" v-if="user.status && !user.isAdmin">
+    <template v-for="user in usersData.users">
+
+      <div class="user" v-if="user.user.status && !user.user.isAdmin">
         <div class="avatar">
-          <img :src="user.avatar" alt="">
+          <img :src="user.user.avatar" alt="">
         </div>
         <div class="inf">
-          <div class="row1"><p>{{ user.email }}</p>
-            <NuxtLink :to="'/dashboard/users/' + user.uniqid">
-              <p class="uniqid">@{{ user.uniqid }}</p>
+          <div class="row1"><p>{{ user.user.email }}</p>
+            <NuxtLink :to="'/dashboard/users/' + user.user.uniqid">
+              <p class="uniqid">@{{ user.user.uniqid }}</p>
             </NuxtLink>
-            <NuxtLink :to="'/dashboard/users/' + user.uniqid">
+            <NuxtLink :to="'/dashboard/users/' + user.user.uniqid">
 
             </NuxtLink>
           </div>
@@ -32,44 +33,48 @@
         </div>
         <div class="panel-1">
           <!--                <button @click.prevent="deleteUser(id = user.id)">delete</button>-->
-          <NuxtLink :to="'/dashboard/users/' + user.uniqid">
+          <NuxtLink :to="'/dashboard/users/' + user.user.uniqid">
             <div class="btn-1">
               <img src="../../../assets/images/icons/pencil.svg" alt="">
             </div>
           </NuxtLink>
-          <div class="btn-2" @click.prevent="openUserDeleteAlert(user.uniqid)">
+          <div class="btn-2" @click.prevent="openUserDeleteAlert(user.user.uniqid)">
             <img src="../../../assets/images/icons/cross-small.svg" alt="">
           </div>
         </div>
       </div>
+
     </template>
-    <template v-for="user in users.users">
-      <div class="user" v-if="!user.status && !user.isAdmin">
+
+    <template v-for="user in usersData.users">
+
+      <div v-if="!user.user.status && !user.user.isAdmin" class="user" >
         <div class="avatar">
-          <img :src="user.avatar" alt="">
+          <img :src="user.user.avatar" alt="">
         </div>
         <div class="inf">
-          <div class="row1"><p>{{ user.email }}</p>
-            <NuxtLink :to="'/dashboard/users/' + user.uniqid">
-              <p class="uniqid">@{{ user.uniqid }}</p>
+          <div class="row1"><p>{{ user.user.email }}</p>
+            <NuxtLink :to="'/dashboard/users/' + user.user.uniqid">
+              <p class="uniqid">@{{ user.user.uniqid }}</p>
             </NuxtLink>
           </div>
-          <div class="row2">
-            <p>ostatnio online {{ convertDate(user.lastseen) }}</p>
-          </div>
+<!--          <div class="row2">-->
+          <!--            <p>ostatnio online {{ convertDate(user.user.lastseen) }}</p>-->
+          <!--          </div>-->
         </div>
         <div class="panel-1">
           <!--                <button @click.prevent="deleteUser(id = user.id)">delete</button>-->
-          <NuxtLink :to="'/dashboard/users/' + user.uniqid">
+          <NuxtLink :to="'/dashboard/users/' + user.user.uniqid">
             <div class="btn-1">
               <img src="../../../assets/images/icons/pencil.svg" alt="">
             </div>
           </NuxtLink>
-          <div class="btn-2" @click.prevent="openUserDeleteAlert(user.uniqid)">
+          <div class="btn-2" @click.prevent="openUserDeleteAlert(user.user.uniqid)">
             <img src="../../../assets/images/icons/cross-small.svg" alt="">
           </div>
         </div>
       </div>
+
     </template>
   </div>
 </template>
@@ -86,7 +91,7 @@ let props = defineProps({
   }
 })
 
-const {pending, data: users, refresh: refreshUsers} = await useFetch('http://localhost:8000/api/users')
+const {pending, data: usersData, refresh: refreshUsers} = await useFetch('http://localhost:8000/api/users')
 function convertDate(date) {
   let convertedDate = new Date(date)
   let options = {year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false}

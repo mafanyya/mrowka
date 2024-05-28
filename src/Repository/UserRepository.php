@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 
 /**
  * @extends ServiceEntityRepository<User>
-* @implements PasswordUpgraderInterface<User>
+ * @implements PasswordUpgraderInterface<User>
  *
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
  * @method User|null findOneBy(array $criteria, array $orderBy = null)
@@ -26,8 +26,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
 
 
-
-
     public function add(User $entity, bool $flush = true): void
     {
         $this->getEntityManager()->persist($entity);
@@ -36,6 +34,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             $this->getEntityManager()->flush();
         }
     }
+
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
     {
         if (!$user instanceof User) {
@@ -46,6 +45,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
     }
+
     public function remove(User $entity, bool $flush = true): void
     {
         $this->getEntityManager()->remove($entity);
@@ -54,8 +54,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             $this->getEntityManager()->flush();
         }
     }
-
-
 
 //    /**
 //     * @return User[] Returns an array of User objects
@@ -66,9 +64,9 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->andWhere('u.status = 1')
             ->orderBy('u.id', 'ASC')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
+
     public function findOnlineUsers(): array
     {
         return $this->createQueryBuilder('u')
@@ -76,9 +74,18 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->andWhere('u.isAdmin = false')
             ->orderBy('u.id', 'ASC')
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
+
+    public function findUsers(): array
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.isAdmin = false')
+            ->orderBy('u.id', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
     public function findOnlineAdmins(): array
     {
         return $this->createQueryBuilder('u')
@@ -86,9 +93,18 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->andWhere('u.isAdmin = true')
             ->orderBy('u.id', 'ASC')
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
+
+    public function findAdmins(): array
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.isAdmin = true')
+            ->orderBy('u.id', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
     public function findRegisteredUsersByTime($date): array
     {
         return $this->createQueryBuilder('u')
@@ -96,8 +112,16 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->setParameter('date', $date)
             ->orderBy('u.id', 'ASC')
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
+    }
+
+    public function findOneByEmail($email): ?User
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.email = :val')
+            ->setParameter('val', $email)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
     //    public function findOneBySomeField($value): ?User
 //    {
@@ -108,14 +132,13 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 //            ->getOneOrNullResult()
 //        ;
 //    }
-        public function findOneByUniqId($uniqid): ?User
+    public function findOneByUniqId($uniqid): ?User
     {
         return $this->createQueryBuilder('u')
             ->andWhere('u.uniqid = :val')
             ->setParameter('val', $uniqid)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
     }
 
 //    public function findOneBySomeField($value): ?User

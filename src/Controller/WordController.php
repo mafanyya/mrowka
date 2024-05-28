@@ -46,6 +46,19 @@ class WordController extends AbstractController
 
         return $this->json(['words' => $wordsArray]);
     }
+
+    #[Route('/api/words-count', name: 'api_words_count')]
+    public function wordsCount(WordRepository $wordRepository)
+    {
+        $words = $wordRepository->findAll();
+
+        $wordsCount = count($words);
+
+        return $this->json([
+            'wordsCount' => $wordsCount
+        ]);
+    }
+
     #[Route('/api/words-by-section', name: 'api_words_by_section')]
     public function wordsBySection(WordRepository $wordRepository, Request $request, LessonSectionRepository $lessonSectionRepository, LessonRepository $lessonRepository)
     {
@@ -58,7 +71,7 @@ class WordController extends AbstractController
             $lessonId = $lesson->getId();
             $lessonImg = $lesson->getImg();
             $wordsBySection = $wordRepository->findWordsByLesson($lessonId);
-            foreach($wordsBySection as $word){
+            foreach ($wordsBySection as $word) {
                 $wordsBySectionArray[] = [
                     'id' => $word->getId(),
                     'name' => $word->getName(),
@@ -70,6 +83,7 @@ class WordController extends AbstractController
         }
         return $this->json(['words' => $wordsBySectionArray]);
     }
+
     #[Route('/api/words-by-lesson', name: 'api_words_by_lesson')]
     public function wordsByLesson(WordRepository $wordRepository, Request $request, LessonSectionRepository $lessonSectionRepository, LessonRepository $lessonRepository)
     {
@@ -79,17 +93,18 @@ class WordController extends AbstractController
         $wordsByLesson = $wordRepository->findWordsByLesson($lessonId);
         $lessonImg = $lesson->getImg();
         $wordsByLessonArray = [];
-            foreach($wordsByLesson as $word){
-                $wordsByLessonArray[] = [
-                    'id' => $word->getId(),
-                    'name' => $word->getName(),
-                    'translation' => $word->getTranslation(),
-                    'lessonId' => $lessonId,
-                    'lessonImg' => $lessonImg
-                ];
-            }
+        foreach ($wordsByLesson as $word) {
+            $wordsByLessonArray[] = [
+                'id' => $word->getId(),
+                'name' => $word->getName(),
+                'translation' => $word->getTranslation(),
+                'lessonId' => $lessonId,
+                'lessonImg' => $lessonImg
+            ];
+        }
         return $this->json(['words' => $wordsByLessonArray]);
     }
+
     #[Route('/api/add-word', name: 'api_add_word')]
     public function addWord(WordRepository $wordRepository, Request $request, LessonRepository $lessonRepository, EntityManagerInterface $entityManager)
     {
@@ -115,7 +130,6 @@ class WordController extends AbstractController
     }
 
     #[Route('/api/remove-word', name: 'api_remove_word')]
-
     public function removeWord(WordRepository $wordRepository, Request $request)
     {
         $data = json_decode($request->getContent(), associative: true);
@@ -128,8 +142,6 @@ class WordController extends AbstractController
 
         return $this->json(['message' => "Word $wordName successfully deleted."]);
     }
-
-
 
 
 }

@@ -44,7 +44,7 @@
                 </div>
                 <div class="clm-2">
                   <div class="edit">
-                    <div @click.prevent="openLessonForm(lesson.id)" class="btn">
+                    <div class="btn">
                       <i class="fi fi-sr-pencil"></i>
                     </div>
                   </div>
@@ -53,7 +53,7 @@
                       <i class="fi fi-br-cross"></i>
                     </div>
                   </div>
-                  <NuxtLink class="link" :to="'/dashboard/section/' + word.lessonId">
+                  <NuxtLink class="link" :to="'/dashboard/lesson-sections'">
                     <div class="lesson-id">
                       <i class="fi fi-sr-book-bookmark"></i>
                     </div>
@@ -71,7 +71,6 @@
                   </div>
                 </div>
               </div>
-
             </div>
           </template>
         </template>
@@ -264,6 +263,7 @@ async function tryDelete(wordId, index) {
       break
   }
 }
+
 async function addWord() {
   if (!validateWordName(name.value)) {
     createError(400)
@@ -300,6 +300,7 @@ async function addWord() {
     }
   }
 }
+
 function createError(errorCode) {
   const formError = document.getElementById('form-error')
   switch (errorCode) {
@@ -327,6 +328,7 @@ function createError(errorCode) {
 
   }
 }
+
 function convertName(wordName) {
   return wordName
       .split(/\s+/)
@@ -483,23 +485,20 @@ function checkIsPending() {
 
 <style scoped>
 .dictionary-wrapper {
-//border: 1px solid purple; width: 100%;
-  height: 100%;
+//border: 1px solid purple; width: 100%; height: 100%;
   display: flex;
 }
 
 .dictionary-wrapper .words {
   width: 70%;
-//border: 1px solid purple; height: 100%;
-  display: flex;
+//border: 1px solid purple; height: 100%; display: flex;
   flex-direction: column;
 }
 
 .dictionary-wrapper .settings-wrapper {
   display: flex;
   flex: 1;
-//border: 1px solid purple; height: 100%;
-  flex-direction: column;
+//border: 1px solid purple; height: 100%; flex-direction: column;
 }
 
 .dictionary-wrapper .settings-wrapper .header {
@@ -514,8 +513,7 @@ function checkIsPending() {
 }
 
 .dictionary-wrapper .settings-wrapper .sections-wrapper {
-//border: 1px solid red; width: 100%;
-  display: flex;
+//border: 1px solid red; width: 100%; display: flex;
   flex-direction: column;
   flex: 1;
   overflow-y: auto;
@@ -539,8 +537,7 @@ function checkIsPending() {
 }
 
 .dictionary-wrapper .settings-wrapper .sections-wrapper .all-row .img {
-//border: 1px solid red; height: 2rem;
-  width: 2rem;
+//border: 1px solid red; height: 2rem; width: 2rem;
   margin-right: 0.5rem;
   margin-left: 1rem;
 
@@ -548,14 +545,12 @@ function checkIsPending() {
 }
 
 .dictionary-wrapper .settings-wrapper .sections-wrapper .section {
-//border: 1px solid red; display: flex;
-  flex-direction: column;
+//border: 1px solid red; display: flex; flex-direction: column;
 //margin-bottom: 2rem;
 }
 
 .dictionary-wrapper .settings-wrapper .sections-wrapper .section .row-1 {
-//border: 1px solid red; display: flex;
-  align-items: center;
+//border: 1px solid red; display: flex; align-items: center;
   background-color: #D6EDFF;
   color: #6D7BBC;
   padding-top: 0.5rem;
@@ -563,8 +558,7 @@ function checkIsPending() {
 }
 
 .dictionary-wrapper .settings-wrapper .sections-wrapper .section .row-1 .img {
-//border: 1px solid red; height: 2rem;
-  width: 2rem;
+//border: 1px solid red; height: 2rem; width: 2rem;
   margin-right: 0.5rem;
   margin-left: 1rem;
 
@@ -581,16 +575,13 @@ function checkIsPending() {
 }
 
 .dictionary-wrapper .settings-wrapper .sections-wrapper .section .lessons {
-//border: 1px solid red; margin-left: 1.5rem;
-
-  padding-bottom: 1rem;
+//border: 1px solid red; margin-left: 1.5rem; padding-bottom: 1rem;
   padding-top: 1rem;
 }
 
 .dictionary-wrapper .settings-wrapper .sections-wrapper .section .lessons .lesson {
   display: flex;
-//border: 1px solid red; align-items: center;
-  margin-bottom: 0.5rem;
+//border: 1px solid red; align-items: center; margin-bottom: 0.5rem;
 }
 
 .dictionary-wrapper .settings-wrapper .sections-wrapper .section .lessons .lesson .lesson-title {
@@ -614,8 +605,7 @@ function checkIsPending() {
 .dictionary-wrapper .settings-wrapper .word-form {
   display: none;
   flex: 1;
-//border: 1px solid purple; height: 100%;
-  flex-direction: column;
+//border: 1px solid purple; height: 100%; flex-direction: column;
   padding: 1.5rem;
   transition: 1s ease;
 }
@@ -697,8 +687,7 @@ function checkIsPending() {
   background-color: #D6EDFF;
   border-bottom-right-radius: 0.5rem;
   border-top-right-radius: 0.5rem;
-//border: 1px solid red; align-items: center;
-  justify-content: center;
+//border: 1px solid red; align-items: center; justify-content: center;
   color: #6d7bbc;
   cursor: pointer;
 }
@@ -709,8 +698,7 @@ function checkIsPending() {
 }
 
 .dictionary-wrapper .settings-wrapper .word-form form button[type = submit] {
-//border: 1px solid red; width: 100%;
-  height: 4rem;
+//border: 1px solid red; width: 100%; height: 4rem;
   margin-top: 2rem;
   background-color: #8B95C9;
   border-radius: 0.5rem;
@@ -719,8 +707,7 @@ function checkIsPending() {
 }
 
 .dictionary-wrapper .settings-wrapper .word-form form .lessons-options {
-//border: 1px solid red; display: none;
-  height: auto;
+//border: 1px solid red; display: none; height: auto;
   background-color: #D6EDFF;
   border-bottom-right-radius: 0.5rem;
   border-bottom-left-radius: 0.5rem;
@@ -736,8 +723,7 @@ function checkIsPending() {
 }
 
 .dictionary-wrapper .settings-wrapper .word-form form .lessons-options .lesson-options-wrapper {
-//border: 1px solid red; height: 10rem;
-  width: 100%;
+//border: 1px solid red; height: 10rem; width: 100%;
   overflow-y: auto;
   font-size: 0.9rem;
   color: #7886ba;
@@ -745,8 +731,7 @@ function checkIsPending() {
 
 .dictionary-wrapper .settings-wrapper .word-form form .lessons-options .lesson-options-wrapper .lesson {
   display: flex;
-//border: 1px solid red; height: 1.5rem;
-  align-items: center;
+//border: 1px solid red; height: 1.5rem; align-items: center;
   margin-bottom: 0.5rem;
   cursor: pointer;
 }
@@ -774,8 +759,7 @@ function checkIsPending() {
 }
 
 .dictionary-wrapper .settings-wrapper .word-form form .lessons-options .lesson-options-wrapper .lesson .img {
-//border: 1px solid red; width: 6%;
-  margin-right: 0.5rem;
+//border: 1px solid red; width: 6%; margin-right: 0.5rem;
   margin-left: 0.5rem;
 }
 
@@ -804,14 +788,12 @@ function checkIsPending() {
 }
 
 .dictionary-wrapper .words .words-wrapper .word {
-//border: 1px solid red; height: auto;
-  margin-bottom: 1rem;
+//border: 1px solid red; height: auto; margin-bottom: 1rem;
   display: flex;
   flex-direction: column;
   background-color: #f8f8f8;
   border-radius: 1rem;
-//box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px; padding: 1rem;
-  padding-left: 2rem;
+//box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px; padding: 1rem; padding-left: 2rem;
   padding-right: 2rem;
 }
 
@@ -821,25 +803,21 @@ function checkIsPending() {
 }
 
 .dictionary-wrapper .words .words-wrapper .word .row-1 .clm-1 {
-//border: 1px solid red; width: 95%;
-  display: flex;
+//border: 1px solid red; width: 95%; display: flex;
   align-items: center;
 }
 
 .dictionary-wrapper .words .words-wrapper .word .row-1 .clm-1 .clm-1-1 {
-//border: 1px solid red; display: flex;
-  flex-direction: column;
+//border: 1px solid red; display: flex; flex-direction: column;
   margin-left: 2rem;
 }
 
 .dictionary-wrapper .words .words-wrapper .word .row-1 .clm-2 {
-//border: 1px solid purple; display: flex;
-  justify-content: space-between;
+//border: 1px solid purple; display: flex; justify-content: space-between;
 }
 
 .dictionary-wrapper .words .words-wrapper .word .row-1 .clm-1 .id {
-//border: 1px solid red; width: 2rem;
-  height: 2rem;
+//border: 1px solid red; width: 2rem; height: 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -849,16 +827,14 @@ function checkIsPending() {
 }
 
 .dictionary-wrapper .words .words-wrapper .word .row-1 .clm-1 .section {
-//border: 1px solid red; display: flex;
-  margin-left: 1rem;
+//border: 1px solid red; display: flex; margin-left: 1rem;
 }
 
 .dictionary-wrapper .words .words-wrapper .word .row-1 .clm-1 .section .section-img {
   width: 3rem;
   height: 3rem;
   border-radius: 50%;
-//border: 1px solid orange; display: flex;
-  align-items: center;
+//border: 1px solid orange; display: flex; align-items: center;
   justify-content: center;
 }
 
@@ -868,29 +844,25 @@ function checkIsPending() {
 }
 
 .dictionary-wrapper .words .words-wrapper .word .row-1 .clm-1 .clm-1-1 .name {
-//border: 1px solid red; display: flex;
-  align-items: center;
+//border: 1px solid red; display: flex; align-items: center;
   font-size: 1.5rem;
   color: #6D7BBC;
 }
 
 .dictionary-wrapper .words .words-wrapper .word .row-1 .clm-1 .clm-1-1 .translation {
-//border: 1px solid red; display: flex;
-  align-items: center;
+//border: 1px solid red; display: flex; align-items: center;
   font-size: 1.1rem;
   color: #727272;
   margin-top: 0.5rem;
 }
 
 .dictionary-wrapper .words .words-wrapper .word .row-1 .clm-2 .lesson-id {
-//border: 1px solid red; display: flex;
-  justify-content: center;
+//border: 1px solid red; display: flex; justify-content: center;
   align-items: center;
 }
 
 .dictionary-wrapper .words .words-wrapper .word .row-1 .clm-2 .lesson-id i {
-//border: 1px solid red; height: 2rem;
-  width: 2rem;
+//border: 1px solid red; height: 2rem; width: 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -913,16 +885,14 @@ function checkIsPending() {
 }
 
 .dictionary-wrapper .words .words-wrapper .word .row-1 .clm-2 .edit {
-//border: 1px solid green; height: 100%;
-  width: 3rem;
+//border: 1px solid green; height: 100%; width: 3rem;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .dictionary-wrapper .words .words-wrapper .word .row-1 .clm-2 .edit .btn {
-//border: 1px solid green; width: 2rem;
-  height: 2rem;
+//border: 1px solid green; width: 2rem; height: 2rem;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -946,8 +916,7 @@ function checkIsPending() {
 }
 
 .dictionary-wrapper .words .words-wrapper .word .row-1 .clm-2 .delete {
-//border: 1px solid green; height: 100%;
-  width: 2rem;
+//border: 1px solid green; height: 100%; width: 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -955,8 +924,7 @@ function checkIsPending() {
 }
 
 .dictionary-wrapper .words .words-wrapper .word .row-1 .clm-2 .delete .btn {
-//border: 1px solid green; width: 2rem;
-  height: 2rem;
+//border: 1px solid green; width: 2rem; height: 2rem;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -980,20 +948,17 @@ function checkIsPending() {
 }
 
 .dictionary-wrapper .words .words-wrapper .word .row-2 {
-//border: 1px solid red; height: 5rem;
-  display: none;
+//border: 1px solid red; height: 5rem; display: none;
   margin-top: 1rem;
   justify-content: end;
 }
 
 .dictionary-wrapper .words .words-wrapper .word .row-2 .inner {
-//border: 1px solid green; width: 60%;
-  display: flex;
+//border: 1px solid green; width: 60%; display: flex;
 }
 
 .dictionary-wrapper .words .words-wrapper .word .row-2 .inner .clm-1 {
-//border: 1px solid orange; width: 63%;
-  display: flex;
+//border: 1px solid orange; width: 63%; display: flex;
   padding-top: 1.5rem;
   font-size: 1rem;
   color: #727272;
@@ -1001,8 +966,7 @@ function checkIsPending() {
 }
 
 .dictionary-wrapper .words .words-wrapper .word .row-2 .inner .clm-2 {
-//border: 1px solid pink; width: 37%;
-  display: flex;
+//border: 1px solid pink; width: 37%; display: flex;
   flex-direction: column;
   align-items: center;
   margin-left: 0.5rem;
@@ -1035,14 +999,12 @@ function checkIsPending() {
 
 
 .dictionary-wrapper .words .words-wrapper .data-error {
-//border: 1px solid red; width: 100%;
-  height: 70%;
+//border: 1px solid red; width: 100%; height: 70%;
   display: flex;
 }
 
 .dictionary-wrapper .words .words-wrapper .data-error .clm-1 {
-//border: 1px solid red; width: 50%;
-  height: 100%;
+//border: 1px solid red; width: 50%; height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1082,8 +1044,7 @@ function checkIsPending() {
 }
 
 .dictionary-wrapper .words .words-wrapper .data-error .clm-2 {
-//border: 1px solid red; width: 50%;
-  height: 100%;
+//border: 1px solid red; width: 50%; height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;

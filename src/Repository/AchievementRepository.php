@@ -30,9 +30,19 @@ class AchievementRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Achievement[] Returns an array of Achievement objects
-//     */
+    /**
+     * @return Achievement[] Returns an array of Achievement objects
+     */
+    public function findAchievementsByUser($id): array
+    {
+        return $this->createQueryBuilder('a')
+            ->innerJoin('a.users', 'u')
+            ->andWhere('u.id = :id')
+            ->setParameter('id', $id)
+            ->orderBy('a.id', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 //    public function findByExampleField($value): array
 //    {
 //        return $this->createQueryBuilder('a')

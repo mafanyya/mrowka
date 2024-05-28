@@ -27,13 +27,9 @@
 
 <style scoped>
 .user-settings-nav-bar {
-//border: 1px solid orange; width: 100%;
-  height: 5rem;
+//border: 1px solid orange; width: 100%; height: 5rem;
   display: flex;
-  padding-left: 3em;
-  padding-right: 3em;
-  padding-bottom: 1em;
-  padding-top: 1em;
+  padding: 1em 3em;
   background-color: transparent;
 }
 

@@ -31,8 +31,7 @@ class QuestionRepository extends ServiceEntityRepository
             ->setParameter('id', $id)
             ->orderBy('q.id', 'ASC')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
 //    public function findOneBySomeField($value): ?Question

@@ -515,8 +515,7 @@ function createError(errorCode) {
 </script>
 <style scoped>
 .edit-test-form {
-//border: 1px solid red; width: 100%; height: 100%;
-  overflow-y: auto;
+//border: 1px solid red; width: 100%; height: 100%; overflow-y: auto;
 }
 
 .edit-test-form .header {
@@ -554,8 +553,7 @@ function createError(errorCode) {
 }
 
 .edit-test-form form {
-//border: 1px solid red; display: flex; flex-direction: column;
-  padding-right: 1rem;
+//border: 1px solid red; display: flex; flex-direction: column; padding-right: 1rem;
   padding-bottom: 1rem;
 
 }
@@ -603,8 +601,7 @@ function createError(errorCode) {
 }
 
 .edit-test-form form .question-input .panel {
-//border: 1px solid red; background-color: #D6EDFF; border-radius: 0 0.5rem 0.5rem 0;
-  flex: 1;
+//border: 1px solid red; background-color: #D6EDFF; border-radius: 0 0.5rem 0.5rem 0; flex: 1;
 }
 
 .edit-test-form form input[type = file] {
@@ -642,8 +639,7 @@ function createError(errorCode) {
 }
 
 .edit-test-form form .row-img .img-name {
-//border: 1px solid red; height: 100%;
-  margin-left: 1rem;
+//border: 1px solid red; height: 100%; margin-left: 1rem;
   display: flex;
   align-items: center;
   color: #727272;
@@ -692,8 +688,7 @@ function createError(errorCode) {
 }
 
 .edit-test-form form .answer-input .input .is-true {
-//border: 1px solid red; background-color: #ebf6ff; border-bottom-right-radius: 0.5rem;
-  border-top-right-radius: 0.5rem;
+//border: 1px solid red; background-color: #ebf6ff; border-bottom-right-radius: 0.5rem; border-top-right-radius: 0.5rem;
   display: flex;
   flex: 1;
   align-items: center;

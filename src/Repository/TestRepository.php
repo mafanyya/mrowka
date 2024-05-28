@@ -31,9 +31,19 @@ class TestRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Test[] Returns an array of Test objects
-//     */
+    /**
+     * @return Test[] Returns an array of Test objects
+     */
+    public function findTestsByUser($id): array
+    {
+        return $this->createQueryBuilder('t')
+            ->innerJoin('t.users', 'u')
+            ->andWhere('u.id = :id')
+            ->setParameter('id', $id)
+            ->orderBy('t.id', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 //    public function findByExampleField($value): array
 //    {
 //        return $this->createQueryBuilder('t')

@@ -96,6 +96,20 @@ import SectionEditForm from "~/components/account/lessons/section_page/SectionEd
 import LessonAddForm from "~/components/account/lessons/section_page/LessonAddForm.vue";
 import SectionDeleteForm from "~/components/account/lessons/section_page/SectionDeleteForm.vue";
 
+definePageMeta({
+  middleware: [
+    function (to, from,) {
+      const {data} = useAuth()
+      if (!data.value) {
+        return navigateTo('/')
+      }
+      if (data.value.user.isAdmin !== true){
+        return navigateTo('/')
+      }
+    }
+  ]
+})
+
 const route = useRoute()
 const uniqId = route.params.uniqid
 let formLessonId = ref()

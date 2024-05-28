@@ -102,9 +102,12 @@ function createError(errorCode) {
 }
 
 .delete-section {
-//border: 1px solid red; height: 100%; width: 90%;
+//border: 1px solid red;
+  flex: 1;
+  width: 90%;
   display: flex;
   flex-direction: column;
+  padding-bottom: 12rem;
 }
 
 .delete-section .header-2 {

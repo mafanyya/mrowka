@@ -15,7 +15,16 @@ const {status, refresh, signOut} = useAuth()
 // const name = data.data.value.user.name
 // const avatar = data.data.value.user.avatar
 import DashboardNavBar from "~/components/account/DashboardNavBar.vue";
-
+definePageMeta({
+  middleware: [
+    function (to, from,) {
+      const {data} = useAuth()
+      if (!data.value) {
+        return navigateTo('/')
+      }
+    }
+  ]
+})
 function logOut() {
   signOut()
   navigateTo("/", {external: true})

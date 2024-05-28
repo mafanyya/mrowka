@@ -90,34 +90,29 @@ function updateRow2(index) {
 </script>
 <style scoped>
 .difficulty-panel {
-//border: 1px solid red; width: 100%;
-  height: 100%;
+//border: 1px solid red; width: 100%; height: 100%;
   display: flex;
   flex-direction: column;
 }
 
 .difficulty-panel .row-1 {
-//border: 1px solid red; height: 50%;
-  display: flex;
+//border: 1px solid red; height: 50%; display: flex;
   align-items: center;
   font-size: 0.8rem;
 }
 
 .difficulty-panel .row-2 {
-//border: 1px solid red; height: 50%;
-  display: flex;
+//border: 1px solid red; height: 50%; display: flex;
 }
 
 .difficulty-panel .row-2 .point-wrapper {
   display: flex;
-//border: 1px solid purple; align-items: center;
-  width: 45%;
+//border: 1px solid purple; align-items: center; width: 45%;
   justify-content: space-between;
 }
 
 .difficulty-panel .row-2 .point-wrapper .point {
-//border: 1px solid green; background-color: #c5c5c5;
-  height: 0.9rem;
+//border: 1px solid green; background-color: #c5c5c5; height: 0.9rem;
   width: 0.9rem;
   border-radius: 50%;
 }

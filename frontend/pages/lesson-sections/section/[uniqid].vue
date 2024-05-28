@@ -41,6 +41,16 @@ import NavBar from "~/components/home/NavBar.vue";
 import SectionPageLessonWrapperUser from "~/components/home/SectionPageLessonWrapperUser.vue";
 import DifficultyPanel2 from "~/components/account/lessons/DifficultyPanel2.vue";
 
+definePageMeta({
+  middleware: [
+    function (to, from,) {
+      const {data} = useAuth()
+      if (!data.value) {
+        return navigateTo('/')
+      }
+    }
+  ]
+})
 const route = useRoute()
 const uniqId = route.params.uniqid
 let formLessonId = ref()

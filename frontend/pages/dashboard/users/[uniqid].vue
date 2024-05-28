@@ -77,6 +77,20 @@ import ProfileSection from "~/components/account/profile/ProfileSection.vue";
 import SecuritySection from "~/components/account/profile/SecuritySection.vue";
 import DeleteSection from "~/components/account/profile/DeleteSection.vue";
 
+definePageMeta({
+  middleware: [
+    function (to, from,) {
+      const {data} = useAuth()
+      if (!data.value) {
+        return navigateTo('/')
+      }
+      if (data.value.user.isAdmin !== true){
+        return navigateTo('/')
+      }
+    }
+  ]
+})
+
 const route = useRoute()
 const uniqId = route.params.uniqid
 let index = 'HELLO ITS ME'

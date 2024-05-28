@@ -199,14 +199,12 @@ function createError(errorCode) {
 
 <style scoped>
 .header {
-//border: 1px solid red; margin-bottom: 1rem;
-  font-size: 2rem;
+//border: 1px solid red; margin-bottom: 1rem; font-size: 2rem;
   color: #727272;
 }
 
 .security-section {
-//border: 1px solid red; height: 100%; width: 100%;
-  display: flex;
+//border: 1px solid red; height: 100%; width: 100%; display: flex;
 }
 
 .security-section .form-wrapper {
@@ -217,13 +215,11 @@ function createError(errorCode) {
 
 
 .security-section .form-wrapper form {
-//border: 1px solid orange; display: flex; flex-direction: column;
-  width: 100%;
+//border: 1px solid orange; display: flex; flex-direction: column; width: 100%;
 }
 
 .security-section .form-wrapper form .error {
-//border: 1px solid red; margin-bottom: 1rem; margin-left: 1rem;
-  color: #DE7C7C;
+//border: 1px solid red; margin-bottom: 1rem; margin-left: 1rem; color: #DE7C7C;
 }
 
 .security-section .form-wrapper form label {
@@ -234,8 +230,7 @@ function createError(errorCode) {
 }
 
 .security-section .form-wrapper input[type = password] {
-//border: 1px solid red; width: 100%; height: 3.5rem;
-  background-color: #D6EDFF;
+//border: 1px solid red; width: 100%; height: 3.5rem; background-color: #D6EDFF;
   margin-bottom: 2rem;
   border-radius: 1em;
   padding-left: 1rem;
@@ -252,8 +247,7 @@ function createError(errorCode) {
 }
 
 .security-section .form-wrapper form button {
-//border: 1px solid red; height: 5rem; margin-top: 4rem;
-  border-radius: 1rem;
+//border: 1px solid red; height: 5rem; margin-top: 4rem; border-radius: 1rem;
   background-color: #8B95C9;
   color: white;
   font-size: 1.1rem;

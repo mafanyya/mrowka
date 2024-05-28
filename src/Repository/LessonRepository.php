@@ -29,6 +29,7 @@ class LessonRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
     /**
      * @return Lesson[] Returns an array of LessonSection objects
      */
@@ -38,8 +39,7 @@ class LessonRepository extends ServiceEntityRepository
             ->andWhere('l.uniqid = :uniqid')
             ->setParameter('uniqid', $uniqid)
             ->getQuery()
-            ->getOneOrNullResult()
-            ;
+            ->getOneOrNullResult();
     }
 
     /**
@@ -52,8 +52,21 @@ class LessonRepository extends ServiceEntityRepository
             ->setParameter('id', $id)
             ->orderBy('l.id', 'ASC')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
+    }
+
+    /**
+     * @return Lesson[] Returns an array of Lesson objects
+     */
+    public function findLessonsByUser($id): array
+    {
+        return $this->createQueryBuilder('l')
+            ->innerJoin('l.users', 'u')
+            ->andWhere('u.id = :id')
+            ->setParameter('id', $id)
+            ->orderBy('l.id', 'ASC')
+            ->getQuery()
+            ->getResult();
     }
 
 

@@ -25,7 +25,19 @@ import DashboardNavBar from "~/components/account/DashboardNavBar.vue";
 import UserWrapper from "~/components/account/users/UserWrapper.vue";
 import AdminWrapper from "~/components/account/users/AdminWrapper.vue";
 import StatisticsPanelUsers from "~/components/account/users/StatisticsPanelUsers.vue";
-
+definePageMeta({
+  middleware: [
+    function (to, from,) {
+      const {data} = useAuth()
+      if (!data.value) {
+        return navigateTo('/')
+      }
+      if (data.value.user.isAdmin !== true){
+        return navigateTo('/')
+      }
+    }
+  ]
+})
 const data = useAuth()
 const {status, refresh, signOut} = useAuth()
 const {pending: usersPending, data: users, refresh: refreshUsers} = await useFetch('http://localhost:8000/api/users')

@@ -13,6 +13,19 @@ import DashboardNavBar from "~/components/account/DashboardNavBar.vue";
 
 import MyDictionaryWrapper from "~/components/account/dictionary/MyDictionaryWrapper.vue";
 
+definePageMeta({
+  middleware: [
+    function (to, from,) {
+      const {data} = useAuth()
+      if (!data.value) {
+        return navigateTo('/')
+      }
+      if (data.value.user.isAdmin !== true){
+        return navigateTo('/')
+      }
+    }
+  ]
+})
 
 const data = useAuth()
 const {status, refresh, signOut} = useAuth()

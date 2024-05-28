@@ -4,23 +4,23 @@
       <img :src="props.img" alt="">
     </div>
     <div class="title">
-      <p>{{props.title}}</p>
+      <p>{{ props.title }}</p>
     </div>
     <div class="sub-title">
-      <p>{{props.subTitle}}</p>
-      </div>
+      <p>{{ props.subTitle }}</p>
+    </div>
   </div>
 </template>
 
 <script setup lang="js">
 let props = defineProps({
-  img:{
+  img: {
     type: String
   },
-  title:{
+  title: {
     type: String
   },
-  subTitle:{
+  subTitle: {
     type: String
   }
 })
@@ -28,24 +28,25 @@ let props = defineProps({
 
 
 <style scoped>
-.achievement-section{
-  //border: 1px solid red;
-  width: 20rem;
+.achievement-section {
+//border: 1px solid red; width: 20rem;
   display: flex;
   flex-direction: column;
 }
-.achievement-section .img{
-  //border: 1px solid red;
-  height: 15rem;
+
+.achievement-section .img {
+//border: 1px solid red; height: 15rem;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.achievement-section .img img{
+
+.achievement-section .img img {
   height: 100%;
 
 }
-.achievement-section .title{
+
+.achievement-section .title {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -53,7 +54,8 @@ let props = defineProps({
   color: #32A88A;
   height: 3rem;
 }
-.achievement-section .sub-title{
+
+.achievement-section .sub-title {
   margin-top: 0.5rem;
   display: flex;
   align-items: center;

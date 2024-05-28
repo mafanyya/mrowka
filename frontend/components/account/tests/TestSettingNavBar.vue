@@ -14,8 +14,7 @@ let props = defineProps(['isPending'])
 
 <style scoped>
 .test-settings-nav-bar {
-//border: 1px solid red; width: 100%;
-  height: 5rem;
+//border: 1px solid red; width: 100%; height: 5rem;
   display: flex;
   margin-top: 1rem;
   padding: 1rem 3rem;
@@ -23,16 +22,14 @@ let props = defineProps(['isPending'])
 }
 
 .test-settings-nav-bar .clm-1 {
-//border: 1px solid red; width: 60%;
-  display: flex;
+//border: 1px solid red; width: 60%; display: flex;
   align-items: center;
   font-size: 3rem;
   color: #6d7bbc;
 }
 
 .test-settings-nav-bar .clm-2 {
-//border: 1px solid red; display: flex;
-  flex: 1;
+//border: 1px solid red; display: flex; flex: 1;
   justify-content: end;
   align-items: center;
 }
@@ -45,8 +42,7 @@ let props = defineProps(['isPending'])
 
 .test-settings-nav-bar .clm-2 .btn-1 {
   border-radius: 50%;
-//border: 1px solid red; width: 5em;
-  height: 5em;
+//border: 1px solid red; width: 5em; height: 5em;
   display: flex;
   align-items: center;
   justify-content: center;

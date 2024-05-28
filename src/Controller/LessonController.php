@@ -49,6 +49,21 @@ public function lessons(LessonRepository $lessonRepository)
 
     return $this->json(['lessons' => $lessonsArray]);
 }
+    #[Route('/api/lessons-count', name: 'api_lessons_count)')]
+    public function lessonsCount(LessonRepository $lessonRepository, LessonSectionRepository $lessonSectionRepository)
+    {
+        $lessons = $lessonRepository->findAll();
+        $sections = $lessonSectionRepository->findAll();
+        $lessonsArray = [];
+        $lessonsCount = count($lessons);
+        $sectionsCount = count($sections);
+
+        return $this->json([
+            'lessonsCount' => $lessonsCount,
+            'sectionsCount' => $sectionsCount
+        ]);
+    }
+
     #[Route('/api/lesson-by-id', name: 'api_lesson_by_id')]
     public function lessonById(LessonRepository $lessonRepository, Request $request)
     {

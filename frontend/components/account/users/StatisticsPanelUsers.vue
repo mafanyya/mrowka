@@ -28,7 +28,7 @@
 
 let props = defineProps({
   usersStatistics: {
-    type: Function
+    type: Object
   },
   statisticsPending: {
     type: Boolean
@@ -37,29 +37,25 @@ let props = defineProps({
 </script>
 <style scoped>
 .statistics-panel-users {
-//border: 1px solid red; height: 100%;
-  width: 100%;
+//border: 1px solid red; height: 100%; width: 100%;
   padding: 1em;
   padding-right: 0;
   display: flex;
 }
 
 .statistics-panel-users .panel-inner {
-//border: 1px solid green; display: flex;
-  flex-direction: column;
+//border: 1px solid green; display: flex; flex-direction: column;
   width: 100%;
   background-color: #F5FBFF;
 //box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px; border-radius: 1em;
 }
 
 .statistics-panel-users .panel-inner .row-1 {
-//border: 1px solid grey; display: flex;
-  height: 50%;
+//border: 1px solid grey; display: flex; height: 50%;
 }
 
 .statistics-panel-users .panel-inner .row-1 .clm-1 {
-//border: 1px solid grey; width: 60%;
-  display: flex;
+//border: 1px solid grey; width: 60%; display: flex;
   flex-direction: column;
   justify-content: end;
   padding-bottom: 1em;
@@ -77,8 +73,7 @@ let props = defineProps({
 }
 
 .statistics-panel-users .panel-inner .row-1 .clm-2 {
-//border: 1px solid grey; width: 40%;
-  display: flex;
+//border: 1px solid grey; width: 40%; display: flex;
   flex-direction: column;
   justify-content: end;
   padding-bottom: 1em;
@@ -95,13 +90,11 @@ let props = defineProps({
 }
 
 .statistics-panel-users .panel-inner .row-2 {
-//border: 1px solid grey; display: flex;
-  height: 50%;
+//border: 1px solid grey; display: flex; height: 50%;
 }
 
 .statistics-panel-users .panel-inner .row-2 .clm-1 {
-//border: 1px solid grey; width: 40%;
-  display: flex;
+//border: 1px solid grey; width: 40%; display: flex;
   flex-direction: column;
   padding-left: 3em;
   justify-content: end;
@@ -119,8 +112,7 @@ let props = defineProps({
 }
 
 .statistics-panel-users .panel-inner .row-2 .clm-2 {
-//border: 1px solid grey; width: 60%;
-  display: flex;
+//border: 1px solid grey; width: 60%; display: flex;
   flex-direction: column;
   justify-content: end;
   padding-bottom: 2em;

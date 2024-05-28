@@ -70,6 +70,18 @@ class TestController extends AbstractController
         ]);
     }
 
+    #[Route('/api/tests-count', name: 'api_tests_count')]
+    public function testsCount(TestRepository $testRepository, QuestionRepository $questionRepository, AnswerRepository $answerRepository)
+    {
+        $tests = $testRepository->findAll();
+
+        $testsCount = count($tests);
+
+        return $this->json([
+            'testsCount' => $testsCount
+        ]);
+    }
+
     #[Route('/api/test-by-id', name: 'api_test_by_id')]
     public function testById(TestRepository $testRepository, QuestionRepository $questionRepository, AnswerRepository $answerRepository, Request $request)
     {
@@ -82,25 +94,6 @@ class TestController extends AbstractController
         $answersArray = [];
         $questionsIdArray = [];
 
-//        foreach($questions as $question){
-//           $questionsIdArray[] = [
-//               'id' => $question->getId()
-//           ];
-//           foreach($questionsIdArray as $questionIdItem){
-//               $answers = $answerRepository->findAnswersByQuestionId($questionIdItem['id']);
-//               foreach ($answers as $answer){
-//                   $questionId = $answer->getQuestion()->getId();
-//                   $answersArray[] = [
-//                       'id' => $answer->getId(),
-//                       'title' => $answer->getTitle(),
-//                       'isTrue' => $answer->isIsTrue(),
-//                       'number' => $answer->getNumber(),
-//                       'questionId' => $questionId
-//                   ];
-//               }
-//           }
-//
-//        }
         $answers = $answerRepository->findAll();
         foreach ($answers as $answer) {
             $questionId = $answer->getQuestion()->getId();
@@ -197,9 +190,9 @@ class TestController extends AbstractController
         $answerId_1_2 = $data['answerId_1_2'];
         $answerId_1_3 = $data['answerId_1_3'];
 
-        $answerIsTrue_1_1 = filter_var($data['answerIsTrue_1_1'],FILTER_VALIDATE_BOOLEAN);
-        $answerIsTrue_1_2 = filter_var($data['answerIsTrue_1_2'],FILTER_VALIDATE_BOOLEAN);
-        $answerIsTrue_1_3 = filter_var($data['answerIsTrue_1_3'],FILTER_VALIDATE_BOOLEAN);
+        $answerIsTrue_1_1 = filter_var($data['answerIsTrue_1_1'], FILTER_VALIDATE_BOOLEAN);
+        $answerIsTrue_1_2 = filter_var($data['answerIsTrue_1_2'], FILTER_VALIDATE_BOOLEAN);
+        $answerIsTrue_1_3 = filter_var($data['answerIsTrue_1_3'], FILTER_VALIDATE_BOOLEAN);
 
         $answerTitle_1_1 = $data['answerTitle_1_1'];
         $answerTitle_1_2 = $data['answerTitle_1_2'];
@@ -209,9 +202,9 @@ class TestController extends AbstractController
         $answerId_2_2 = $data['answerId_2_2'];
         $answerId_2_3 = $data['answerId_2_3'];
 
-        $answerIsTrue_2_1 = filter_var($data['answerIsTrue_2_1'],FILTER_VALIDATE_BOOLEAN);
-        $answerIsTrue_2_2 = filter_var($data['answerIsTrue_2_2'],FILTER_VALIDATE_BOOLEAN);
-        $answerIsTrue_2_3 = filter_var($data['answerIsTrue_2_3'],FILTER_VALIDATE_BOOLEAN);
+        $answerIsTrue_2_1 = filter_var($data['answerIsTrue_2_1'], FILTER_VALIDATE_BOOLEAN);
+        $answerIsTrue_2_2 = filter_var($data['answerIsTrue_2_2'], FILTER_VALIDATE_BOOLEAN);
+        $answerIsTrue_2_3 = filter_var($data['answerIsTrue_2_3'], FILTER_VALIDATE_BOOLEAN);
 
         $answerTitle_2_1 = $data['answerTitle_2_1'];
         $answerTitle_2_2 = $data['answerTitle_2_2'];
@@ -221,9 +214,9 @@ class TestController extends AbstractController
         $answerId_3_2 = $data['answerId_3_2'];
         $answerId_3_3 = $data['answerId_3_3'];
 
-        $answerIsTrue_3_1 = filter_var($data['answerIsTrue_3_1'],FILTER_VALIDATE_BOOLEAN);
-        $answerIsTrue_3_2 = filter_var($data['answerIsTrue_3_2'],FILTER_VALIDATE_BOOLEAN);
-        $answerIsTrue_3_3 = filter_var($data['answerIsTrue_3_3'],FILTER_VALIDATE_BOOLEAN);
+        $answerIsTrue_3_1 = filter_var($data['answerIsTrue_3_1'], FILTER_VALIDATE_BOOLEAN);
+        $answerIsTrue_3_2 = filter_var($data['answerIsTrue_3_2'], FILTER_VALIDATE_BOOLEAN);
+        $answerIsTrue_3_3 = filter_var($data['answerIsTrue_3_3'], FILTER_VALIDATE_BOOLEAN);
 
         $answerTitle_3_1 = $data['answerTitle_3_1'];
         $answerTitle_3_2 = $data['answerTitle_3_2'];
@@ -233,9 +226,9 @@ class TestController extends AbstractController
         $answerId_4_2 = $data['answerId_4_2'];
         $answerId_4_3 = $data['answerId_4_3'];
 
-        $answerIsTrue_4_1 = filter_var($data['answerIsTrue_4_1'],FILTER_VALIDATE_BOOLEAN);
-        $answerIsTrue_4_2 = filter_var($data['answerIsTrue_4_2'],FILTER_VALIDATE_BOOLEAN);
-        $answerIsTrue_4_3 = filter_var($data['answerIsTrue_4_3'],FILTER_VALIDATE_BOOLEAN);
+        $answerIsTrue_4_1 = filter_var($data['answerIsTrue_4_1'], FILTER_VALIDATE_BOOLEAN);
+        $answerIsTrue_4_2 = filter_var($data['answerIsTrue_4_2'], FILTER_VALIDATE_BOOLEAN);
+        $answerIsTrue_4_3 = filter_var($data['answerIsTrue_4_3'], FILTER_VALIDATE_BOOLEAN);
 
         $answerTitle_4_1 = $data['answerTitle_4_1'];
         $answerTitle_4_2 = $data['answerTitle_4_2'];
@@ -245,9 +238,9 @@ class TestController extends AbstractController
         $answerId_5_2 = $data['answerId_5_2'];
         $answerId_5_3 = $data['answerId_5_3'];
 
-        $answerIsTrue_5_1 = filter_var($data['answerIsTrue_5_1'],FILTER_VALIDATE_BOOLEAN);
-        $answerIsTrue_5_2 = filter_var($data['answerIsTrue_5_2'],FILTER_VALIDATE_BOOLEAN);
-        $answerIsTrue_5_3 = filter_var($data['answerIsTrue_5_3'],FILTER_VALIDATE_BOOLEAN);
+        $answerIsTrue_5_1 = filter_var($data['answerIsTrue_5_1'], FILTER_VALIDATE_BOOLEAN);
+        $answerIsTrue_5_2 = filter_var($data['answerIsTrue_5_2'], FILTER_VALIDATE_BOOLEAN);
+        $answerIsTrue_5_3 = filter_var($data['answerIsTrue_5_3'], FILTER_VALIDATE_BOOLEAN);
 
         $answerTitle_5_1 = $data['answerTitle_5_1'];
         $answerTitle_5_2 = $data['answerTitle_5_2'];

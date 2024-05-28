@@ -29,7 +29,7 @@
       </div>
       <button type=submit class="btn-submit">Zaloguj się</button>
       <p class="inf-1">Jeszcze nie masz konta?</p>
-      <NuxtLink to="/register" id='login-btn'><p class="inf-2">Zarejestruj się</p></NuxtLink>
+      <NuxtLink to="/register" id='login-btn'><p class="inf-2" >Zarejestruj się</p></NuxtLink>
     </form>
 
   </div>
@@ -48,7 +48,7 @@ definePageMeta({
     }
   ]
 })
-
+let loginPending = ref()
 async function handleLogin(email, password) {
   try {
     if (validateEmail(email)) {
@@ -59,15 +59,17 @@ async function handleLogin(email, password) {
             callbackUrl: '/',
             external: true
           })
+
       const data = useAuth()
       const id = data.data.value.user.id
-      await useFetch('http://localhost:8000/api/user/log_in', {
+      let {pending } = await useFetch('http://localhost:8000/api/user/log_in', {
             method: 'POST',
             body: {
               id: id
             }
           }
       )
+      loginPending.value = pending
     } else {
       const errorElement = document.getElementById('login-error')
       errorElement.innerText = 'Nieprawidłowy email'

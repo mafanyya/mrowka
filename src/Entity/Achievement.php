@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AchievementRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AchievementRepository::class)]
@@ -24,6 +26,14 @@ class Achievement
 
     #[ORM\ManyToOne(inversedBy: 'achievements')]
     private ?Lesson $lesson = null;
+
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'achievements')]
+    private Collection $users;
+
+    public function __construct()
+    {
+        $this->users = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -74,6 +84,33 @@ class Achievement
     public function setLesson(?Lesson $lesson): static
     {
         $this->lesson = $lesson;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): static
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->addAchievement($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): static
+    {
+        if ($this->users->removeElement($user)) {
+            $user->removeAchievement($this);
+        }
 
         return $this;
     }

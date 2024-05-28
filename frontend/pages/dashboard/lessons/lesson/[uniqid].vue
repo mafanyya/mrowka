@@ -19,27 +19,28 @@
             <div class="row-1">
               <p class="lesson-title">{{ lessonData.lesson.title }}</p>
               <p class="title-divide">/</p>
-              <p class="section-title">{{sectionData.section[0].title}}</p>
+              <p class="section-title">{{ sectionData.section[0].title }}</p>
             </div>
             <div class="row-2">
-              <p>{{lessonData.lesson.description}}</p>
+              <p>{{ lessonData.lesson.description }}</p>
             </div>
             <div class="lesson-nav-bar">
-              <p @click.prevent = "selectSection(1)" id = "content-btn" class = "btn-1">Zajęcie</p>
-              <p @click.prevent = "selectSection(2)" id = "test-btn">Test</p>
-              <p @click.prevent = "selectSection(3)" id = "dictionary-btn">Słownik</p>
+              <p @click.prevent="selectSection(1)" id="content-btn" class="btn-1">Zajęcie</p>
+              <p @click.prevent="selectSection(2)" id="test-btn">Test</p>
+              <p @click.prevent="selectSection(3)" id="dictionary-btn">Słownik</p>
             </div>
-            <p id = "section-header-2" class = "section-header-2">Zajęcie</p>
+            <p id="section-header-2" class="section-header-2">Zajęcie</p>
             <div class="lesson-content-wrapper">
-              <div id = "content-section" class="content-section">
-                <LessonContentSection :lesson-url = "lessonData.lesson.lessonUrl" :lesson-content = "lessonData.lesson.content"/>
+              <div id="content-section" class="content-section">
+                <LessonContentSection :lesson-url="lessonData.lesson.lessonUrl"
+                                      :lesson-content="lessonData.lesson.content"/>
               </div>
-              <div id = "test-section" class="test-section">
-                <LessonTestSection :test-id = lessonData.lesson.testId />
+              <div id="test-section" class="test-section">
+                <LessonTestSection :test-id=lessonData.lesson.testId />
               </div>
 
-              <div id = "dictionary-section" class="dictionary-section">
-                <LessonDictionarySection :lesson-id = lessonData.lesson.id />
+              <div id="dictionary-section" class="dictionary-section">
+                <LessonDictionarySection :lesson-id=lessonData.lesson.id />
               </div>
 
             </div>
@@ -55,7 +56,19 @@ import LessonContentSection from "~/components/account/lessons/lesson_page/Lesso
 import LessonTestSection from "~/components/account/lessons/lesson_page/LessonTestSection.vue";
 import LessonDictionarySection from "~/components/account/lessons/lesson_page/LessonDictionarySection.vue";
 
-
+definePageMeta({
+  middleware: [
+    function (to, from,) {
+      const {data} = useAuth()
+      if (!data.value) {
+        return navigateTo('/')
+      }
+      if (data.value.user.isAdmin !== true) {
+        return navigateTo('/')
+      }
+    }
+  ]
+})
 
 const route = useRoute()
 const uniqId = route.params.uniqid
@@ -103,7 +116,8 @@ if (lessonError.value) {
   console.warn('Error: Error from sectionError is ')
   console.warn(lessonError.value)
 }
-function selectSection(index){
+
+function selectSection(index) {
   let contentSection = document.getElementById('content-section')
   let testSection = document.getElementById('test-section')
   let dictionarySection = document.getElementById('dictionary-section')
@@ -111,7 +125,7 @@ function selectSection(index){
   let testBtn = document.getElementById('test-btn')
   let dictionaryBtn = document.getElementById('dictionary-btn')
   let sectionHeader = document.getElementById('section-header-2')
-  switch (index){
+  switch (index) {
     case 1:
       sectionHeader.innerText = 'Zajęcie'
       contentSection.style.display = 'flex'
@@ -119,7 +133,7 @@ function selectSection(index){
       testSection.style.display = 'none'
       contentBtn.style.backgroundColor = '#6D7BBC'
       contentBtn.style.borderRadius = 0.5 + 'rem'
-      testBtn.style.backgroundColor  = 'transparent'
+      testBtn.style.backgroundColor = 'transparent'
       dictionaryBtn.style.backgroundColor = 'transparent'
       break
     case 2:
@@ -129,7 +143,7 @@ function selectSection(index){
       testSection.style.display = 'flex'
       testBtn.style.borderRadius = 0.5 + 'rem'
       contentBtn.style.backgroundColor = 'transparent'
-      testBtn.style.backgroundColor  = '#6D7BBC'
+      testBtn.style.backgroundColor = '#6D7BBC'
       dictionaryBtn.style.backgroundColor = 'transparent'
       break
     case 3:
@@ -139,7 +153,7 @@ function selectSection(index){
       testSection.style.display = 'none'
       dictionaryBtn.style.borderRadius = 0.5 + 'rem'
       contentBtn.style.backgroundColor = 'transparent'
-      testBtn.style.backgroundColor  = 'transparent'
+      testBtn.style.backgroundColor = 'transparent'
       dictionaryBtn.style.backgroundColor = '#6D7BBC'
       break
     default:
@@ -151,14 +165,12 @@ function selectSection(index){
 </script>
 <style scoped>
 .local-container {
-//border: 1px solid red; display: flex;
-  width: 100%;
+//border: 1px solid red; display: flex; width: 100%;
   height: 100%;
 }
 
 .local-container .main {
-//border: 1px solid green; display: flex;
-  flex: 1;
+//border: 1px solid green; display: flex; flex: 1;
   height: 100%;
   justify-content: center;
   padding-left: 3rem;
@@ -169,8 +181,7 @@ function selectSection(index){
 }
 
 .local-container .main .no-data-wrapper {
-//border: 1px solid red; width: 100%;
-  display: flex;
+//border: 1px solid red; width: 100%; display: flex;
   flex-direction: column;
 }
 
@@ -213,15 +224,12 @@ function selectSection(index){
 }
 
 .local-container .main .lesson-wrapper {
-  //border: 1px solid red;
-  width: 100%;
-  //display: flex;
-  flex-direction: column;
+//border: 1px solid red; width: 100%;
+//display: flex; flex-direction: column;
 }
 
 .local-container .main .lesson-wrapper .row-1 {
-  //border: 1px solid green;
-  height: 5rem;
+//border: 1px solid green; height: 5rem;
   display: flex;
   align-items: center;
 }
@@ -230,23 +238,26 @@ function selectSection(index){
   font-size: 2.5rem;
   color: #6D7BBC;
 }
+
 .local-container .main .lesson-wrapper .row-1 .title-divide {
   font-size: 2rem;
   margin-left: 1rem;
   margin-right: 1rem;
   color: #8B95C9;
 }
+
 .local-container .main .lesson-wrapper .row-1 .section-title {
   font-size: 2rem;
   color: #8B95C9;
   cursor: pointer;
 }
-.local-container .main .lesson-wrapper .row-1 .section-title:hover{
+
+.local-container .main .lesson-wrapper .row-1 .section-title:hover {
   color: #6D7BBC;
 }
-.local-container .main .lesson-wrapper .row-2{
-  //border: 1px solid orange;
-  height: 3rem;
+
+.local-container .main .lesson-wrapper .row-2 {
+//border: 1px solid orange; height: 3rem;
   display: flex;
   align-items: center;
   color: #727272;
@@ -254,7 +265,8 @@ function selectSection(index){
   width: 100%;
   line-height: 1.5rem;
 }
-.local-container .main .lesson-wrapper .lesson-nav-bar{
+
+.local-container .main .lesson-wrapper .lesson-nav-bar {
   border-radius: 0.5rem;
   margin-top: 1rem;
   width: 25%;
@@ -267,51 +279,58 @@ function selectSection(index){
   padding-right: 1.5rem;
   padding-left: 1.5rem;
 }
-.local-container .main .lesson-wrapper .lesson-nav-bar p{
+
+.local-container .main .lesson-wrapper .lesson-nav-bar p {
   cursor: pointer;
   padding: 0.5rem;
   transition: 0.10s ease;
 }
-.local-container .main .lesson-wrapper .lesson-nav-bar p:hover{
+
+.local-container .main .lesson-wrapper .lesson-nav-bar p:hover {
   padding: 0.5rem;
   background-color: #6D7BBC;
   border-radius: 0.5rem;
   transition: 0.10s ease;
 }
-.local-container .main .lesson-wrapper .lesson-nav-bar .btn-1{
+
+.local-container .main .lesson-wrapper .lesson-nav-bar .btn-1 {
   padding: 0.5rem;
   background-color: #6D7BBC;
   border-radius: 0.5rem;
 }
-.local-container .main .lesson-wrapper .section-header-2{
+
+.local-container .main .lesson-wrapper .section-header-2 {
   font-size: 2.5rem;
   color: #727272;
   margin-top: 1rem;
 }
-.local-container .main .lesson-wrapper .lesson-content-wrapper{
+
+.local-container .main .lesson-wrapper .lesson-content-wrapper {
   margin-top: 1rem;
   border-radius: 1rem;
   height: auto;
   background-color: #f8f8f8;
-  //border: 1px solid red;
-  flex-direction: column;
+//border: 1px solid red; flex-direction: column;
   align-items: center;
 
   width: 80%;
   padding: 2rem;
 }
-.local-container .main .lesson-wrapper .lesson-content-wrapper .content-section{
+
+.local-container .main .lesson-wrapper .lesson-content-wrapper .content-section {
   display: flex;
   width: 100%;
   height: auto;
 
 }
-.local-container .main .lesson-wrapper .lesson-content-wrapper .test-section{
+
+.local-container .main .lesson-wrapper .lesson-content-wrapper .test-section {
   display: none;
   width: 100%;
   height: auto;
 }
-.local-container .main .lesson-wrapper .lesson-content-wrapper .dictionary-section{
+
+.local-container .main .lesson-wrapper .lesson-content-wrapper .dictionary-section {
   display: none;
   width: 100%;
   height: auto;

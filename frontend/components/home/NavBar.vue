@@ -11,14 +11,14 @@
           </div>
         </div>
       </NuxtLink>
-      <NuxtLink v-if=data to="/about">
+      <NuxtLink v-if=data to="/dictionary">
         <div id="btn-2" class="btn-2">
           <div class="rnd">
             <img id='img_2' src="@/assets/images/book2.png" alt="">
           </div>
         </div>
       </NuxtLink>
-      <NuxtLink v-if=data to="/about">
+      <NuxtLink v-if=data to="/achievements">
         <div id="btn-3" class="btn-3">
           <div class="rnd">
             <img id='img_3' src="@/assets/images/diamond.png" alt="">
@@ -37,7 +37,14 @@
       </NuxtLink>
     </div>
     <div v-if=data class="nav-2-2">
-      <NuxtLink to="/dashboard">
+      <NuxtLink v-if="data.user.isAdmin === true" to="/dashboard">
+        <div class="btn">
+          <div class="rnd">
+            <img :src="data.user.avatar" alt="avatar">
+          </div>
+        </div>
+      </NuxtLink>
+      <NuxtLink v-else :to="'/dashboard-user/' + data.user.uniqid">
         <div class="btn">
           <div class="rnd">
             <img :src="data.user.avatar" alt="avatar">
@@ -53,18 +60,20 @@ const {data, signOut} = useAuth()
 </script>
 
 <style scoped>
-.container-local{
+.container-local {
   padding-top: 1rem;
   height: 13rem;
   display: flex;
   align-items: center;
 }
+
 .container-local .logo {
   width: 20%;
   display: flex;
   align-items: center;
   justify-content: left;
 }
+
 .container-local .logo img {
   width: 120%;
   height: 100%;
@@ -103,20 +112,24 @@ const {data, signOut} = useAuth()
   transform: rotate(20deg);
   transition: 0.25s ease;
 }
-.container-local .nav-1 .btn-1 .rnd{
+
+.container-local .nav-1 .btn-1 .rnd {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.container-local .nav-1 .btn-1 .rnd img{
+
+.container-local .nav-1 .btn-1 .rnd img {
   height: 90%;
   width: 90%;
 }
-.container-local .nav-1 .btn-2 .rnd img{
+
+.container-local .nav-1 .btn-2 .rnd img {
   height: 100%;
   width: 100%;
 }
-.container-local .nav-1 .btn-3 .rnd img{
+
+.container-local .nav-1 .btn-3 .rnd img {
   height: 90%;
   width: 90%;
 }

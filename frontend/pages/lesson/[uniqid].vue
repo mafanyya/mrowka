@@ -58,7 +58,16 @@ import LessonContentSectionUser from "~/components/home/LessonContentSectionUser
 import LessonTestSectionUser from "~/components/home/LessonTestSectionUser.vue";
 import LessonDictionarySectionUser from "~/components/home/LessonDictionarySectionUser.vue";
 
-
+definePageMeta({
+  middleware: [
+    function (to, from,) {
+      const {data} = useAuth()
+      if (!data.value) {
+        return navigateTo('/')
+      }
+    }
+  ]
+})
 
 const route = useRoute()
 const uniqId = route.params.uniqid

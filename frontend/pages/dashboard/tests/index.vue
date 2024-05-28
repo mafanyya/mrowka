@@ -20,6 +20,21 @@ import DashboardNavBar from "~/components/account/DashboardNavBar.vue";
 import TestsWrapper from "~/components/account/tests/TestsWrapper.vue";
 import EditTestForm from "~/components/account/tests/EditTestForm.vue";
 import TestSettingNavBar from "~/components/account/tests/TestSettingNavBar.vue";
+
+definePageMeta({
+  middleware: [
+    function (to, from,) {
+      const {data} = useAuth()
+      if (!data.value) {
+        return navigateTo('/')
+      }
+      if (data.value.user.isAdmin !== true){
+        return navigateTo('/')
+      }
+    }
+  ]
+})
+
 let testId = ref()
 let questionId = ref()
 let answerId = ref()

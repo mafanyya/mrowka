@@ -13,19 +13,19 @@
       </template>
       <template v-else>
         <template v-for="lesson in lessonsData.lessons">
-          <NuxtLink :to = "'/lesson/' + lesson.uniqId">
-          <div class="lesson">
-            <div class="id">
-              <p>{{ lesson.id }}</p>
+          <NuxtLink :to="'/lesson/' + lesson.uniqId">
+            <div class="lesson">
+              <div class="id">
+                <p>{{ lesson.id }}</p>
+              </div>
+              <div class="img">
+                <img :src="lesson.img" alt="">
+              </div>
+              <div class="title">
+                <p>{{ lesson.title }}</p>
+                <p class="uniqid">@{{ lesson.uniqId }}</p>
+              </div>
             </div>
-            <div class="img">
-              <img :src="lesson.img" alt="">
-            </div>
-            <div class="title">
-              <p>{{ lesson.title }}</p>
-              <p class="uniqid">@{{ lesson.uniqId }}</p>
-            </div>
-          </div>
           </NuxtLink>
         </template>
       </template>
@@ -96,22 +96,19 @@ function tryDelete(lessonId) {
 
 <style scoped>
 .lesson-wrapper {
-//border: 2px solid red;
-  width: 100%;
+//border: 2px solid red; width: 100%;
   flex: 1;
   overflow-y: auto;
   padding-right: 1rem;
 }
 
 .lesson-wrapper .no-lessons {
-//border: 1px solid red; display: flex;
-  align-items: center;
+//border: 1px solid red; display: flex; align-items: center;
   margin-top: 1rem;
 }
 
 .lesson-wrapper .no-lessons .clm-2 {
-//border: 1px solid red; height: 100%;
-  display: flex;
+//border: 1px solid red; height: 100%; display: flex;
   flex-direction: column;
 }
 
@@ -146,8 +143,7 @@ function tryDelete(lessonId) {
 }
 
 .lesson-wrapper .lesson {
-//border: 1px solid red;
-  width: 100%;
+//border: 1px solid red; width: 100%;
   height: 7rem;
   margin-bottom: 1rem;
   background-color: white;
@@ -158,14 +154,14 @@ function tryDelete(lessonId) {
   transition: 0.10s ease;
   cursor: pointer;
 }
-.lesson-wrapper .lesson:hover{
+
+.lesson-wrapper .lesson:hover {
   border: 3px solid #7886ba;
   transition: 0.10s ease;
 }
 
 .lesson-wrapper .lesson .id {
-//border: 1px solid red;
-  background-color: #84DCC6;
+//border: 1px solid red; background-color: #84DCC6;
   width: 2.5rem;
   height: 2.5rem;
   font-size: 1.3rem;
@@ -178,8 +174,7 @@ function tryDelete(lessonId) {
 }
 
 .lesson-wrapper .lesson .img {
-//border: 1px solid orange;
-  width: 4rem;
+//border: 1px solid orange; width: 4rem;
   height: 4rem;
   margin-right: 2rem;
   display: flex;
@@ -194,8 +189,7 @@ function tryDelete(lessonId) {
 }
 
 .lesson-wrapper .lesson .title {
-//border: 1px solid purple; height: 100%;
-  display: flex;
+//border: 1px solid purple; height: 100%; display: flex;
   flex: 1;
   justify-content: center;
   font-size: 1.5rem;
@@ -208,17 +202,16 @@ function tryDelete(lessonId) {
   margin-top: 0.5rem;
   cursor: pointer;
 }
+
 .lesson-wrapper .lesson .edit {
-//border: 1px solid green; height: 100%;
-  width: 3rem;
+//border: 1px solid green; height: 100%; width: 3rem;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .lesson-wrapper .lesson .edit .btn {
-//border: 1px solid green; width: 2rem;
-  height: 2rem;
+//border: 1px solid green; width: 2rem; height: 2rem;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -242,16 +235,14 @@ function tryDelete(lessonId) {
 }
 
 .lesson-wrapper .lesson .delete {
-//border: 1px solid green; height: 100%;
-  width: 3rem;
+//border: 1px solid green; height: 100%; width: 3rem;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .lesson-wrapper .lesson .delete .btn {
-//border: 1px solid green; width: 2.5rem;
-  height: 2.5rem;
+//border: 1px solid green; width: 2.5rem; height: 2.5rem;
   border-radius: 50%;
   display: flex;
   align-items: center;

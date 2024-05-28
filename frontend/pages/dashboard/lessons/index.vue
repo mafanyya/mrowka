@@ -26,6 +26,19 @@ import DashboardNavBar from "~/components/account/DashboardNavBar.vue";
 import LessonSettingsNavBar from "~/components/account/lessons/LessonSettingsNavBar.vue";
 import LessonsWrapper from "~/components/account/lessons/LessonsWrapper.vue";
 import AddLessonSectionForm from "~/components/account/lessons/AddLessonSectionForm.vue";
+definePageMeta({
+  middleware: [
+    function (to, from,) {
+      const {data} = useAuth()
+      if (!data.value) {
+        return navigateTo('/')
+      }
+      if (data.value.user.isAdmin !== true){
+        return navigateTo('/')
+      }
+    }
+  ]
+})
 
 let isForm = false
 const {

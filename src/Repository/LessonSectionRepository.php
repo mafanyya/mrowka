@@ -42,6 +42,20 @@ class LessonSectionRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
         ;
     }
+    /**
+     * @return LessonSection[] Returns an array of LessonSection objects
+     */
+    public function findSectionsByUser($id): array
+    {
+        return $this->createQueryBuilder('s')
+            ->innerJoin('s.users', 'u')
+            ->andWhere('u.id = :id')
+            ->setParameter('id', $id)
+            ->orderBy('s.id', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
 
 //    public function findOneBySomeField($value): ?LessonSection
 //    {

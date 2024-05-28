@@ -37,6 +37,7 @@ async function deleteSection() {
     function navigate() {
       navigateTo('/dashboard/lessons')
     }
+
     setTimeout(navigate, 3000)
   }
   if (deleteSectionError.value) {
@@ -69,14 +70,12 @@ function createError(errorCode) {
 
 <style scoped>
 .header {
-//border: 1px solid red; margin-bottom: 1rem;
-  font-size: 2rem;
+//border: 1px solid red; margin-bottom: 1rem; font-size: 2rem;
   color: #727272;
 }
 
 .section-delete-form {
-//border: 1px solid red; height: 100%;
-  width: 90%;
+//border: 1px solid red; height: 100%; width: 90%;
   display: flex;
   flex-direction: column;
 }
@@ -109,8 +108,7 @@ function createError(errorCode) {
 }
 
 .section-delete-form .delete-btn {
-//border: 1px solid red; width: 50%;
-  height: 4.5rem;
+//border: 1px solid red; width: 50%; height: 4.5rem;
   border-radius: 1rem;
   background-color: #DE7C7C;
   color: white;

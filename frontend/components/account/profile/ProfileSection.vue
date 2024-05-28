@@ -190,8 +190,7 @@ function validateName(name) {
 }
 
 .header {
-//border: 1px solid red; margin-bottom: 1rem; font-size: 2rem;
-  color: #727272;
+//border: 1px solid red; margin-bottom: 1rem; font-size: 2rem; color: #727272;
 }
 
 .profile-section .form-wrapper {
@@ -221,8 +220,7 @@ function validateName(name) {
 }
 
 .profile-section .avatar-wrapper .avatar-icon {
-//border: 1px solid red; height: 8rem; width: 8rem; border-radius: 50%;
-  cursor: pointer;
+//border: 1px solid red; height: 8rem; width: 8rem; border-radius: 50%; cursor: pointer;
 }
 
 .profile-section .avatar-wrapper .avatar-icon:hover {
@@ -230,8 +228,7 @@ function validateName(name) {
 }
 
 .profile-section .form-wrapper .row-1 {
-//border: 1px solid red; width: 100%; height: 8rem; margin-bottom: 3rem;
-  display: flex;
+//border: 1px solid red; width: 100%; height: 8rem; margin-bottom: 3rem; display: flex;
   align-items: center;
   color: #727272;
   font-size: 1.3rem;
@@ -242,8 +239,7 @@ function validateName(name) {
 }
 
 .profile-section .form-wrapper .row-1 .avatar {
-//border: 1px solid red; height: 8rem; width: 8rem; border-radius: 50%;
-  margin-right: 1.5rem;
+//border: 1px solid red; height: 8rem; width: 8rem; border-radius: 50%; margin-right: 1.5rem;
 }
 
 .profile-section .form-wrapper .row-2 {
@@ -266,8 +262,7 @@ function validateName(name) {
 }
 
 .profile-section .form-wrapper .row-2 input[type = text] {
-//border: 1px solid red; width: 100%; height: 3.5rem; background-color: #D6EDFF;
-  margin-bottom: 2rem;
+//border: 1px solid red; width: 100%; height: 3.5rem; background-color: #D6EDFF; margin-bottom: 2rem;
   border-radius: 1em;
   padding-left: 1rem;
   padding-right: 1rem;
@@ -283,8 +278,7 @@ function validateName(name) {
 }
 
 .profile-section .form-wrapper .row-2 form button {
-//border: 1px solid red; height: 5rem; margin-top: 4rem; border-radius: 1rem;
-  background-color: #8B95C9;
+//border: 1px solid red; height: 5rem; margin-top: 4rem; border-radius: 1rem; background-color: #8B95C9;
   color: white;
   font-size: 1.1rem;
   transition: 0.25s ease;

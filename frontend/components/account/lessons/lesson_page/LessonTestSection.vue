@@ -10,9 +10,9 @@
       <div class="test">
         <div class="question">
           <div class="question-panel">
-            <QuestionProgressPanel :question-number=questionNumber :is-question-true=isQuestionTrue :is-refresh-panel=isRefreshPanel />
+            <QuestionProgressPanel :question-number=questionNumber :is-question-true=isQuestionTrue
+                                   :is-refresh-panel=isRefreshPanel />
           </div>
-
 
           <template v-if="userData && !isHasTest(testData.test.id)">
             <template v-for="question in testData.questions">
@@ -266,8 +266,7 @@ function refreshLocalTest(questionNumberLocal) {
 }
 
 .lesson-test-section .test .question .question-inner-1 {
-//border: 1px solid red; display: flex;
-  flex-direction: column;
+//border: 1px solid red; display: flex; flex-direction: column;
   align-items: center;
 
 }
@@ -277,8 +276,7 @@ function refreshLocalTest(questionNumberLocal) {
 }
 
 .lesson-test-section .test .question .title {
-//border: 1px solid red; height: 7rem;
-  display: flex;
+//border: 1px solid red; height: 7rem; display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.8rem;
@@ -288,8 +286,7 @@ function refreshLocalTest(questionNumberLocal) {
 }
 
 .lesson-test-section .test .question .answers {
-//border: 1px solid red; width: 100%;
-  height: 8rem;
+//border: 1px solid red; width: 100%; height: 8rem;
   display: flex;
   padding: 2rem;
   justify-content: space-between;
@@ -337,39 +334,33 @@ function refreshLocalTest(questionNumberLocal) {
 }
 
 .lesson-test-section .test .question .question-inner-2 {
-//border: 1px solid red; display: none;
-  flex-direction: column;
+//border: 1px solid red; display: none; flex-direction: column;
   align-items: center;
 }
 
 .lesson-test-section .test .question .question-inner-3 {
-//border: 1px solid red; display: none;
-  flex-direction: column;
+//border: 1px solid red; display: none; flex-direction: column;
   align-items: center;
 }
 
 .lesson-test-section .test .question .question-inner-4 {
-//border: 1px solid red; display: none;
-  flex-direction: column;
+//border: 1px solid red; display: none; flex-direction: column;
   align-items: center;
 }
 
 .lesson-test-section .test .question .question-inner-5 {
-//border: 1px solid red; display: none;
-  flex-direction: column;
+//border: 1px solid red; display: none; flex-direction: column;
   align-items: center;
 }
 
 .lesson-test-section .test .question-finish {
-//border: 1px solid red;
-  display: none;
+//border: 1px solid red; display: none;
   padding: 2rem;
 
 }
 
 .lesson-test-section .test .question-finish .clm-1 {
-//border: 1px solid green; width: 40%;
-  display: flex;
+//border: 1px solid green; width: 40%; display: flex;
   align-items: center;
   justify-content: center;
   font-size: 12rem;
@@ -383,15 +374,13 @@ function refreshLocalTest(questionNumberLocal) {
 }
 
 .lesson-test-section .test .question-finish .clm-2 {
-//border: 1px solid green; width: 60%;
-  display: flex;
+//border: 1px solid green; width: 60%; display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .lesson-test-section .test .question-finish .clm-2 .answers-panel {
-//border: 1px solid red; margin-top: 1.5rem;
-  width: 12rem;
+//border: 1px solid red; margin-top: 1.5rem; width: 12rem;
   height: 4rem;
   display: flex;
   align-items: center;
@@ -421,8 +410,7 @@ function refreshLocalTest(questionNumberLocal) {
 }
 
 .lesson-test-section .test .question-finish .clm-2 .refresh-test-btn {
-//border: 1px solid green; display: none;
-  font-size: 1.2rem;
+//border: 1px solid green; display: none; font-size: 1.2rem;
   margin-top: 1.5rem;
   padding: 1rem 2rem;
   background-color: #8B95C9;
@@ -437,18 +425,14 @@ function refreshLocalTest(questionNumberLocal) {
 }
 
 
-
-
 .lesson-test-section .test .question-finish-2 {
-//border: 1px solid red;
-  display: flex;
+//border: 1px solid red; display: flex;
   padding: 2rem;
 
 }
 
 .lesson-test-section .test .question-finish-2 .clm-1 {
-//border: 1px solid green; width: 40%;
-  display: flex;
+//border: 1px solid green; width: 40%; display: flex;
   align-items: center;
   justify-content: center;
   font-size: 12rem;
@@ -462,15 +446,13 @@ function refreshLocalTest(questionNumberLocal) {
 }
 
 .lesson-test-section .test .question-finish-2 .clm-2 {
-//border: 1px solid green; width: 60%;
-  display: flex;
+//border: 1px solid green; width: 60%; display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .lesson-test-section .test .question-finish-2 .clm-2 .answers-panel {
-//border: 1px solid red; margin-top: 1.5rem;
-  width: 12rem;
+//border: 1px solid red; margin-top: 1.5rem; width: 12rem;
   height: 4rem;
   display: flex;
   align-items: center;
@@ -500,8 +482,7 @@ function refreshLocalTest(questionNumberLocal) {
 }
 
 .lesson-test-section .test .question-finish-2 .clm-2 .refresh-test-btn {
-//border: 1px solid green; display: none;
-  font-size: 1.2rem;
+//border: 1px solid green; display: none; font-size: 1.2rem;
   margin-top: 1.5rem;
   padding: 1rem 2rem;
   background-color: #8B95C9;

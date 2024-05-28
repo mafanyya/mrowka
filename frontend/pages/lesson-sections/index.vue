@@ -13,8 +13,18 @@ import NavBar from "~/components/home/NavBar.vue";
 import Footer from "~/components/home/Footer.vue";
 import SectionsWrapperUser from "~/components/home/SectionsWrapperUser.vue";
 
-
 const {refresh: refreshUser, status: userStatus, data: userData, signOut, token, refreshToken} = useAuth()
+
+definePageMeta({
+  middleware: [
+    function (to, from,) {
+      const {data} = useAuth()
+      if (!data.value) {
+        return navigateTo('/')
+      }
+    }
+  ]
+})
 
 </script>
 

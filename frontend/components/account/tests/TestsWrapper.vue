@@ -145,8 +145,7 @@ function openCloseAnswers(questionId, testId) {
 </script>
 <style scoped>
 .tests-wrapper {
-//border: 1px solid red; width: 100%;
-  display: flex;
+//border: 1px solid red; width: 100%; display: flex;
   flex: 1;
   flex-direction: column;
   padding: 1.5rem;
@@ -155,36 +154,31 @@ function openCloseAnswers(questionId, testId) {
 }
 
 .tests-wrapper .inner-wrapper {
-//border: 3px solid green; display: flex;
-  height: 100%;
+//border: 3px solid green; display: flex; height: 100%;
   flex-direction: column;
   overflow-y: auto;
 }
 
 .tests-wrapper .inner-wrapper .sections {
-//border: 1px solid red; display: flex;
-  flex-direction: column;
+//border: 1px solid red; display: flex; flex-direction: column;
   flex: 1;
 }
 
 .tests-wrapper .inner-wrapper .sections .section {
   cursor: pointer;
   margin-bottom: 1rem;
-//border: 1px solid red; border-radius: 1rem;
-  padding: 1.3rem;
+//border: 1px solid red; border-radius: 1rem; padding: 1.3rem;
   background-color: #f8f8f8;
   display: flex;
   flex-direction: column;
 }
 
 .tests-wrapper .inner-wrapper .sections .section .section-panel {
-//border: 1px solid red; display: flex;
-  align-items: center;
+//border: 1px solid red; display: flex; align-items: center;
 }
 
 .tests-wrapper .inner-wrapper .sections .section .section-panel .img {
-//border: 1px solid green; width: 2.1rem;
-  height: 2.1rem;
+//border: 1px solid green; width: 2.1rem; height: 2.1rem;
   margin-right: 1rem;
   border-radius: 50%;
   display: flex;
@@ -218,26 +212,22 @@ function openCloseAnswers(questionId, testId) {
 }
 
 .tests-wrapper .inner-wrapper .sections .section .lessons {
-//border: 1px solid orange; display: none;
-  flex-direction: column;
+//border: 1px solid orange; display: none; flex-direction: column;
 }
 
 .tests-wrapper .inner-wrapper .sections .section .lessons .lesson {
-//border: 1px solid red; margin-bottom: 1rem;
-  display: flex;
+//border: 1px solid red; margin-bottom: 1rem; display: flex;
   flex-direction: column;
   margin-left: 1rem;
 }
 
 .tests-wrapper .inner-wrapper .sections .section .lessons .lesson .lesson-panel {
-//border: 1px solid red; display: flex;
-  color: #727272;
+//border: 1px solid red; display: flex; color: #727272;
   margin-bottom: 0.5rem;
 }
 
 .tests-wrapper .inner-wrapper .sections .section .lessons .lesson .lesson-panel i {
-//border: 1px solid green; margin-right: 0.8rem;
-  font-size: 0.8rem;
+//border: 1px solid green; margin-right: 0.8rem; font-size: 0.8rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -245,8 +235,7 @@ function openCloseAnswers(questionId, testId) {
 }
 
 .tests-wrapper .inner-wrapper .sections .section .lessons .lesson .tests {
-//border: 1px solid red; display: none;
-  flex-direction: column;
+//border: 1px solid red; display: none; flex-direction: column;
   margin-left: 1rem;
 }
 
@@ -271,8 +260,7 @@ function openCloseAnswers(questionId, testId) {
 }
 
 .tests-wrapper .inner-wrapper .sections .section .lessons .lesson .tests .test .questions {
-//border: 1px solid #3791da; display: none;
-  flex-direction: column;
+//border: 1px solid #3791da; display: none; flex-direction: column;
 }
 
 .tests-wrapper .inner-wrapper .sections .section .lessons .lesson .tests .test .questions .question {
@@ -293,23 +281,20 @@ function openCloseAnswers(questionId, testId) {
 }
 
 .tests-wrapper .inner-wrapper .sections .section .lessons .lesson .tests .test .questions .question .answers {
-//border: 1px solid red; display: none;
-  flex-direction: column;
+//border: 1px solid red; display: none; flex-direction: column;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
 }
 
 .tests-wrapper .inner-wrapper .sections .section .lessons .lesson .tests .test .questions .question .answers .answer {
-//border: 1px solid red; margin-left: 2rem;
-  display: flex;
+//border: 1px solid red; margin-left: 2rem; display: flex;
   align-items: center;
   margin-bottom: 0.5rem;
   color: #727272;
 }
 
 .tests-wrapper .inner-wrapper .sections .section .lessons .lesson .tests .test .questions .question .answers .answer i {
-//border: 1px solid green; font-size: 0.7rem;
-  margin-right: 0.2rem;
+//border: 1px solid green; font-size: 0.7rem; margin-right: 0.2rem;
   color: #8B95C9;
   display: flex;
   justify-content: center;

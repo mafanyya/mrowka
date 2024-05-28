@@ -82,6 +82,21 @@
 
 <script setup>
 import DashboardNavBar from "~/components/account/DashboardNavBar.vue";
+
+definePageMeta({
+  middleware: [
+    function (to, from,) {
+      const {data} = useAuth()
+      if (!data.value) {
+        return navigateTo('/')
+      }
+      if (data.value.user.isAdmin !== true){
+        return navigateTo('/')
+      }
+    }
+  ]
+})
+
 const email = ref('')
 const password = ref('')
 const name = ref('')

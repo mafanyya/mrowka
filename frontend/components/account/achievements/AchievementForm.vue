@@ -4,42 +4,41 @@
       <p>Dodaj osiągnięcie</p>
     </div>
 
-    <form @submit.prevent = "addAchievement" id ="add-achievement-form" class = "add-achievement-form" >
-      <p id = "form-error-achievement" class = "form-error-achievement"></p>
+    <form @submit.prevent="addAchievement" id="add-achievement-form" class="add-achievement-form">
+      <p id="form-error-achievement" class="form-error-achievement"></p>
       <label for="achievement-title-input">Nazwa</label>
       <input
           class="input-1"
           type="text"
           id="achievement-title-input"
-          v-model = "achievementTitle"
+          v-model="achievementTitle"
           maxlength="35"
           minlength="1"
           required
       >
       <label>Zajęcie</label>
       <div class="lesson-input">
-        <div @click.prevent = "unfoldLessons()" class="row-1">
+        <div @click.prevent="unfoldLessons()" class="row-1">
           <input
-              class = "input-2"
-              type = "text"
-              id = "achievement-lesson-id-input"
+              class="input-2"
+              type="text"
+              id="achievement-lesson-id-input"
               placeholder="Wybierz zajęcie"
-              v-model = "achievementLessonId"
-              required
+              v-model="achievementLessonId"
               disabled
           >
-          <div id = "btn-input" class="btn-input">
-            <i id = "unfold-icon" class = "fi fi-br-angle-circle-down"></i>
+          <div id="btn-input" class="btn-input">
+            <i id="unfold-icon" class="fi fi-br-angle-circle-down"></i>
           </div>
         </div>
-        <div id = "lessons-wrapper" class="lessons-wrapper">
-          <template v-for = "lesson in lessonsData.lessons">
-            <div @click.prevent = "lessonSelect(lesson.id)" class="lesson">
-              <p class = "id">{{lesson.id}}</p>
+        <div id="lessons-wrapper" class="lessons-wrapper">
+          <template v-for="lesson in lessonsData.lessons">
+            <div @click.prevent="lessonSelect(lesson.id)" class="lesson">
+              <p class="id">{{ lesson.id }}</p>
               <div class="img">
                 <img :src="lesson.img" alt="">
               </div>
-              <p class = title>{{lesson.title}}</p>
+              <p class=title>{{ lesson.title }}</p>
             </div>
           </template>
         </div>
@@ -55,7 +54,7 @@
           @change="checkImgSize"
           required
       >
-      <button type = "submit">Dodaj osiągnięcie</button>
+      <button type="submit">Dodaj osiągnięcie</button>
     </form>
 
   </div>
@@ -66,7 +65,7 @@ let img = ref('')
 let imgData
 let imgName = ref('')
 let imgRealName
-let achievementLessonId = ref()
+let achievementLessonId = ref(null)
 
 
 let emit = defineEmits(["refreshAchievements"])
@@ -85,7 +84,7 @@ if (lessonsData.value) {
   console.log(lessonsData.value)
 }
 
-function unfoldLessons(){
+function unfoldLessons() {
   let lessonsWrapper = document.getElementById('lessons-wrapper')
   let unfoldIcon = document.getElementById('unfold-icon')
   let lessonInput = document.getElementById('achievement-lesson-id-input')
@@ -96,7 +95,8 @@ function unfoldLessons(){
   lessonInput.style.borderBottomLeftRadius = '0'
   btnInput.style.borderBottomRightRadius = '0'
 }
-function lessonSelect(lessonId){
+
+function lessonSelect(lessonId) {
   let lessonsWrapper = document.getElementById('lessons-wrapper')
   let unfoldIcon = document.getElementById('unfold-icon')
   let lessonInput = document.getElementById('achievement-lesson-id-input')
@@ -142,6 +142,7 @@ function checkImgSize(event) {
     }
   }
 }
+
 async function handelImg() {
   const {
     data: imgUploadData,
@@ -175,6 +176,7 @@ function changeImgName(name) {
   let imgNameBlock = document.getElementById('img-name')
   imgNameBlock.innerText = name
 }
+
 function capitalize(sentence) {
   const sentences = sentence.split(/([.!?])/);
   const capitalizedSentences = sentences.map((sentence, index) => {
@@ -186,6 +188,7 @@ function capitalize(sentence) {
   });
   return capitalizedSentences.join('');
 }
+
 async function addAchievement() {
   if (!await handelImg()) {
     createError(402)
@@ -222,6 +225,7 @@ async function addAchievement() {
 function createImgPath(name) {
   return '/_nuxt/assets/images/achievements/' + name
 }
+
 function createError(errorCode) {
   const formError = document.getElementById('form-error-achievement')
   switch (errorCode) {
@@ -255,9 +259,8 @@ function createError(errorCode) {
 </script>
 
 <style scoped>
-.achievement-form{
-  //border: 1px solid red;
-  width: 100%;
+.achievement-form {
+//border: 1px solid red; width: 100%;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -265,9 +268,8 @@ function createError(errorCode) {
   background-color: #eef6ff;
 }
 
-.achievement-form .header{
-  //border: 1px solid blue;
-  height: 7rem;
+.achievement-form .header {
+//border: 1px solid blue; height: 7rem;
   display: flex;
   align-items: center;
   padding: 1rem;
@@ -279,18 +281,21 @@ function createError(errorCode) {
 .achievement-form form {
   margin: 1.5rem;
 }
+
 .achievement-form form .form-error-achievement {
   margin-left: 1rem;
   color: #DE7C7C;
   margin-bottom: 1.5rem;
   transition: 0.25s ease;
 }
-.achievement-form form label{
+
+.achievement-form form label {
   color: #727272;
   padding-left: 0.9rem;
 
 }
-.achievement-form form .input-1{
+
+.achievement-form form .input-1 {
   background-color: #D6EDFF;
   border-radius: 0.5rem;
   height: 2.5rem;
@@ -301,6 +306,7 @@ function createError(errorCode) {
   font-size: 0.9rem;
   color: #6d7bbc;
 }
+
 .achievement-form form input[type = file] {
   width: 0.1px;
   height: 0.1px;
@@ -309,15 +315,16 @@ function createError(errorCode) {
   position: absolute;
   z-index: -1;
 }
+
 .achievement-form form .row-img {
-//border: 1px solid red;
-  height: 3rem;
+//border: 1px solid red; height: 3rem;
   display: flex;
   align-items: center;
   margin-top: 2rem;
   margin-left: 0;
 }
-.achievement-form form .row-img .achieve-img{
+
+.achievement-form form .row-img .achieve-img {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -326,16 +333,17 @@ function createError(errorCode) {
   border-radius: 50%;
   margin-right: 1rem;
 }
-.achievement-form form .row-img .achieve-img img{
+
+.achievement-form form .row-img .achieve-img img {
   border-radius: 50%;
   height: 100%;
   width: 100%;
   overflow: hidden;
 
 }
+
 .achievement-form form .row-img .img-name {
-//border: 1px solid red; height: 100%;
-  margin-left: 1rem;
+//border: 1px solid red; height: 100%; margin-left: 1rem;
   display: flex;
   align-items: center;
   color: #727272;
@@ -361,17 +369,20 @@ function createError(errorCode) {
   background-color: #84DCC6;
   transition: 0.25s ease;
 }
-.achievement-form form .lesson-input{
+
+.achievement-form form .lesson-input {
   display: flex;
   flex-direction: column;
   margin-top: 0.5rem;
 }
-.achievement-form form .lesson-input .row-1{
+
+.achievement-form form .lesson-input .row-1 {
   display: flex;
   height: 2.5rem;
   cursor: pointer;
 }
-.achievement-form form .lesson-input .row-1 .input-2{
+
+.achievement-form form .lesson-input .row-1 .input-2 {
   background-color: #D6EDFF;
   width: 85%;
   height: 100%;
@@ -383,10 +394,12 @@ function createError(errorCode) {
   font-size: 0.9rem;
   padding-left: 1rem;
 }
-.achievement-form form .lesson-input .row-1 .input-2::placeholder{
+
+.achievement-form form .lesson-input .row-1 .input-2::placeholder {
   color: #6d7bbc;
 }
-.achievement-form form .lesson-input .row-1 .btn-input{
+
+.achievement-form form .lesson-input .row-1 .btn-input {
   background-color: #D6EDFF;
   flex: 1;
   height: 100%;
@@ -397,7 +410,8 @@ function createError(errorCode) {
   justify-content: center;
   color: #6d7bbc;
 }
-.achievement-form form .lesson-input .lessons-wrapper{
+
+.achievement-form form .lesson-input .lessons-wrapper {
   background-color: #D6EDFF;
   height: 7rem;
   color: #6d7bbc;
@@ -409,18 +423,20 @@ function createError(errorCode) {
   overflow-y: auto;
   display: none;
 }
-.achievement-form form .lesson-input .lessons-wrapper .lesson{
+
+.achievement-form form .lesson-input .lessons-wrapper .lesson {
   height: 1.5rem;
   margin-bottom: 0.5rem;
-  //border: 1px solid red;
-  display: flex;
+//border: 1px solid red; display: flex;
   align-items: center;
   cursor: pointer;
 }
-.achievement-form form .lesson-input .lessons-wrapper .lesson:hover{
+
+.achievement-form form .lesson-input .lessons-wrapper .lesson:hover {
   text-decoration: underline;
 }
-.achievement-form form .lesson-input .lessons-wrapper .lesson .id{
+
+.achievement-form form .lesson-input .lessons-wrapper .lesson .id {
   height: 1.25rem;
   width: 1.25rem;
   background-color: #6d7bbc;
@@ -432,12 +448,14 @@ function createError(errorCode) {
   margin-right: 0.5rem;
   font-size: 0.8rem;
 }
-.achievement-form form .lesson-input .lessons-wrapper .lesson .img{
+
+.achievement-form form .lesson-input .lessons-wrapper .lesson .img {
   height: 1.5rem;
   width: 1.5rem;
   margin-right: 0.5rem;
 }
-.achievement-form form button[type = submit]{
+
+.achievement-form form button[type = submit] {
   height: 4rem;
   margin-top: 3rem;
   width: 100%;
@@ -446,7 +464,8 @@ function createError(errorCode) {
   color: white;
   transition: 0.15s ease;
 }
-.achievement-form form button[type = submit]:hover{
+
+.achievement-form form button[type = submit]:hover {
   background-color: #8B95C9;
   transition: 0.15s ease;
 }

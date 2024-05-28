@@ -22,7 +22,9 @@
             </div>
             <div class="title">
               <p>{{ lesson.title }}</p>
-              <p class="uniqid">@{{ lesson.uniqId }}</p>
+              <NuxtLink :to="'/dashboard/lessons/lesson/' + lesson.uniqId">
+                <p class="uniqid">@{{ lesson.uniqId }}</p>
+              </NuxtLink>
             </div>
             <div class="edit">
               <div @click.prevent="openLessonForm(lesson.id)" class="btn">
@@ -104,21 +106,18 @@ function tryDelete(lessonId) {
 
 <style scoped>
 .lesson-wrapper {
-//border: 2px solid red; width: 100%;
-  flex: 1;
+//border: 2px solid red; width: 100%; flex: 1;
   overflow-y: auto;
   padding-right: 1rem;
 }
 
 .lesson-wrapper .no-lessons {
-//border: 1px solid red; display: flex;
-  align-items: center;
+//border: 1px solid red; display: flex; align-items: center;
   margin-top: 1rem;
 }
 
 .lesson-wrapper .no-lessons .clm-2 {
-//border: 1px solid red; height: 100%;
-  display: flex;
+//border: 1px solid red; height: 100%; display: flex;
   flex-direction: column;
 }
 
@@ -153,8 +152,7 @@ function tryDelete(lessonId) {
 }
 
 .lesson-wrapper .lesson {
-//border: 1px solid red; width: 100%;
-  height: 5rem;
+//border: 1px solid red; width: 100%; height: 5rem;
   margin-bottom: 1rem;
   background-color: white;
   border-radius: 1rem;
@@ -165,8 +163,7 @@ function tryDelete(lessonId) {
 }
 
 .lesson-wrapper .lesson .id {
-//border: 1px solid red; background-color: #acd7ec;
-  width: 2rem;
+//border: 1px solid red; background-color: #acd7ec; width: 2rem;
   height: 2rem;
   margin-right: 1rem;
   display: flex;
@@ -177,8 +174,7 @@ function tryDelete(lessonId) {
 }
 
 .lesson-wrapper .lesson .img {
-//border: 1px solid orange; border-radius: 50%;
-  width: 3rem;
+//border: 1px solid orange; border-radius: 50%; width: 3rem;
   height: 3rem;
   margin-right: 2rem;
   display: flex;
@@ -193,8 +189,7 @@ function tryDelete(lessonId) {
 }
 
 .lesson-wrapper .lesson .title {
-//border: 1px solid purple; height: 100%;
-  display: flex;
+//border: 1px solid purple; height: 100%; display: flex;
   flex: 1;
   justify-content: center;
   font-size: 1.1rem;
@@ -213,16 +208,14 @@ function tryDelete(lessonId) {
 }
 
 .lesson-wrapper .lesson .edit {
-//border: 1px solid green; height: 100%;
-  width: 3rem;
+//border: 1px solid green; height: 100%; width: 3rem;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .lesson-wrapper .lesson .edit .btn {
-//border: 1px solid green; width: 2rem;
-  height: 2rem;
+//border: 1px solid green; width: 2rem; height: 2rem;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -246,16 +239,14 @@ function tryDelete(lessonId) {
 }
 
 .lesson-wrapper .lesson .delete {
-//border: 1px solid green; height: 100%;
-  width: 3rem;
+//border: 1px solid green; height: 100%; width: 3rem;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .lesson-wrapper .lesson .delete .btn {
-//border: 1px solid green; width: 2.5rem;
-  height: 2.5rem;
+//border: 1px solid green; width: 2.5rem; height: 2.5rem;
   border-radius: 50%;
   display: flex;
   align-items: center;

@@ -12,7 +12,7 @@
 <script setup lang="js">
 
 let props = defineProps({
-  videoUrl:{
+  videoUrl: {
     type: String,
     required: true
   }

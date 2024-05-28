@@ -268,8 +268,7 @@ function createError(errorCode) {
 </script>
 <style scoped>
 .add-lesson-section-form {
-//border: 1px solid red; width: 100%;
-  height: 100%;
+//border: 1px solid red; width: 100%; height: 100%;
   padding-left: 3rem;
 }
 
@@ -307,8 +306,7 @@ function createError(errorCode) {
 }
 
 .add-lesson-section-form form .difficulty-input {
-//border: 1px solid green; margin-top: 1rem;
-  height: auto;
+//border: 1px solid green; margin-top: 1rem; height: auto;
   width: 100%;
   display: flex;
   align-items: center;
@@ -322,8 +320,7 @@ function createError(errorCode) {
 }
 
 .add-lesson-section-form form .difficulty-input .panel .point {
-//border: 1px solid red; height: 2.5rem;
-  width: 2.5rem;
+//border: 1px solid red; height: 2.5rem; width: 2.5rem;
   border-radius: 50%;
   cursor: pointer;
   background-color: #84DCC6;
@@ -362,14 +359,12 @@ function createError(errorCode) {
 }
 
 .add-lesson-section-form form .row-img {
-//border: 1px solid red; height: 4rem;
-  display: flex;
+//border: 1px solid red; height: 4rem; display: flex;
   align-items: center;
 }
 
 .add-lesson-section-form form .row-img .img-name {
-//border: 1px solid red; height: 100%;
-  margin-left: 1rem;
+//border: 1px solid red; height: 100%; margin-left: 1rem;
   display: flex;
   align-items: center;
   color: #727272;

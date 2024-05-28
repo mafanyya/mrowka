@@ -4,8 +4,8 @@
       <p id="set-bar-header">Osiągnięcia</p>
     </div>
     <div class="clm-2">
-      <p v-if = "props.achievePending" class = "refreshing">Odświerzanie...</p>
-      <div @click.prevent = "openForm()" class='btn-2'>
+      <p v-if="props.achievePending" class="refreshing">Odświerzanie...</p>
+      <div @click.prevent="openForm()" class='btn-2'>
         <div class="btn-inner-2">
           <i class="fi fi-ss-add"></i>
         </div>
@@ -15,12 +15,13 @@
 </template>
 <script setup lang="js">
 let props = defineProps({
-  achievePending:{
+  achievePending: {
     type: Boolean
   }
 })
 let emit = defineEmits(["openForm"])
-function openForm(){
+
+function openForm() {
   console.log("OPEN")
   emit('openForm')
 }
@@ -28,8 +29,7 @@ function openForm(){
 
 <style scoped>
 .achievements-nav-bar {
-//border: 1px solid red; width: 100%;
-  height: 5rem;
+//border: 1px solid red; width: 100%; height: 5rem;
   display: flex;
   margin-top: 1rem;
   padding: 1rem 3rem;
@@ -37,20 +37,19 @@ function openForm(){
 }
 
 .achievements-nav-bar .clm-1 {
-//border: 1px solid red; width: 60%;
-  display: flex;
+//border: 1px solid red; width: 60%; display: flex;
   align-items: center;
   font-size: 3rem;
   color: #6d7bbc;
 }
 
 .achievements-nav-bar .clm-2 {
-//border: 1px solid red; display: flex;
-  flex: 1;
+//border: 1px solid red; display: flex; flex: 1;
   justify-content: end;
   align-items: center;
 }
-.achievements-nav-bar .clm-2 .refreshing{
+
+.achievements-nav-bar .clm-2 .refreshing {
   margin-right: 1rem;
   color: #727272;
 
@@ -64,8 +63,7 @@ function openForm(){
 
 .achievements-nav-bar .clm-2 .btn-1 {
   border-radius: 50%;
-//border: 1px solid red; width: 5em;
-  height: 5em;
+//border: 1px solid red; width: 5em; height: 5em;
   display: flex;
   align-items: center;
   justify-content: center;

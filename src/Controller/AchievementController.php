@@ -45,24 +45,22 @@ class AchievementController extends AbstractController
                 'uniqid' => $achievement->getUniqid(),
                 'title' => $achievement->getTitle(),
                 'img' => $achievement->getImg(),
-                'lesson' => $achievement->getLesson(),
+                'lessonId' => $achievement->getLesson()->getId(),
             ];
         }
+        return $this->json(['achievements' => $achievementsArray]);
+    }
 
-        $encoder = new JsonEncoder();
-        $defaultContext = [
-            AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function (object $object, string $format, array $context): string {
-                return $object->getId();
-            },
-        ];
-        $normalizer = new ObjectNormalizer(null, null, null, null, null, null, $defaultContext);
+    #[Route('/api/achievements-count', name: 'api_achievements_count')]
+    public function achievementsCount(AchievementRepository $achievementRepository)
+    {
+        $achievements = $achievementRepository->findAll();
 
-        $serializer = new Serializer([$normalizer], [$encoder]);
-        $encodeData = $serializer->serialize($achievementsArray, 'json');
+        $achievementsCount = count($achievements);
 
-        $achievementsData = json_decode($encodeData, true);
-
-        return $this->json(['achievements' => $achievementsData]);
+        return $this->json([
+            'achievementsCount' => $achievementsCount
+        ]);
     }
 
 
@@ -89,7 +87,7 @@ class AchievementController extends AbstractController
     }
 
     #[Route('/api/remove-achievement', name: 'api_remove_achievement')]
-    public function removeAchievement( AchievementRepository $achievementRepository, Request $request, EntityManagerInterface $entityManager)
+    public function removeAchievement(AchievementRepository $achievementRepository, Request $request, EntityManagerInterface $entityManager)
     {
         $data = json_decode($request->getContent(), associative: true);
         $achievementId = $data['id'];
@@ -124,6 +122,7 @@ class AchievementController extends AbstractController
 
         return $this->json(['message' => 'Achievement successfully edited']);
     }
+
     #[Route('/api/upload-img-achievement', name: 'api_upload_img_achievement')]
     public function uploadImg(Request $request)
     {
