@@ -209,6 +209,7 @@ async function removeWordUser(wordId) {
     console.log('Remove word data is ')
     console.log(removeWordData.value)
     await refreshUser()
+    wordsData.value = userData.value.user.words
   }
   if (removeWordError.value) {
     console.log('Add word error is ')
